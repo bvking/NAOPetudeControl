@@ -666,7 +666,7 @@ int framecount=30040;//4440 //5040  0à°)-_
  //   teensyport = new Serial(this, ports[1], 115200);// si port non connecte
     teensyport = new Serial(this,ports[2],115200); //  si port connecté
   //*************** WITHOUT TEENSY connected
-    DueSerialNativeUSBport101 = new Serial(this, Serial.list()[3], 115200);
+    DueSerialNativeUSBport101 = new Serial(this, Serial.list()[3], 1000000);
 
   // Read bytes into a buffer until you get a linefeed (ASCII 10):
     DueSerialNativeUSBport101.bufferUntil('\n');
@@ -7199,6 +7199,8 @@ int v1; int v2; int v3; int v4; int v5; int v6;
          v6 = (int) map (values[0], 0, 4000, 0, 400);
        
     println (" v1 " + v1 ); println (" v2 " + v2 ); println (" v3 " + v3 ); println (" v1 " + v1 ); print (mouseY);   print (" v1 ");   println (v1);  
+    println (" v1 " + v1 ); println (" v2 " + v2 ); println (" v3 " + v3 ); println (" v1 " + v1 ); print (mouseY);   print (" v1 ");   println (v1);  
+
 }
 }
 
@@ -12309,7 +12311,7 @@ println ( " modeStartKeyToFollow " + modeStartKeyToFollow);
  // net.phase[i]=phaseMapped[i];
   }
 
- send24DatasToTeensy6motors(10, 3, 2, -1);  // avant dernier >-1 alors compute data
+ send24DatasToTeensy6motors(10, 3, -3, -1);  // avant dernier >-1 alors compute data
  // mapDataToMotor(); // do not work
   
 }
