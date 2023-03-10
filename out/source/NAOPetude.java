@@ -7343,10 +7343,10 @@ int v1; int v2; int v3; int v4; int v5; int v6;
   print (" 679 SEC  mouse Y REC " );  print (mouseY);  print (" v1 REC " );  println (v1);
  
   //**   samplers.get(samplers.size()-1).addSample( currTime, mouseX, v1InMainLoop );
-// mouseY= constrain ( mouseY, 0, 400);
+
  //net.phase[networkSize-1]=  map (mouseY, 0, height/2, 0, TWO_PI);
- newPosF[0]=  map (mouseY, 0, height/2, 0, TWO_PI);
-// net.phase[networkSize-1] = constrain (net.phase[networkSize-1], 0, TWO_PI);
+//*** newPosF[0]=  map (mouseY, 0, height/2, 0, TWO_PI);// uncomment doesn't change anything
+
   }
  else {
     if( sampler.fullTime() > 0 )
@@ -12197,29 +12197,27 @@ if (formerDecayTime>decayTime){
  
   int delayRatio=ratioTimeFrame;
 
-     //samplingMovement(2);
-      samplingMovementPro();
-  //    keyReleasedfollowSignal(); useless  phseShifting is controlled in keyRelesead
+  //  samplingMovement(2);
+  //    phases[0][frameCountBis % nbMaxDelais]= net.phase[networkSize-1]-0;
+     
+  //  keyReleasedfollowSignal(); useless  phseShifting is controlled in keyRelesead
       float deltaFollow = TWO_PI; // not used
      //here in a previous function we could change the ball followed if the space of phase between phases[0] and phase 9 is more than 360° for example
 
- //     phases[0][frameCountBis % nbMaxDelais]= net.phase[networkSize-1]-0;
-
- 
-  println ( "  movementInterpolated in FOLLOW opposite WAY", movementInterpolated,
+       samplingMovementPro();
+    println ( "  movementInterpolated in FOLLOW opposite WAY", movementInterpolated,
              " oldmovementInterpolated ", oldMovementInterpolated );
+    if (oldMovementInterpolated>movementInterpolated){
+      movementInterpolated= map (movementInterpolated, 0, TWO_PI, TWO_PI, 0);
+       }
     
-   
      phases[0][frameCountBis % nbMaxDelais]=movementInterpolated;
-     newPosFollowed[0]=phases[0][frameCountBis % nbMaxDelais];
-     println ( " net.phase[networkSize-1] ",  net.phase[networkSize-1] , " movementInterpolated " , movementInterpolated );
-      drawBallOppositeWay(0, phases[0][frameCountBis % nbMaxDelais]); //networkSize-5 affiche le point 0. NE PAS AFFICHER SINON IL APPARAIT EN DOUBLE
-
-   
+  
+    //  drawBallOppositeWay(0, phases[0][frameCountBis % nbMaxDelais]); //networkSize-5 affiche le point 0. NE PAS AFFICHER SINON IL APPARAIT EN DOUBLE
+ 
     for (int i = 1; i < networkSize; i+=1) { // 1 follow phase 0
-   
-    
-    //   follow( i-1, i, 20 * i, 0);  // Modifier les deux derniers paramètres : délais et phase
+       
+  //   follow( i-1, i, 20 * i, 0);  // Modifier les deux derniers paramètres : délais et phase
     followOppositeWay( i-1, i+0, delayTimeFollowPhase11*1*frameRatio/ratioTimeFrame, (phaseShiftingFollowPhase11));  // ici, le temps que les points attendent pour se suivre est de 5 frames, et il faut un espace entre eux de QUARTER_PI/6
 
   //*** phaseMapped[i]=phases[i-0][frameCountBis % nbMaxDelais]; // use varaible phaseMapped (to play movement with time delay or phase delay) to well send it in Teensy
@@ -12227,10 +12225,10 @@ if (formerDecayTime>decayTime){
 
    
  
-    drawBallOppositeWay( i, phases[i-0][frameCountBis % nbMaxDelais] );
+  //  drawBallOppositeWay( i, phases[i-0][frameCountBis % nbMaxDelais] );
+   
    // net.phase[i]=phaseMapped[i]; // display data and use them to control motor  
-
-  //  phaseMapped[i] =  phaseMapped[i]%TWO_PI; 
+ 
    // drawBallOppositeWay(  i, phases[i+0][frameCountBis % nbMaxDelais] );  
  }
  
@@ -12280,10 +12278,7 @@ println ( " modeStartKeyToFollow " + modeStartKeyToFollow);
     
       for (int i = 0; i < networkSize-0; i+=1) { 
         println (" ALIGN MTF " );
-        
-  ////*****  phaseMappedFollow[i] = phaseMapped[i];
-  //  phaseMappedFollow[i]=0;
-  //  net.phase[i]=0;
+
     phaseMapped[i] = phases[i-0][frameCountBis % nbMaxDelais]+0; // to aligin ball with the followed one
    
     if (phaseMapped[i]<0){
@@ -14840,21 +14835,24 @@ class Sampler {
        
     oldYsampled=ySampled;
     ySampled=y;   
-    println (" ySampled ", ySampled , " oldYSampled ", oldYsampled, "  movementInterpolated ", movementInterpolated,
-             " oldmovementInterpolated ", oldMovementInterpolated );
+ 
     oldMovementInterpolated = movementInterpolated;
+     println ("y ", y, " ySampled ", ySampled , " oldYSampled ", oldYsampled );
 
     if (oldYsampled>=  ySampled){ // go down
 
   //    if (oldMovementInterpolated>=   movementInterpolated){
-     
-      
-    movementInterpolated= map (y, 0, 400, TWO_PI , 0); 
+       
+    movementInterpolated= map (y, 0, 400, TWO_PI ,0); 
+    movementInterpolated=movementInterpolated%TWO_PI;
       }
     else { 
     movementInterpolated= map (y, 0, 400, 0, TWO_PI);
+    movementInterpolated=movementInterpolated%TWO_PI;
      }
-   
+        println ("  movementInterpolated ", movementInterpolated, " oldmovementInterpolated ", oldMovementInterpolated );
+
+
     noStroke();
     fill( 255, 40, 40 );
     rotate (HALF_PI);
@@ -15324,7 +15322,7 @@ float[] volumei;
            
                        text (  " lllllll ", -width/4, -height/4 ) ;           
                        
-    //     println (" NormalformerKeyMetro  ", i, " ",  formerKeyMetro ); 
+         println (" (net.phase[i]formerKeyMetro  ", i, " ",  formerKeyMetro ); 
       x = displacement*cos(net.phase[i]);
       y = displacement*sin(net.phase[i]);
   
@@ -15475,7 +15473,7 @@ float[] volumei;
 
     if ( modeStartKeyToFollow  == " followSignalSampledOppositeWay(frameRatio) " || modeStartKeyToFollow  == " samplingModeInternal " 
       || modeStartKeyToFollow  == " followSignalSampled " ) {
-    println ( " modeStartKeyToFollow " + modeStartKeyToFollow + " " + newPosF[i] );
+    println ( " display modeStartKeyToFollow " + modeStartKeyToFollow + " " + newPosF[i] );
         text ( PApplet.parseChar (formerKeyMetro) , 100,100);
       fill (127, 127 , 0);    
       x = displacement*cos(newPosF[i]);

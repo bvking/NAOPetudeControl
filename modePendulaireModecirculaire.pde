@@ -292,7 +292,7 @@ void  modePendulaireModeCirculaire() {
            
                        text (  " lllllll ", -width/4, -height/4 ) ;           
                        
-    //     println (" NormalformerKeyMetro  ", i, " ",  formerKeyMetro ); 
+         println (" (net.phase[i]formerKeyMetro  ", i, " ",  formerKeyMetro ); 
       x = displacement*cos(net.phase[i]);
       y = displacement*sin(net.phase[i]);
   
@@ -443,7 +443,7 @@ void  modePendulaireModeCirculaire() {
 
     if ( modeStartKeyToFollow  == " followSignalSampledOppositeWay(frameRatio) " || modeStartKeyToFollow  == " samplingModeInternal " 
       || modeStartKeyToFollow  == " followSignalSampled " ) {
-    println ( " modeStartKeyToFollow " + modeStartKeyToFollow + " " + newPosF[i] );
+    println ( " display modeStartKeyToFollow " + modeStartKeyToFollow + " " + newPosF[i] );
         text ( char (formerKeyMetro) , 100,100);
       fill (127, 127 , 0);    
       x = displacement*cos(newPosF[i]);

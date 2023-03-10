@@ -7315,10 +7315,10 @@ void samplingMovementPro() {
   print (" 679 SEC  mouse Y REC " );  print (mouseY);  print (" v1 REC " );  println (v1);
  
   //**   samplers.get(samplers.size()-1).addSample( currTime, mouseX, v1InMainLoop );
-// mouseY= constrain ( mouseY, 0, 400);
+
  //net.phase[networkSize-1]=  map (mouseY, 0, height/2, 0, TWO_PI);
- newPosF[0]=  map (mouseY, 0, height/2, 0, TWO_PI);
-// net.phase[networkSize-1] = constrain (net.phase[networkSize-1], 0, TWO_PI);
+//*** newPosF[0]=  map (mouseY, 0, height/2, 0, TWO_PI);// uncomment doesn't change anything
+
   }
  else {
     if( sampler.fullTime() > 0 )
