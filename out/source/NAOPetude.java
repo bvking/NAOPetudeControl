@@ -663,13 +663,13 @@ int framecount=30040;//4440 //5040  0à°)-_
   String[] ports = Serial.list();
   printArray(Serial.list());
   //*************** WITH TEENSY connected
-    teensyport = new Serial(this, ports[1], 115200);// si port non connecte
- //   teensyport = new Serial(this,ports[2],115200); //  si port connecté
+ //   teensyport = new Serial(this, ports[1], 115200);// si port non connecte
+    teensyport = new Serial(this,ports[2],115200); //  si port connecté
   //*************** WITHOUT TEENSY connected
-  //  DueSerialNativeUSBport101 = new Serial(this, Serial.list()[3], 115200);
+    DueSerialNativeUSBport101 = new Serial(this, Serial.list()[3], 115200);
 
   // Read bytes into a buffer until you get a linefeed (ASCII 10):
-  //  DueSerialNativeUSBport101.bufferUntil('\n');
+    DueSerialNativeUSBport101.bufferUntil('\n');
 
   //********************************************************* BEGIN GRAPHIC CHIMERA STATE SETUP
   float[][] Coupling = new float[networkSizeGraphic][networkSizeGraphic];
@@ -1248,8 +1248,11 @@ for (int i = 0; i < networkSize; i++) {
   {   
    if ( key =='a'||  key =='b' ||  key =='c' ||  key =='d' || key =='e' || key =='f' || key =='s' || key =='z' || key =='j'  ) // 
   {
+    if ( formerKeyCode == BACKSPACE){
     modeStartKey = key;   // press l to change formerKeyMetro Mode
    }
+   }
+   
        
   switch( modeStartKey) {
     case 'a': 
@@ -7195,7 +7198,7 @@ int v1; int v2; int v3; int v4; int v5; int v6;
         v5 = (int) map (values[0], 0, 4000, 0, 400);
          v6 = (int) map (values[0], 0, 4000, 0, 400);
        
-    println (" v1 " + v1 ); println (" v1 " + v1 ); println (" v1 " + v1 ); println (" v1 " + v1 ); print (mouseY);   print (" v1 ");   println (v1);  
+    println (" v1 " + v1 ); println (" v2 " + v2 ); println (" v3 " + v3 ); println (" v1 " + v1 ); print (mouseY);   print (" v1 ");   println (v1);  
 }
 }
 
@@ -12306,7 +12309,7 @@ println ( " modeStartKeyToFollow " + modeStartKeyToFollow);
  // net.phase[i]=phaseMapped[i];
   }
 
- send24DatasToTeensy6motors(10, 3, -3, -1);
+ send24DatasToTeensy6motors(10, 3, 2, -1);  // avant dernier >-1 alors compute data
  // mapDataToMotor(); // do not work
   
 }
@@ -16606,14 +16609,14 @@ float[] volumei;
       
   //    + TrigmodPos[11]+","+TrigmodPos[10]+","+TrigmodPos[9]+","+TrigmodPos[8]+","+TrigmodPos[7]+","+TrigmodPos[6]+","
 
-      +0+","+0+","+0+","+0+","+0+","+","
+      +0+","+0+","+0+","+0+","+0+","+0+","
       
     //  +TrigmodPos[5]+","+TrigmodPos[4]+","+TrigmodPos[3]+","+TrigmodPos[2]+","+TrigmodPos[1]+","+TrigmodPos[0]+ ">";  // to manage 12 note
     // //     +0+","+0+","+0+","+0+","+0+","+0+","+0+","
 
        +0+","+0+","+0+","+0+">";    
 
-     if (computeData<2){
+     if (computeData<-1){
        dataTransformed = " dataNotComputeInTeensy from mode ";
             println(frameCount + ": " + dataTransformed +  keyMode + " " +   dataFromMode );
 

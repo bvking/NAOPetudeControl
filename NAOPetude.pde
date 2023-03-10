@@ -635,13 +635,13 @@ void setup() {
   String[] ports = Serial.list();
   printArray(Serial.list());
   //*************** WITH TEENSY connected
-    teensyport = new Serial(this, ports[1], 115200);// si port non connecte
- //   teensyport = new Serial(this,ports[2],115200); //  si port connecté
+ //   teensyport = new Serial(this, ports[1], 115200);// si port non connecte
+    teensyport = new Serial(this,ports[2],115200); //  si port connecté
   //*************** WITHOUT TEENSY connected
-  //  DueSerialNativeUSBport101 = new Serial(this, Serial.list()[3], 115200);
+    DueSerialNativeUSBport101 = new Serial(this, Serial.list()[3], 115200);
 
   // Read bytes into a buffer until you get a linefeed (ASCII 10):
-  //  DueSerialNativeUSBport101.bufferUntil('\n');
+    DueSerialNativeUSBport101.bufferUntil('\n');
 
   //********************************************************* BEGIN GRAPHIC CHIMERA STATE SETUP
   float[][] Coupling = new float[networkSizeGraphic][networkSizeGraphic];
@@ -1220,8 +1220,11 @@ for (int i = 0; i < networkSize; i++) {
   {   
    if ( key =='a'||  key =='b' ||  key =='c' ||  key =='d' || key =='e' || key =='f' || key =='s' || key =='z' || key =='j'  ) // 
   {
+    if ( formerKeyCode == BACKSPACE){
     modeStartKey = key;   // press l to change formerKeyMetro Mode
    }
+   }
+   
        
   switch( modeStartKey) {
     case 'a': 
@@ -7167,7 +7170,7 @@ int v1; int v2; int v3; int v4; int v5; int v6;
         v5 = (int) map (values[0], 0, 4000, 0, 400);
          v6 = (int) map (values[0], 0, 4000, 0, 400);
        
-    println (" v1 " + v1 ); println (" v1 " + v1 ); println (" v1 " + v1 ); println (" v1 " + v1 ); print (mouseY);   print (" v1 ");   println (v1);  
+    println (" v1 " + v1 ); println (" v2 " + v2 ); println (" v3 " + v3 ); println (" v1 " + v1 ); print (mouseY);   print (" v1 ");   println (v1);  
 }
 }
 

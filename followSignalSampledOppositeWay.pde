@@ -117,7 +117,7 @@ println ( " modeStartKeyToFollow " + modeStartKeyToFollow);
  // net.phase[i]=phaseMapped[i];
   }
 
- send24DatasToTeensy6motors(10, 3, -3, -1);
+ send24DatasToTeensy6motors(10, 3, 2, -1);  // avant dernier >-1 alors compute data
  // mapDataToMotor(); // do not work
   
 }
