@@ -113,7 +113,7 @@ println ( " modeStartKeyToFollow " + modeStartKeyToFollow);
  }
 
  for (int i = 0; i < networkSize-0; i+=1) { 
-  newPosF[i]=phaseMapped[i]; // display data and use them to control motor
+  newPosF[i]=phaseMapped[i]%TWO_PI; // display data and use them to control motor
  // net.phase[i]=phaseMapped[i];
   }
 

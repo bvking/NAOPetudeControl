@@ -59,26 +59,33 @@ class Sampler {
     float t1 = s1.t;
     float dt = (now - t0) / (t1 - t0);
     
+    
+
     float x = mlerp( s0.x, s1.x, dt, 400 ); // interpolation with 'cylical datas'
     float y = mlerp( s0.y, s1.y, dt, 400 ); // interpolation with 'cylical datas'
        
     oldYsampled=ySampled;
-    ySampled=y;   
+    ySampled=y;  
+
+    movementInterpolated = map (ySampled, 0, 400, 0, TWO_PI) ;
  
     oldMovementInterpolated = movementInterpolated;
      println ("y ", y, " ySampled ", ySampled , " oldYSampled ", oldYsampled );
 
-//    if (oldYsampled>=  ySampled){ // go down
+  if (oldYsampled>=  ySampled ){ // go down
+
+  //   movementInterpolated = map (y, 400, 0, -TWO_PI, 0) ;
+
  //  if (ySampled){ // go down
 
-      if (oldMovementInterpolated>=   movementInterpolated){
+    //  if (oldMovementInterpolated>=   movementInterpolated){
        
-    movementInterpolated= map (y, 0, TWO_PI, 0, TWO_PI); 
-    movementInterpolated=movementInterpolated%TWO_PI;
+ //   movementInterpolated= map (y, 0, TWO_PI, 0, TWO_PI); 
+ //   movementInterpolated=movementInterpolated%TWO_PI;
       }
     else { 
-    movementInterpolated= map (y, 0, TWO_PI, 0, TWO_PI);
-    movementInterpolated=movementInterpolated%TWO_PI;
+    movementInterpolated= map (y, 0, 400, 0, TWO_PI);
+   // movementInterpolated=movementInterpolated%TWO_PI;
      }
         println ("  movementInterpolated ", movementInterpolated, " oldmovementInterpolated ", oldMovementInterpolated );
 

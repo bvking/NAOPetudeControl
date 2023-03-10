@@ -1213,6 +1213,8 @@ for (int i = 0; i < networkSize; i++) {
   formerMeasure=measure;
   formerBeatOnMeasure=beatOnMeasure;
   if (modeStartKeyToFollow != " samplingModeInternal " )
+   { 
+    if (modeStartKeyToFollow != " followSignalSampledOppositeWay(frameRatio) " )
   { 
   measure=(int) map (automation4*10, 0, 7.874016f, 1, 1000); // mapping from Ableton measure
   // measure=(int) map (automation4*10, 1,1000 , 1, 1000);
@@ -1221,7 +1223,8 @@ for (int i = 0; i < networkSize; i++) {
   beatPrecised=(int) map (automation5*10, 0, 7.874016f, 1, 1000); //  mapping from Ableton step in measure
  //  beatPrecised=(int) map (automation5*10, 1,1000 , 1, 1000);
   println (beatPrecised);
-  }  
+  }
+   }  
   recordFrame();
  
   print( " begin main loop " ) ;
@@ -1392,7 +1395,7 @@ for (int i = 0; i < networkSize; i++) {
     
      if  (actualSec!=lastSec){
          lastSec=actualSec;
-      if (modeStartKeyToFollow == " samplingModeInternal "     ){    
+      if (modeStartKeyToFollow == " samplingModeInternal "  || modeStartKeyToFollow ==  " followSignalSampledOppositeWay(frameRatio) "  ){    
           measure ++;
        }
       }  
@@ -1408,7 +1411,7 @@ for (int i = 0; i < networkSize; i++) {
      text ( modeStartKeyToFollow + " mouseY " + measure , width/4, - height - 100);  
    //      text ( measure + " mouseY ", width/4, -height-400);  
 
-      mouseY=(int) map (mouseY, 0, height, 0, TWO_PI);  // position from Ableton LFOdecay
+    //  mouseY=(float) map (mouseY, 0, height, 0, TWO_PI);  // position from Ableton LFOdecay
      
  //    mouseY=(int) map (automationLFO[1], 0, 1, 0, 400);  // position from Ableton LFOdecay
 
@@ -12299,7 +12302,7 @@ println ( " modeStartKeyToFollow " + modeStartKeyToFollow);
  }
 
  for (int i = 0; i < networkSize-0; i+=1) { 
-  newPosF[i]=phaseMapped[i]; // display data and use them to control motor
+  newPosF[i]=phaseMapped[i]%TWO_PI; // display data and use them to control motor
  // net.phase[i]=phaseMapped[i];
   }
 
@@ -14831,26 +14834,33 @@ class Sampler {
     float t1 = s1.t;
     float dt = (now - t0) / (t1 - t0);
     
+    
+
     float x = mlerp( s0.x, s1.x, dt, 400 ); // interpolation with 'cylical datas'
     float y = mlerp( s0.y, s1.y, dt, 400 ); // interpolation with 'cylical datas'
        
     oldYsampled=ySampled;
-    ySampled=y;   
+    ySampled=y;  
+
+    movementInterpolated = map (ySampled, 0, 400, 0, TWO_PI) ;
  
     oldMovementInterpolated = movementInterpolated;
      println ("y ", y, " ySampled ", ySampled , " oldYSampled ", oldYsampled );
 
-//    if (oldYsampled>=  ySampled){ // go down
+  if (oldYsampled>=  ySampled ){ // go down
+
+  //   movementInterpolated = map (y, 400, 0, -TWO_PI, 0) ;
+
  //  if (ySampled){ // go down
 
-      if (oldMovementInterpolated>=   movementInterpolated){
+    //  if (oldMovementInterpolated>=   movementInterpolated){
        
-    movementInterpolated= map (y, 0, TWO_PI, 0, TWO_PI); 
-    movementInterpolated=movementInterpolated%TWO_PI;
+ //   movementInterpolated= map (y, 0, TWO_PI, 0, TWO_PI); 
+ //   movementInterpolated=movementInterpolated%TWO_PI;
       }
     else { 
-    movementInterpolated= map (y, 0, TWO_PI, 0, TWO_PI);
-    movementInterpolated=movementInterpolated%TWO_PI;
+    movementInterpolated= map (y, 0, 400, 0, TWO_PI);
+   // movementInterpolated=movementInterpolated%TWO_PI;
      }
         println ("  movementInterpolated ", movementInterpolated, " oldmovementInterpolated ", oldMovementInterpolated );
 

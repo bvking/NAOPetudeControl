@@ -1185,6 +1185,8 @@ for (int i = 0; i < networkSize; i++) {
   formerMeasure=measure;
   formerBeatOnMeasure=beatOnMeasure;
   if (modeStartKeyToFollow != " samplingModeInternal " )
+   { 
+    if (modeStartKeyToFollow != " followSignalSampledOppositeWay(frameRatio) " )
   { 
   measure=(int) map (automation4*10, 0, 7.874016, 1, 1000); // mapping from Ableton measure
   // measure=(int) map (automation4*10, 1,1000 , 1, 1000);
@@ -1193,7 +1195,8 @@ for (int i = 0; i < networkSize; i++) {
   beatPrecised=(int) map (automation5*10, 0, 7.874016, 1, 1000); //  mapping from Ableton step in measure
  //  beatPrecised=(int) map (automation5*10, 1,1000 , 1, 1000);
   println (beatPrecised);
-  }  
+  }
+   }  
   recordFrame();
  
   print( " begin main loop " ) ;
@@ -1364,7 +1367,7 @@ for (int i = 0; i < networkSize; i++) {
     
      if  (actualSec!=lastSec){
          lastSec=actualSec;
-      if (modeStartKeyToFollow == " samplingModeInternal "     ){    
+      if (modeStartKeyToFollow == " samplingModeInternal "  || modeStartKeyToFollow ==  " followSignalSampledOppositeWay(frameRatio) "  ){    
           measure ++;
        }
       }  
@@ -1380,7 +1383,7 @@ for (int i = 0; i < networkSize; i++) {
      text ( modeStartKeyToFollow + " mouseY " + measure , width/4, - height - 100);  
    //      text ( measure + " mouseY ", width/4, -height-400);  
 
-      mouseY=(int) map (mouseY, 0, height, 0, TWO_PI);  // position from Ableton LFOdecay
+    //  mouseY=(float) map (mouseY, 0, height, 0, TWO_PI);  // position from Ableton LFOdecay
      
  //    mouseY=(int) map (automationLFO[1], 0, 1, 0, 400);  // position from Ableton LFOdecay
 
