@@ -68,15 +68,16 @@ class Sampler {
     oldMovementInterpolated = movementInterpolated;
      println ("y ", y, " ySampled ", ySampled , " oldYSampled ", oldYsampled );
 
-    if (oldYsampled>=  ySampled){ // go down
+//    if (oldYsampled>=  ySampled){ // go down
+ //  if (ySampled){ // go down
 
-  //    if (oldMovementInterpolated>=   movementInterpolated){
+      if (oldMovementInterpolated>=   movementInterpolated){
        
-    movementInterpolated= map (y, 0, 400, TWO_PI ,0); 
+    movementInterpolated= map (y, 0, TWO_PI, 0, TWO_PI); 
     movementInterpolated=movementInterpolated%TWO_PI;
       }
     else { 
-    movementInterpolated= map (y, 0, 400, 0, TWO_PI);
+    movementInterpolated= map (y, 0, TWO_PI, 0, TWO_PI);
     movementInterpolated=movementInterpolated%TWO_PI;
      }
         println ("  movementInterpolated ", movementInterpolated, " oldmovementInterpolated ", oldMovementInterpolated );

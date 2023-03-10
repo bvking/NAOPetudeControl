@@ -1403,15 +1403,16 @@ for (int i = 0; i < networkSize; i++) {
   
    if (modeStartKeyToFollow == " samplingModeInternal "     ){ // || formerKeyMetro == 'J'
      println ( " samplingModeInternal  ");
-    println ( "samplingModeInternal ");  
-     println ( " samplingModeInternal ");   
+    
      beginSample=millis();
      text ( modeStartKeyToFollow + " mouseY " + measure , width/4, - height - 100);  
    //      text ( measure + " mouseY ", width/4, -height-400);  
+
+      mouseY=(int) map (mouseY, 0, height, 0, TWO_PI);  // position from Ableton LFOdecay
      
  //    mouseY=(int) map (automationLFO[1], 0, 1, 0, 400);  // position from Ableton LFOdecay
 
-       newPosF[networkSize-1]=  map (mouseY, 0, height/2, 0, TWO_PI);
+     //****  newPosF[networkSize-1]=  map (mouseY, 0, height/2, 0, TWO_PI);
 
 
      
@@ -1424,11 +1425,11 @@ for (int i = 0; i < networkSize; i++) {
         //  mouseY=(int) map (Movement/1000.0, 0, 1, 0, 400);  // to do WHAT?
 
      // followMovementAll();
-     //  displayfollowMovementAll();
-    //**     activeSamplingMeasure(3);
-    //**    stopSamplingMeasure(4);
+    //   displayfollowMovementAll();
+     //   activeSamplingMeasure(2);
+     //  stopSamplingMeasure(3);
     
-         activeSamplingInternalClock(3); //do not work
+         activeSamplingInternalClock(1); //do not work
          stopSamplingInternalClock(4);  //do not work
          samplingMovementPro(); 
         
@@ -7345,7 +7346,7 @@ int v1; int v2; int v3; int v4; int v5; int v6;
   //**   samplers.get(samplers.size()-1).addSample( currTime, mouseX, v1InMainLoop );
 
  //net.phase[networkSize-1]=  map (mouseY, 0, height/2, 0, TWO_PI);
-//*** newPosF[0]=  map (mouseY, 0, height/2, 0, TWO_PI);// uncomment doesn't change anything
+    newPosF[0]=  map (mouseY, 0, height/2, 0, TWO_PI);// uncomment doesn't change anything
 
   }
  else {
@@ -7359,7 +7360,7 @@ int v1; int v2; int v3; int v4; int v5; int v6;
   bRecording = true;
  //*** samplers.add( new Sampler( nextSamplePeriod, currTime, mouseX, mouseY ) );
  // net.phase[networkSize-1]= (float) map (mouseY, 0, 400, 0, TWO_PI);
-  newPosF[networkSize-1]= (float) map (mouseY, 0, 400, 0, TWO_PI);
+//  newPosF[networkSize-1]= (float) map (mouseY, 0, 400, 0, TWO_PI);
   
   
 }
@@ -7382,7 +7383,7 @@ int v1; int v2; int v3; int v4; int v5; int v6;
    if (measure<=endMeasure && measure>=endMeasure  && beatTrigged == true) {
      println (" ENDTRACK ");     println (" ENDTRACK ");       println (" ENDTRACK ");
     //  net.phase[networkSize-1]= (float) map (mouseY, 0, 400, 0, TWO_PI);
-        newPosF[networkSize-1]= (float) map (mouseY, 0, 400, 0, TWO_PI);
+    //    newPosF[networkSize-0]= (float) map (mouseY, 0, height/2, 0, TWO_PI);
 
   mouseRecorded = false;
   bRecording = false;
@@ -12207,9 +12208,9 @@ if (formerDecayTime>decayTime){
        samplingMovementPro();
     println ( "  movementInterpolated in FOLLOW opposite WAY", movementInterpolated,
              " oldmovementInterpolated ", oldMovementInterpolated );
-    if (oldMovementInterpolated>movementInterpolated){
-      movementInterpolated= map (movementInterpolated, 0, TWO_PI, TWO_PI, 0);
-       }
+   // if (oldMovementInterpolated>movementInterpolated){
+   //   movementInterpolated= map (movementInterpolated, 0, TWO_PI, TWO_PI, 0);
+   //    }
     
      phases[0][frameCountBis % nbMaxDelais]=movementInterpolated;
   
@@ -12218,7 +12219,7 @@ if (formerDecayTime>decayTime){
     for (int i = 1; i < networkSize; i+=1) { // 1 follow phase 0
        
   //   follow( i-1, i, 20 * i, 0);  // Modifier les deux derniers paramètres : délais et phase
-    followOppositeWay( i-1, i+0, delayTimeFollowPhase11*1*frameRatio/ratioTimeFrame, (phaseShiftingFollowPhase11));  // ici, le temps que les points attendent pour se suivre est de 5 frames, et il faut un espace entre eux de QUARTER_PI/6
+     followOppositeWay( i-1, i+0, delayTimeFollowPhase11*1*frameRatio/ratioTimeFrame, (phaseShiftingFollowPhase11));  // ici, le temps que les points attendent pour se suivre est de 5 frames, et il faut un espace entre eux de QUARTER_PI/6
 
   //*** phaseMapped[i]=phases[i-0][frameCountBis % nbMaxDelais]; // use varaible phaseMapped (to play movement with time delay or phase delay) to well send it in Teensy
   // newPosFollowed[i]=phaseMapped[i]; // display data and use them to control motor
@@ -14839,15 +14840,16 @@ class Sampler {
     oldMovementInterpolated = movementInterpolated;
      println ("y ", y, " ySampled ", ySampled , " oldYSampled ", oldYsampled );
 
-    if (oldYsampled>=  ySampled){ // go down
+//    if (oldYsampled>=  ySampled){ // go down
+ //  if (ySampled){ // go down
 
-  //    if (oldMovementInterpolated>=   movementInterpolated){
+      if (oldMovementInterpolated>=   movementInterpolated){
        
-    movementInterpolated= map (y, 0, 400, TWO_PI ,0); 
+    movementInterpolated= map (y, 0, TWO_PI, 0, TWO_PI); 
     movementInterpolated=movementInterpolated%TWO_PI;
       }
     else { 
-    movementInterpolated= map (y, 0, 400, 0, TWO_PI);
+    movementInterpolated= map (y, 0, TWO_PI, 0, TWO_PI);
     movementInterpolated=movementInterpolated%TWO_PI;
      }
         println ("  movementInterpolated ", movementInterpolated, " oldmovementInterpolated ", oldMovementInterpolated );

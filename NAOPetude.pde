@@ -1375,15 +1375,16 @@ for (int i = 0; i < networkSize; i++) {
   
    if (modeStartKeyToFollow == " samplingModeInternal "     ){ // || formerKeyMetro == 'J'
      println ( " samplingModeInternal  ");
-    println ( "samplingModeInternal ");  
-     println ( " samplingModeInternal ");   
+    
      beginSample=millis();
      text ( modeStartKeyToFollow + " mouseY " + measure , width/4, - height - 100);  
    //      text ( measure + " mouseY ", width/4, -height-400);  
+
+      mouseY=(int) map (mouseY, 0, height, 0, TWO_PI);  // position from Ableton LFOdecay
      
  //    mouseY=(int) map (automationLFO[1], 0, 1, 0, 400);  // position from Ableton LFOdecay
 
-       newPosF[networkSize-1]=  map (mouseY, 0, height/2, 0, TWO_PI);
+     //****  newPosF[networkSize-1]=  map (mouseY, 0, height/2, 0, TWO_PI);
 
 
      
@@ -1396,11 +1397,11 @@ for (int i = 0; i < networkSize; i++) {
         //  mouseY=(int) map (Movement/1000.0, 0, 1, 0, 400);  // to do WHAT?
 
      // followMovementAll();
-     //  displayfollowMovementAll();
-    //**     activeSamplingMeasure(3);
-    //**    stopSamplingMeasure(4);
+    //   displayfollowMovementAll();
+     //   activeSamplingMeasure(2);
+     //  stopSamplingMeasure(3);
     
-         activeSamplingInternalClock(3); //do not work
+         activeSamplingInternalClock(1); //do not work
          stopSamplingInternalClock(4);  //do not work
          samplingMovementPro(); 
         
@@ -7317,7 +7318,7 @@ void samplingMovementPro() {
   //**   samplers.get(samplers.size()-1).addSample( currTime, mouseX, v1InMainLoop );
 
  //net.phase[networkSize-1]=  map (mouseY, 0, height/2, 0, TWO_PI);
-//*** newPosF[0]=  map (mouseY, 0, height/2, 0, TWO_PI);// uncomment doesn't change anything
+    newPosF[0]=  map (mouseY, 0, height/2, 0, TWO_PI);// uncomment doesn't change anything
 
   }
  else {
@@ -7331,7 +7332,7 @@ void activeSamplingSecond() {
   bRecording = true;
  //*** samplers.add( new Sampler( nextSamplePeriod, currTime, mouseX, mouseY ) );
  // net.phase[networkSize-1]= (float) map (mouseY, 0, 400, 0, TWO_PI);
-  newPosF[networkSize-1]= (float) map (mouseY, 0, 400, 0, TWO_PI);
+//  newPosF[networkSize-1]= (float) map (mouseY, 0, 400, 0, TWO_PI);
   
   
 }
@@ -7354,7 +7355,7 @@ void stopSamplingMeasure(int endMeasure) {
    if (measure<=endMeasure && measure>=endMeasure  && beatTrigged == true) {
      println (" ENDTRACK ");     println (" ENDTRACK ");       println (" ENDTRACK ");
     //  net.phase[networkSize-1]= (float) map (mouseY, 0, 400, 0, TWO_PI);
-        newPosF[networkSize-1]= (float) map (mouseY, 0, 400, 0, TWO_PI);
+    //    newPosF[networkSize-0]= (float) map (mouseY, 0, height/2, 0, TWO_PI);
 
   mouseRecorded = false;
   bRecording = false;
