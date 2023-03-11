@@ -12,21 +12,21 @@ if (formerDecayTime>decayTime){
  
   int delayRatio=ratioTimeFrame;
 
-  //  samplingMovement(2);
-  //    phases[0][frameCountBis % nbMaxDelais]= net.phase[networkSize-1]-0;
+    samplingMovement(2);
+     phases[0][frameCountBis % nbMaxDelais]= newPosF[0];
      
   //  keyReleasedfollowSignal(); useless  phseShifting is controlled in keyRelesead
       float deltaFollow = TWO_PI; // not used
      //here in a previous function we could change the ball followed if the space of phase between phases[0] and phase 9 is more than 360° for example
 
-       samplingMovementPro();
+   //***    samplingMovementPro();
     println ( "  movementInterpolated in FOLLOW opposite WAY", movementInterpolated,
              " oldmovementInterpolated ", oldMovementInterpolated );
    // if (oldMovementInterpolated>movementInterpolated){
    //   movementInterpolated= map (movementInterpolated, 0, TWO_PI, TWO_PI, 0);
    //    }
     
-     phases[0][frameCountBis % nbMaxDelais]=movementInterpolated;
+   //***   phases[0][frameCountBis % nbMaxDelais]=movementInterpolated;
   
     //  drawBallOppositeWay(0, phases[0][frameCountBis % nbMaxDelais]); //networkSize-5 affiche le point 0. NE PAS AFFICHER SINON IL APPARAIT EN DOUBLE
  

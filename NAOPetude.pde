@@ -1409,7 +1409,8 @@ for (int i = 0; i < networkSize; i++) {
     
          activeSamplingInternalClock(1); //do not work
          stopSamplingInternalClock(4);  //do not work
-         samplingMovementPro(); 
+       //  samplingMovementPro(); 
+         samplingMovement(2); 
         
   //       print (" v1 ");   print (  v1);  print (" v1 ");   println (  v1); 
     //     sendToTeensy();
@@ -7170,8 +7171,9 @@ int v1; int v2; int v3; int v4; int v5; int v6;
         v5 = (int) map (values[0], 0, 4000, 0, 400);
          v6 = (int) map (values[0], 0, 4000, 0, 400);
        
-    println (" v1 " + v1 ); println (" v2 " + v2 ); println (" v3 " + v3 ); println (" v1 " + v1 ); print (mouseY);   print (" v1 ");   println (v1);  
-    println (" v1 " + v1 ); println (" v2 " + v2 ); println (" v3 " + v3 ); println (" v1 " + v1 ); print (mouseY);   print (" v1 ");   println (v1);  
+    println (" v1 " + v1 ); println (" v2 " + v2 ); println (" v3 " + v3 );
+    println (" v4 " + v4 ); println (" v5 " + v5 ); println (" v6 " + v6 );
+    println ( " mouseY " + mouseY);  
 
 }
 }
@@ -7200,10 +7202,11 @@ void samplingMovement(float timeSec) {
 //    rx[i] = mouseX;
 //    ry[i] = mouseY;
  //**   net.phase[networkSize-1]= (float) map (v1, 0, 400, 0, TWO_PI);
-    net.phase[networkSize-1]= (float) map (mouseY, 0, 400, 0, TWO_PI);
+  //  net.phase[networkSize-1]= (float) map (mouseY, 0, 400, 0, TWO_PI);
+     newPosF[0]= (float) map (mouseY, 0, 400, 0, TWO_PI);
     rx[i] = z;
  //   ry[i] = v1;
-     ry[i]=net.phase[networkSize-1]+phaseShiftingFollowPhase11;//almost useless
+     ry[i]= newPosF[0]+phaseShiftingFollowPhase11;//almost useless
     mx[i] = rx[i];
     my[i] = ry[i];
     fill(255, 0, 0, 50); 
@@ -7227,11 +7230,11 @@ void samplingMovement(float timeSec) {
       trigFollowSampling=true;
      
  //**   net.phase[networkSize-1]= (float) map (my[i], 0, 400, 0, TWO_PI);
-       net.phase[networkSize-1]= my[i];
+        newPosF[0]= my[i];
  //¨**    net.phase[networkSize-2]= (float) map (my[i], 0, 400, 0, TWO_PI)+k; // you have sampled oscillator2 and repeat it in oscillator 3 with decay
 //  
-       net.phase[networkSize-2]= my[i]+delayTimeFollowPhase11; // useless
-       net.phase[networkSize-2]= net.phase[networkSize-2]%TWO_PI;
+        newPosF[1]= my[i]+delayTimeFollowPhase11; // useless
+        newPosF[1]= newPosF[1]%TWO_PI;
     circle(mx[i]+400, my[i], 10); 
   //  print (frameSampling); print (" ry' "); print (i); print ("  "); println (ry[i]);
     print (" frameSampling "); print (frameSampling); print (" ry "); print (i); print ("  "); print (ry[i]);   // frameSampling%160=1 is the first point and  frameSampling%160=0 is the last point recorded
