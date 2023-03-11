@@ -638,10 +638,10 @@ void setup() {
  //   teensyport = new Serial(this, ports[1], 115200);// si port non connecte
     teensyport = new Serial(this,ports[2],115200); //  si port connecté
   //*************** WITHOUT TEENSY connected
-    DueSerialNativeUSBport101 = new Serial(this, Serial.list()[3], 1000000);
+ //**   DueSerialNativeUSBport101 = new Serial(this, Serial.list()[3], 1000000);
 
   // Read bytes into a buffer until you get a linefeed (ASCII 10):
-    DueSerialNativeUSBport101.bufferUntil('\n');
+  //**  DueSerialNativeUSBport101.bufferUntil('\n');
 
   //********************************************************* BEGIN GRAPHIC CHIMERA STATE SETUP
   float[][] Coupling = new float[networkSizeGraphic][networkSizeGraphic];
@@ -1409,8 +1409,8 @@ for (int i = 0; i < networkSize; i++) {
     
          activeSamplingInternalClock(1); //do not work
          stopSamplingInternalClock(4);  //do not work
-       //  samplingMovementPro(); 
-         samplingMovement(2); 
+         samplingMovementPro(); 
+       //  samplingMovement(4); 
         
   //       print (" v1 ");   print (  v1);  print (" v1 ");   println (  v1); 
     //     sendToTeensy();
@@ -7014,7 +7014,7 @@ void drawBallOppositeWay(int n, float phase) {
   translate (a, b, 200+(50*5*n));
   colorMode(RGB, 255, 255, 255);
   fill( 255, 0, 0 );
-//  sphere(side*3);  // redsphere
+  sphere(side*3);  // redsphere
   popMatrix();
 }
 
