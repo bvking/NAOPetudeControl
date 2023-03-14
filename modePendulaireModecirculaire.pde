@@ -289,6 +289,8 @@ void  modePendulaireModeCirculaire() {
                          if (keyMode != " addSignalOneAndTwoBis " ) {
                              if (keyMode != " addSignalOneAndTwoTer " ) {
                                if (keyMode != " followDistribueAddLfoPattern " ) {
+                                 if (keyMode != " followDistribueAddLfoPatternControl " ) {
+                                  if ( modeStartKeyToFollow == " followDistribueAddLfoPatternControl " ) {
            
                        text (  " lllllll ", -width/4, -height/4 ) ;           
                        
@@ -298,6 +300,8 @@ void  modePendulaireModeCirculaire() {
   
     sphere(side*3);
     sphereDetail( 4*5);
+     }
+     }
      }
      }
      }
@@ -427,19 +431,19 @@ void  modePendulaireModeCirculaire() {
       sphereDetail( 4*5); 
       }
 
-
-    if ( keyMode == " followDistribueAddLfoPatternControl " ) { //drive ball with lfo
+    if ( modeStartKeyToFollow == " followDistribueAddLfoPatternControl " ) { //drive ball with lfo
     
    
       println ( "****************************** DISPLAY ", keyMode, controlTrigLfoPattern ); 
     //  text ( " CRL ", 100,100);
       text ( char (formerKeyMetro) , 100,100);
       fill (127, 127 , 255);    
-      x = displacement*cos(net.phase[i]);
-      y = displacement*sin(net.phase[i]);   
+      x = displacement*cos(newPosF[i]);
+      y = displacement*sin(newPosF[i]);    
       sphere(side*3);
       sphereDetail( 4*5); 
       }  
+
 
     if ( modeStartKeyToFollow  == " followSignalSampledOppositeWay(frameRatio) " || modeStartKeyToFollow  == " samplingModeInternal " 
       || modeStartKeyToFollow  == " followSignalSampled " ) {
