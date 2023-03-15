@@ -281,7 +281,7 @@ void  modePendulaireModeCirculaire() {
     translate (x*1, y*1, 200+(50*5*i));  //*-1 go in clockwise, *1 go in CCW
     colorMode(RGB, 255, 255, 255);
 //    fill( mapAccelerationinversed[i], 255, 0 ); // Sepheres are all modulated with the same color. depending of acceleration
-      fill( 255, 255, 255 );
+      fill( 255, 100, 255 );
      if (formerKeyMetro !='B' ) { //drive ball with lfo
           if (formerKeyMetro != '<' ) {
              if (formerKeyMetro != '@' ) {

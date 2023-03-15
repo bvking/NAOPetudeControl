@@ -2807,7 +2807,7 @@ void arduinoPos() {
 
         println(frameCount + ": " +  " dataMarkedToTeensyJoInMainLoop" + ( dataMarkedToTeensyJo ));
         //   DueSerialNativeUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
-        teensyport.write(dataMarkedToTeensyJo); // Send data to Teensy. only the movement
+       // teensyport.write(dataMarkedToTeensyJo); // Send data to Teensy. only the movement
          
          }
           }
