@@ -5,14 +5,11 @@ void  splitTimeLfoScale() {  // change de sens de propagagtion.   ATTENTION dans
     lfoPhase[2] = map ((((cos  (frameCount / 100.0))*-1) %2), -1, 1, -TWO_PI, TWO_PI); // sinusoidale rapide
     
    
-
    // println (" forme d'onde lfoPhase[1] ", lfoPhase[1], "lfoPhase[2] ", lfoPhase[2], "lfoPhase[3]= signalTosplit ", lfoPhase[3]); 
 
     oldSignalToSplit=signalToSplit;
     
     signalToSplit = map ( signal[5], 0, 1, -TWO_PI, TWO_PI);
-
- 
  
   if (oldSignalToSplit> signalToSplit ) {
   //  key = 'q' ; // when signal goes down --> propagation FRONT SIDE
@@ -29,17 +26,22 @@ void  splitTimeLfoScale() {  // change de sens de propagagtion.   ATTENTION dans
  
    }
 
-   text ( " timeLfo " + timeLfo , 200, 200);
+     splitTimeLfo= int  (timeLfo%1000); 
+      text ( " timeLfo " + timeLfo , 200, 200);
+      text (" splittimeLfo "  +  splitTimeLfo +   " oldSplitTimeLfo " + oldSplitTimeLfo,  100, 100);
+      
+ if ( oldOscillatorChange==oscillatorChange )
+  {
+   oscillatorChanged=true;
+  }
+  else  if ( oldOscillatorChange!=oscillatorChange )
+  { oscillatorChanged=false;
+  }
 
- 
-       splitTimeLfo= int  (timeLfo%1000); 
-
-  
-    text (" splittimeLfo "  +  splitTimeLfo +   " oldSplitTimeLfo " + oldSplitTimeLfo,  100, 100);
-
- // if (oldSplitTimeLfo>splitTimeLfo){
-
-    if (oldSplitTimeLfo-splitTimeLfo>100){
+   text (" oldOscillatorChange " + oldOscillatorChange + " oscillatorChange " + oscillatorChange + " j " + nf (phaseKeptAtChange[oscillatorChange]/TWO_PI*360%360, 0, 2), -width-200, -height- 400 );
+   text (" oscillatorChanged " +  oscillatorChanged  +  nf (phaseKeptAtChange[oldOscillatorChange]/TWO_PI*360%360, 0, 2), -width-200, -height- 300 );
+   
+    if (oldSplitTimeLfo-splitTimeLfo>150){  // if previous signal is upper of 15%
 
       oldOscillatorChange=oscillatorChange;
       oscillatorChange=oscillatorChange+1;
@@ -51,7 +53,7 @@ void  splitTimeLfoScale() {  // change de sens de propagagtion.   ATTENTION dans
       oldOscillatorChange=networkSize-1;
    } 
   
-  if (splitTimeLfo-oldSplitTimeLfo>100){
+  if (splitTimeLfo-oldSplitTimeLfo>150){ // if previous signal is upper of 15%
 
       oldOscillatorChange=oscillatorChange;
       oscillatorChange=oscillatorChange-1;
@@ -62,11 +64,7 @@ void  splitTimeLfoScale() {  // change de sens de propagagtion.   ATTENTION dans
       oscillatorChange=networkSize-1;
    }
 
-  if ( oldOscillatorChange!=oscillatorChange )
-  {
-   oscillatorChanged=true;
-  }
-
+ 
   oldSplitTimeLfo = splitTimeLfo; 
    
 } 
