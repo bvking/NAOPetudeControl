@@ -327,8 +327,11 @@ void  modePendulaireModeCirculaire() {
          if (keyMode == " addSignalOneAndTwoQuater "  ) { //drive ball with lfo
      fill( mapAccelerationinversed[i], 255, 255 ); // Sepheres are all modulated with the same color. depending of acceleration
      fill (100, 155, 100);
-      x = displacement*cos(net.phase[i]);
-      y = displacement*sin(net.phase[i]);    
+    //  x = displacement*cos(net.phase[i]);
+    //  y = displacement*sin(net.phase[i]); 
+     x = displacement*cos(newPosXaddSignal[i]);   
+     y = displacement*sin(newPosXaddSignal[i]);   
+      
 //      print (" keyMode ", i, " ",  newPosXaddSignal[i] );    
       sphere(side*3);
       sphereDetail( 4*5);

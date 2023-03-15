@@ -29,7 +29,8 @@ void propagationMode(){ // as addSignalOneAndTwoQuater() in NAOP
     }
  
 // splitTimeScale(30.0); //  10.0= vitesse de propagation. On change de sens de ROTATION avec q et z.
-  splitTimeLfoScale();  // change de sens de PROPAGATION
+ // splitTimeLfoScale();  // change de sens de PROPAGATION
+  splitIncomingSignal();
   propagation2way();
 
   mapDataToMotor(); // conversion en netphasei affichage

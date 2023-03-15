@@ -48,7 +48,7 @@ void  splitIncomingSignal() {  // change de sens de propagagtion.   ATTENTION da
       oldOscillatorChange=networkSize-1;
      }
 
-    if (splitTimeLfo-oldSplitTimeLfo>150){  // if previous signal is upper of 15%
+    if (splitTimeLfo-oldSplitTimeLfo>150){  // if previous signal is downer of 15%
       oscillatorChangingPropagation=true;
       oldOscillatorChange=oscillatorChange;
       oscillatorChange=oscillatorChange+1;

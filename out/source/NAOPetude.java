@@ -9149,7 +9149,8 @@ text (" splitTime " + splitTime + " timeLfo%200 " + timeLfo%200 + " doZ " + doZ,
     }
  
 // splitTimeScale(30.0); //  10.0= vitesse de propagation. On change de sens de ROTATION avec q et z.
-  splitTimeLfoScale();  // change de sens de PROPAGATION
+ // splitTimeLfoScale();  // change de sens de PROPAGATION
+  splitIncomingSignal();
   propagation2way();
 
   mapDataToMotor(); // conversion en netphasei affichage
@@ -15247,8 +15248,11 @@ float[] volumei;
          if (keyMode == " addSignalOneAndTwoQuater "  ) { //drive ball with lfo
      fill( mapAccelerationinversed[i], 255, 255 ); // Sepheres are all modulated with the same color. depending of acceleration
      fill (100, 155, 100);
-      x = displacement*cos(net.phase[i]);
-      y = displacement*sin(net.phase[i]);    
+    //  x = displacement*cos(net.phase[i]);
+    //  y = displacement*sin(net.phase[i]); 
+     x = displacement*cos(newPosXaddSignal[i]);   
+     y = displacement*sin(newPosXaddSignal[i]);   
+      
 //      print (" keyMode ", i, " ",  newPosXaddSignal[i] );    
       sphere(side*3);
       sphereDetail( 4*5);
@@ -16556,7 +16560,7 @@ boolean oscillatorChangingPropagation;
       oldOscillatorChange=networkSize-1;
      }
 
-    if (splitTimeLfo-oldSplitTimeLfo>150){  // if previous signal is upper of 15%
+    if (splitTimeLfo-oldSplitTimeLfo>150){  // if previous signal is downer of 15%
       oscillatorChangingPropagation=true;
       oldOscillatorChange=oscillatorChange;
       oscillatorChange=oscillatorChange+1;
