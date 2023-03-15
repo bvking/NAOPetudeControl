@@ -685,7 +685,7 @@ void formerKeyv(int oscillatorMoving, int OldoscillatorMoving, float phaseDecay)
   print (" "); 
   print (factorWay[memoryi]);     
 
-  for (int j = 2; j < 12; j++) {
+  for (int j = 0; j < networkSize; j++) {
 
     if ((metroOldPhase[j] <= PI && metroOldPhase[j] >= 0 &&  metroPhase[j] <= metroOldPhase[j] )||   //CCW
       (metroOldPhase[j] >= -PI && metroOldPhase[j] <= 0 &&  metroPhase[j] <= metroOldPhase[j] )) {
@@ -754,10 +754,10 @@ void formerKeyv(int oscillatorMoving, int OldoscillatorMoving, float phaseDecay)
       (upstairOldVpos[memoryi]%3200 < upstairVpos[memoryi]%3200)) ||  //CW
       ( (upstairOldVpos[memoryi]%3200 >= upstairVpos[oldMemoryi]%3200+PhaseDecayMapped*ClockWay[memoryi]*0) && (upstairVpos[memoryi]%3200 < upstairVpos[oldMemoryi]%3200+PhaseDecayMapped*ClockWay[memoryi]*0) &&
       (upstairOldVpos[memoryi]%3200 > upstairVpos[memoryi]%3200) ) ) ||  // CCW
-      (   (metroPhase[2]-metroPhase[11] <=0)  ||  (metroPhase[11]-metroPhase[2] <=0)  )
+      (   (metroPhase[0]-metroPhase[networkSize-1] <=0)  ||  (metroPhase[networkSize-1]-metroPhase[0] <=0)  )
       ) {
 
-      if (memoryi>1  && memoryi<11 ) { //  &&   clockWay[memoryi]== false
+      if (memoryi>0  && memoryi<networkSize-1 ) { //  &&   clockWay[memoryi]== false
 
         net.phase[memoryi]= net.phase[memoryi+1]-PhaseDecay*0;// 
         //   net.phase[memoryi+1]= net.phase[memoryi+1]+PhaseDecay*1;//%TWO_PI;// +PhaseDecay is Clock WAY =0 
@@ -798,7 +798,8 @@ void formerKeyv(int oscillatorMoving, int OldoscillatorMoving, float phaseDecay)
       key='z';
     }
   }
-  //  deblockPendular();     
+  //  deblockPendular(); 
+ /*
   if ((upstairOldVpos[net.size()-1]%3200 <= upstairVpos[10]%3200) && (upstairVpos[net.size()-1]%3200 > upstairVpos[10]%3200)&& (upstairOldVpos[net.size()-1]%3200 < upstairVpos[net.size()-1]%3200) ||
     ( (upstairOldVpos[net.size()-1]%3200 >= upstairVpos[10]%3200) && (upstairVpos[net.size()-1]%3200 < upstairVpos[10]%3200)&& (upstairOldVpos[net.size()-1]%3200 > upstairVpos[net.size()-1]%3200+800)) ||
     (  (metroPhase[11]-metroPhase[2] <=-PI+PhaseDecay)  ||  (metroPhase[2]-metroPhase[11] <=-PI+PhaseDecay) ) //(metroPhase[memoryi]-metroPhase[oldMemoryi] <=-PI-PhaseDecay)  ||  (metroPhase[memoryi]-metroPhase[oldMemoryi] >=PI+PhaseDecay) //  (metroPhase[memoryi]-metroPhase[oldMemoryi] <=-PI-PhaseDecay)  ||  (metroPhase[oldMemoryi]-metroPhase[memoryi] <=-PI-PhaseDecay)
@@ -840,6 +841,7 @@ void formerKeyv(int oscillatorMoving, int OldoscillatorMoving, float phaseDecay)
 
     key='e';
   }
+ */
   // deblockPendular();
   print (" ENDUPSTAIRv " ); 
   

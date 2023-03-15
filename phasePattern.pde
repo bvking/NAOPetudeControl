@@ -489,7 +489,7 @@ void phasePattern() { // trigged with $ or *
 
   if (key == 'v') { //TRIGGERV
     println ("v$  Shift OSCILLATOR WHEN POSITION MATCH   "); // based on i$ || key == 'L'
-    formerKey = 'v';
+    formerKey='v';
     ///    formerKeyv();
   } 
 
