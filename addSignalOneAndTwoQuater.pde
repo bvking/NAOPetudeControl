@@ -1,15 +1,14 @@
 void propagationMode(){ // as addSignalOneAndTwoQuater() in NAOP 
 
-
      textSize (100);
      text ("Change mode q, z, or stop progation with b ", -width-200, -height- 600 );
      text ("signal2 " +nf(signal[2], 0, 2), -width-200, -height- 500 );
- //    text ("signal3 " + signal[3], -width-200, -height- 400 );
+     text ("signal3 " +nf(signal[3], 0, 2), -width-200, -height- 400 );
  //    text (" oldSignalToSplit " + oldSplitTime + " splitTime " +  splitTime + " timeLFO " + timeLfo,  -width-200, -height- 400 );
  //    text (" oldSignalToSplit " + nf (oldSignalToSplit, 0, 2) + " signalToSplit " +     nf (signalToSplit, 0, 2) + " timeLFO " + timeLfo,  -width-200, -height- 300 );
    text (" oldOscillatorChange " + oldOscillatorChange + " oscillatorChange " + oscillatorChange + " j " + nf (phaseKeptAtChange[oscillatorChange]/TWO_PI*360%360, 0, 2), -width-200, -height- 300 );
    text (" oldOscillatorChange " + (oldOscillatorChange+1)%6 + " oscillatorChange " + (oscillatorChange+1)%6 + " j " + nf (phaseKeptAtChange[(oscillatorChange+1)%6]/TWO_PI*360%360, 0, 2), -width-200, -height- 200 );
-     text (" propagationSpeed " + propagationSpeed + " key " + key, -width-200, -height- 100 );
+   text (" propagationSpeed " + propagationSpeed + " key " + key, -width-200, -height- 100 );
      
   
    if (key=='q' || key=='b' || key=='z' ) { // q == addsignal
@@ -30,8 +29,8 @@ void propagationMode(){ // as addSignalOneAndTwoQuater() in NAOP
     break;
     }
  
- splitTimeScale(30.0); //  10.0= vitesse de propagation. On change de sens de ROTATION avec q et z.
- //splitTimeLfoScale();  // change de sens de PROPAGATION
+// splitTimeScale(30.0); //  10.0= vitesse de propagation. On change de sens de ROTATION avec q et z.
+  splitTimeLfoScale();  // change de sens de PROPAGATION
   propagation2way();
 
   mapDataToMotor();
@@ -160,25 +159,40 @@ void  splitTimeLfoScale() {  // change de sens de propagagtion.   ATTENTION dans
     lfoPhase[3] = map ((((cos  (frameCount / 30.0))*-1) %2), -1, 1, -TWO_PI, TWO_PI);  // sinusoidale lente
     lfoPhase[2] = map ((((cos  (frameCount / 100.0))*-1) %2), -1, 1, -TWO_PI, TWO_PI); // sinusoidale rapide
     
+   
+
     println (" forme d'onde lfoPhase[1] ", lfoPhase[1], "lfoPhase[2] ", lfoPhase[2], "lfoPhase[3]= signalTosplit ", lfoPhase[3]); 
 
     oldSignalToSplit=signalToSplit;
+     if (doQ==true) {
+       signalToSplit = map ( signal[3], 0, 1, -TWO_PI, TWO_PI);
+        }
+    else  {
     signalToSplit= lfoPhase[3];
+    }
+    
  
   if (oldSignalToSplit> signalToSplit ) {
   //  key = 'q' ; // when signal goes down --> propagation FRONT SIDE
+  doZ=true;
    timeLfo= map (signalToSplit, TWO_PI, -TWO_PI, 0, 1000);  //  if we have an oscillation as  lfoPhase[3]
     }
   else if (oldSignalToSplit< signalToSplit ) { // on est dans cette configuration avec  signalToSplit= lfoPhase[1]
 //   key = 'z';  //  when signal goes down --> propagation BEHIND SIDE 
 //   key = 'q' ;  // propagation in on the same way
+  doZ=false;
    timeLfo= map (signalToSplit, -TWO_PI, TWO_PI, 0, 1000);  // if we have an oscillation  lfoPhase[3]
  //**   timeLfo= map (signalToSplit, 0, TWO_PI, 0, 1000);  // if we have a continuois from 0 to TWO_PI 
  //   timeLfo= map (signalToSplit, 0, 1, 0, 1000); //  if we have a continuois from 0 to TWO_PI from an other software
  
    }
 
-  int splitTimeLfo= int  (timeLfo%100);   // 100 is the size of the gate trigging the change of the ball  
+   int splitTimeLfo= int  (timeLfo%100);   // 100 is the size of the gate trigging the change of the ball 
+  if (doQ==true) {
+       splitTimeLfo= int  (timeLfo%1000); 
+   }
+  
+
    
       println ( " oldSignalToSplit " + oldSignalToSplit + " signalToSplit " + signalToSplit );
       print (" timeLfo "); print ( timeLfo );   print (" splittimeLfo "); println ( splitTimeLfo );
