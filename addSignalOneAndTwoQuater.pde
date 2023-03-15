@@ -32,7 +32,7 @@ void propagationMode(){ // as addSignalOneAndTwoQuater() in NAOP
   splitTimeLfoScale();  // change de sens de PROPAGATION
   propagation2way();
 
-  mapDataToMotor();
+  mapDataToMotor(); // conversion en netphasei affichage
 
  for (int k = 0; k < this.nbBalls; k++) 
     {    
@@ -45,10 +45,10 @@ void propagationMode(){ // as addSignalOneAndTwoQuater() in NAOP
  }
 
  void propagation2way() {   // le boule d'apres prends la position de la boue d'vant + PI/8
-
-   if ( oscillatorChanged==true){ // A essayer
+        oscillatorChanged=oscillatorChangingPropagation;
+ //  if ( oscillatorChanged==true){ // A essayer
      phaseKeptAtChange[oscillatorChange]= map (signal[5], 0, 1, 0, TWO_PI);
-      }
+  //    }
 
    //***  phaseKeptAtChange[oscillatorChange]=newPosXaddSignal[oldOscillatorChange]%TWO_PI;
     //  phaseKeptAtChange[oscillatorChange]=phaseKeptAtChange[oldOscillatorChange];
@@ -90,7 +90,7 @@ void propagationMode(){ // as addSignalOneAndTwoQuater() in NAOP
     if (doZ==false && oscillatorChanged==true){ 
 
      //  LFO[oscillatorChange] =LFO[oldOscillatorChange]+QUARTER_PI*1/2 ;  // on ajoute 
-      LFO[oscillatorChange] = LFO[oscillatorChange]+phaseKeptAtChange[oscillatorChange];
+      LFO[oscillatorChange] = phaseKeptAtChange[oscillatorChange]; // LFO[oscillatorChange]+
 
        dataMappedForMotor[oscillatorChange]= (int) map (LFO[oscillatorChange], 0, TWO_PI , 0, numberOfStep);  // 
        println (" true phaseKeptAtChange[oscillatorChange] ", oscillatorChange, " " ,  phaseKeptAtChange[oldOscillatorChange]);
@@ -149,10 +149,7 @@ void propagationMode(){ // as addSignalOneAndTwoQuater() in NAOP
  
 ///////////////////// 
 
- 
-
-
-void  splitTimeLfoScaleOriginal() {  // change de sens de propagagtion.   ATTENTION dans ce reglage le signalToSplit de propgation est UP continue de 0 à TWO_PI
+void splitTimeLfoScale() {  // change de sens de propagagtion.   ATTENTION dans ce reglage le signalToSplit de propgation est UP continue de 0 à TWO_PI
 
     lfoPhase[1] = (frameCount / 10.0 * cos (1000 / 500.0)*-1)%TWO_PI;  // continue 0 to TWO_PI;
     lfoPhase[3] = map ((((cos  (frameCount / 30.0))*-1) %2), -1, 1, -TWO_PI, TWO_PI);  // sinusoidale lente

@@ -8243,7 +8243,7 @@ mapDataToMotor();
 
      for (int i = 0; i <  networkSize-0; i+=1) { // la premiere celle du fond i=2,  la derniere celle du devant i=11
  //   drawBall(i, newPosXaddSignal[i] );
-  print (" newPosXaddSignalAFTERDB " + newPosXaddSignal[i]);
+  println (" CONVERSION pour AFFICHAGE net.phase[i]=newPosXaddSignal[i ]" + newPosXaddSignal[i]);
    
  //    print( " oldPositionToMotor[i]" ); print ( oldPositionToMotor[i]);
   //  positionToMotor[i]= ((int) map (newPosXaddSignal[i], 0, TWO_PI, 0, numberOfStep)%numberOfStep); //
@@ -9152,7 +9152,7 @@ text (" splitTime " + splitTime + " timeLfo%200 " + timeLfo%200 + " doZ " + doZ,
   splitTimeLfoScale();  // change de sens de PROPAGATION
   propagation2way();
 
-  mapDataToMotor();
+  mapDataToMotor(); // conversion en netphasei affichage
 
  for (int k = 0; k < this.nbBalls; k++) 
     {    
@@ -9165,10 +9165,10 @@ text (" splitTime " + splitTime + " timeLfo%200 " + timeLfo%200 + " doZ " + doZ,
  }
 
   public void propagation2way() {   // le boule d'apres prends la position de la boue d'vant + PI/8
-
-   if ( oscillatorChanged==true){ // A essayer
+        oscillatorChanged=oscillatorChangingPropagation;
+ //  if ( oscillatorChanged==true){ // A essayer
      phaseKeptAtChange[oscillatorChange]= map (signal[5], 0, 1, 0, TWO_PI);
-      }
+  //    }
 
    //***  phaseKeptAtChange[oscillatorChange]=newPosXaddSignal[oldOscillatorChange]%TWO_PI;
     //  phaseKeptAtChange[oscillatorChange]=phaseKeptAtChange[oldOscillatorChange];
@@ -9210,7 +9210,7 @@ text (" splitTime " + splitTime + " timeLfo%200 " + timeLfo%200 + " doZ " + doZ,
     if (doZ==false && oscillatorChanged==true){ 
 
      //  LFO[oscillatorChange] =LFO[oldOscillatorChange]+QUARTER_PI*1/2 ;  // on ajoute 
-      LFO[oscillatorChange] = LFO[oscillatorChange]+phaseKeptAtChange[oscillatorChange];
+      LFO[oscillatorChange] = phaseKeptAtChange[oscillatorChange]; // LFO[oscillatorChange]+
 
        dataMappedForMotor[oscillatorChange]= (int) map (LFO[oscillatorChange], 0, TWO_PI , 0, numberOfStep);  // 
        println (" true phaseKeptAtChange[oscillatorChange] ", oscillatorChange, " " ,  phaseKeptAtChange[oldOscillatorChange]);
@@ -9269,10 +9269,7 @@ text (" splitTime " + splitTime + " timeLfo%200 " + timeLfo%200 + " doZ " + doZ,
  
 ///////////////////// 
 
- 
-
-
- public void  splitTimeLfoScaleOriginal() {  // change de sens de propagagtion.   ATTENTION dans ce reglage le signalToSplit de propgation est UP continue de 0 à TWO_PI
+ public void splitTimeLfoScale() {  // change de sens de propagagtion.   ATTENTION dans ce reglage le signalToSplit de propgation est UP continue de 0 à TWO_PI
 
     lfoPhase[1] = (frameCount / 10.0f * cos (1000 / 500.0f)*-1)%TWO_PI;  // continue 0 to TWO_PI;
     lfoPhase[3] = map ((((cos  (frameCount / 30.0f))*-1) %2), -1, 1, -TWO_PI, TWO_PI);  // sinusoidale lente
@@ -16509,7 +16506,10 @@ oscillatorBlocked=2;
   //  DueSerialNativeUSBport101.write(dataMarkedToTeensyNoJo);// Send data to Arduino.
   //  teensyport.write(dataFromMode);
       }
- public void  splitTimeLfoScale() {  // change de sens de propagagtion.   ATTENTION dans ce reglage le signalToSplit de propgation est UP continue de 0 à TWO_PI
+int oldOscillatorChangePropagation, oscillatorChangePropagation;
+boolean oscillatorChangingPropagation;
+
+ public void  splitIncomingSignal() {  // change de sens de propagagtion.   ATTENTION dans ce reglage le signalToSplit de propgation est UP continue de 0 à TWO_PI
 
     lfoPhase[1] = (frameCount / 10.0f * cos (1000 / 500.0f)*-1)%TWO_PI;  // continue 0 to TWO_PI;
     lfoPhase[3] = map ((((cos  (frameCount / 30.0f))*-1) %2), -1, 1, -TWO_PI, TWO_PI);  // sinusoidale lente
@@ -16540,43 +16540,47 @@ oscillatorBlocked=2;
      splitTimeLfo= PApplet.parseInt  (timeLfo%1000); 
       text ( " timeLfo " + timeLfo , 200, 200);
       text (" splittimeLfo "  +  splitTimeLfo +   " oldSplitTimeLfo " + oldSplitTimeLfo,  100, 100);
-      
- if ( oldOscillatorChange==oscillatorChange )
-  {
-   oscillatorChanged=true;
-  }
-  else  if ( oldOscillatorChange!=oscillatorChange )
-  { oscillatorChanged=false;
-  }
+
 
    text (" oldOscillatorChange " + oldOscillatorChange + " oscillatorChange " + oscillatorChange + " j " + nf (phaseKeptAtChange[oscillatorChange]/TWO_PI*360%360, 0, 2), -width-200, -height- 400 );
-   text (" oscillatorChanged " +  oscillatorChanged  +  nf (phaseKeptAtChange[oldOscillatorChange]/TWO_PI*360%360, 0, 2), -width-200, -height- 300 );
+   text (" oscillatorChangingPropagation " +  oscillatorChangingPropagation  +  nf (phaseKeptAtChange[oldOscillatorChange]/TWO_PI*360%360, 0, 2), -width-200, -height- 300 );
    
     if (oldSplitTimeLfo-splitTimeLfo>150){  // if previous signal is upper of 15%
-
+      oscillatorChangingPropagation=true;
       oldOscillatorChange=oscillatorChange;
       oscillatorChange=oscillatorChange+1;
-   } 
+      }
+     else  oscillatorChangingPropagation=false;
       oscillatorChange=oscillatorChange%networkSize;
-      
-  if (oscillatorChange<=0) {
-  //    oscillatorChange=0;
+     if (oscillatorChange<=0) {
       oldOscillatorChange=networkSize-1;
-   } 
-  
-  if (splitTimeLfo-oldSplitTimeLfo>150){ // if previous signal is upper of 15%
+     }
 
+    if (splitTimeLfo-oldSplitTimeLfo>150){  // if previous signal is upper of 15%
+      oscillatorChangingPropagation=true;
+      oldOscillatorChange=oscillatorChange;
+      oscillatorChange=oscillatorChange+1;
+      }
+     else  oscillatorChangingPropagation=false;
+      oscillatorChange=oscillatorChange%networkSize;
+     if (oscillatorChange<=0) {
+      oldOscillatorChange=networkSize-1;
+     } 
+
+
+    /*
+     if (splitTimeLfo-oldSplitTimeLfo>150){ // if previous signal is upper of 15%
+      oscillatorChangingPropagation=true;
       oldOscillatorChange=oscillatorChange;
       oscillatorChange=oscillatorChange-1;
-   } 
+     } 
       if (oscillatorChange<=-1) {
-
       oldOscillatorChange=0;
       oscillatorChange=networkSize-1;
-   }
+    }
+    */
 
- 
-  oldSplitTimeLfo = splitTimeLfo; 
+     oldSplitTimeLfo = splitTimeLfo; 
    
 } 
              
