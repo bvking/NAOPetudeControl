@@ -635,7 +635,8 @@ void setup() {
   String[] ports = Serial.list();
   printArray(Serial.list());
   //*************** WITH TEENSY connected
-    teensyport = new Serial(this, ports[1], 115200);// si port non connecte
+    teensyport = new Serial(this, ports[0], 115200);// si port non connecte Venturey
+  //   teensyport = new Serial(this, ports[1], 115200);// si port non connecte Catalina
  //   teensyport = new Serial(this,ports[2],115200); //  si port connecté
   //*************** WITHOUT TEENSY connected
   //  DueSerialNativeUSBport101 = new Serial(this, Serial.list()[3], 1000000);
