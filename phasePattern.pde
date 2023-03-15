@@ -781,8 +781,7 @@ void phasePattern() { // trigged with $ or *
 
       //      net.phase[i] +=(10-i)*0.1; // oscillator 10 do not nove
       //  net.phase[i] +=(networkSize-1-i)*0.1;
-      net.phase[i] += (networkSize- oscillatorBlocked-i)*0.05;
-      //     net.phase[i] += (oscillatorBlocked+i)*0.05; reciproque de f ne fonctionne pas
+      net.phase[i] += (networkSize- 3 -i)*0.05; //oscillatorBlocked;      //     net.phase[i] += (oscillatorBlocked+i)*0.05; reciproque de f ne fonctionne pas
       net.phase[i] =  net.phase[i]%TWO_PI;
       key='#';
       printSummary(i);

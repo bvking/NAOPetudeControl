@@ -12,22 +12,46 @@ if (formerDecayTime>decayTime){
  
   int delayRatio=ratioTimeFrame;
 
-    samplingMovement(2);
-     phases[0][frameCountBis % nbMaxDelais]= newPosF[0];
+ //**   samplingMovement(2);
+ //**    phases[0][frameCountBis % nbMaxDelais]= newPosF[0];
      
   //  keyReleasedfollowSignal(); useless  phseShifting is controlled in keyRelesead
       float deltaFollow = TWO_PI; // not used
      //here in a previous function we could change the ball followed if the space of phase between phases[0] and phase 9 is more than 360° for example
 
-   //***    samplingMovementPro();
+    samplingMovementPro();
     println ( "  movementInterpolated in FOLLOW opposite WAY", movementInterpolated,
              " oldmovementInterpolated ", oldMovementInterpolated );
    // if (oldMovementInterpolated>movementInterpolated){
    //   movementInterpolated= map (movementInterpolated, 0, TWO_PI, TWO_PI, 0);
    //    }
     
-   //***   phases[0][frameCountBis % nbMaxDelais]=movementInterpolated;
-  
+    phases[0][frameCountBis % nbMaxDelais]=movementInterpolated;
+   
+
+    if (phases[0][frameCountBis % nbMaxDelais]<0){
+   
+     DataToDueCircularVirtualPosition[0]= int (map (phases[0][frameCountBis % nbMaxDelais], 0, -TWO_PI, numberOfStep, 0)); 
+ 
+     phases[0][frameCountBis % nbMaxDelais]= map (DataToDueCircularVirtualPosition[0], numberOfStep, 0, 0, -TWO_PI);
+   //   newPosF[i]= phaseMapped[i];
+
+       }
+       
+   else {
+    
+    DataToDueCircularVirtualPosition[0]= (int) map (phases[0][frameCountBis % nbMaxDelais], 0, TWO_PI, 0, numberOfStep); 
+
+      phases[0][frameCountBis % nbMaxDelais]= map (DataToDueCircularVirtualPosition[0], numberOfStep, 0, 0, -TWO_PI);
+   
+  }
+   drawBallOppositeWay(  0, phases[0][frameCountBis % nbMaxDelais] );  
+  //   newPosFollowed[i]
+
+      newPosFollowed[0]= phases[0][frameCountBis % nbMaxDelais];
+
+
+
     //  drawBallOppositeWay(0, phases[0][frameCountBis % nbMaxDelais]); //networkSize-5 affiche le point 0. NE PAS AFFICHER SINON IL APPARAIT EN DOUBLE
  
     for (int i = 1; i < networkSize; i+=1) { // 1 follow phase 0
@@ -40,7 +64,7 @@ if (formerDecayTime>decayTime){
 
    
  
-  //  drawBallOppositeWay( i, phases[i-0][frameCountBis % nbMaxDelais] );
+    drawBallOppositeWay( i, phases[i-0][frameCountBis % nbMaxDelais] );
    
    // net.phase[i]=phaseMapped[i]; // display data and use them to control motor  
  

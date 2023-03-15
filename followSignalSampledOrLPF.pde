@@ -126,5 +126,5 @@ void followSignalSampledLPF(int ratioTimeFrame){ // from followSignalLfo
  } 
 //END phasePatternToFollow only when a key is pressed
  
-  sendToTeensyTurnOnDriver();
+ send24DatasToTeensy6motors(10, 3, -3, -1);
 } 
