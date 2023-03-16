@@ -635,8 +635,8 @@ void setup() {
   String[] ports = Serial.list();
   printArray(Serial.list());
   //*************** WITH TEENSY connected
-  //  teensyport = new Serial(this, ports[0], 115200);// si port non connecte Venturey
-     teensyport = new Serial(this, ports[1], 115200);// si port non connecte Catalina
+   teensyport = new Serial(this, ports[0], 115200);// si port non connecte Venturey
+//   teensyport = new Serial(this, ports[1], 115200);// si port non connecte Catalina ou connecté Venturey
  //   teensyport = new Serial(this,ports[2],115200); //  si port connecté
   //*************** WITHOUT TEENSY connected
   //  DueSerialNativeUSBport101 = new Serial(this, Serial.list()[3], 1000000);
@@ -1011,6 +1011,11 @@ void draw() {
     keyMode = " methodAbleton " ;
     formerKeyMetro = '*';
   }
+
+       if (moveKeys[8]==true && moveKeys[12]==true){ // ALT & v
+    keyMode = " trigEventWithAbletonSignal " ;
+    formerKeyMetro = '*';
+  }
     
      if (key == '%' ){ 
     keyMode = " phasePattern " ;
@@ -1059,6 +1064,13 @@ void draw() {
         println (" modeStartKeyToFollow ", modeStartKeyToFollow, " keyModeRed",  keyModeRed,"keyMode",  keyMode, "formerKeyMetro ", formerKeyMetro, " controlTrigLfoPattern ", controlTrigLfoPattern );
     keyModeRed = keyMode; // dont read keyMode in file.txt
 
+     if (  keyMode == " trigEventWithAbletonSignal " || keyModeRed == " trigEventWithAbletonSignal " ) {
+    //  formerKeyMetro = '@';       
+          //  modeStartKeyToFollow = " trigEventWithAbletonSignal ";
+            trigEventWithAbletonSignal();
+      text ( keyMode, -width, -height); 
+       }
+     
       if (keyMode == " addSignalOneAndTwoQuater " || keyModeRed == " addSignalOneAndQuater " ) { //drive ball with lfo
     //   PatternFollowLfo();
      propagationMode();
@@ -2062,7 +2074,7 @@ for (int i = 0; i < networkSize; i++) {
    }
   //************ arduinoPos(); // to control Pos of motor and Trigging note and computing pulsation
   // countPendularTrig ();
-  frameStop(); 
+  //frameStop(); 
   formerFormerKey= formerKey;
 
   if ( key!=':' ) {// formerKey!=':' ||  || key=='ç'

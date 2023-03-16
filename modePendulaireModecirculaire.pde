@@ -33,7 +33,7 @@ void  modePendulaireModeCirculaire() {
 
 
     if (formerKeyMetro == '$' && (formerSartKey == 'X' || formerSartKey == 'x' ) ) {  // circular to pendular) //|| formerSartKey == 'w' || formerSartKey == 'W'
-    if (keyMode != " null ")  {  
+    if (keyMode != " truc ")  {  
   text ( " mapped SECOND pendular way $ ", 400, 700);
      
 
@@ -117,7 +117,7 @@ void  modePendulaireModeCirculaire() {
    }
 
     if ((formerKeyMetro == '$' || formerKeyMetro == '*' || formerKeyMetro == '@'  ) && (formerSartKey == 'w' || formerSartKey == 'W' ) ) {  // circular to pendular) //|| formerSartKey == 'w' || formerSartKey == 'W'
-    if (keyMode != " null " ) {   
+    if (keyMode != " truc " ) {   
     
      text ( " mapped to THIRD pendular way 2$ ", 400, 800);
       if (net.phase[i] <= 0 && net.phase[i] >= -PI ) {   
@@ -290,7 +290,7 @@ void  modePendulaireModeCirculaire() {
                              if (keyMode != " addSignalOneAndTwoTer " ) {
                                if (keyMode != " followDistribueAddLfoPattern " ) {
                                  if (keyMode != " followDistribueAddLfoPatternControl " ) {
-                                  if ( modeStartKeyToFollow == " followDistribueAddLfoPatternControl " ) {
+                                  if ( modeStartKeyToFollow != " followDistribueAddLfoPatternControl " ) {
            
                        text (  " lllllll ", -width/4, -height/4 ) ;           
                        
@@ -413,7 +413,7 @@ void  modePendulaireModeCirculaire() {
       sphereDetail( 4*5);
       } 
       
-    if ( keyMode == " followDistribueAddPhasePattern " ) { //drive ball with lfo    
+    if ( modeStartKeyToFollow == " trigEventWithAbletonSignal " ) { //drive ball with lfo    
       println ( "****************************** DISPLAY ", keyMode );    
       fill (100, 255 , 255);    
       x = displacement*cos(net.phase[i]);
@@ -459,12 +459,7 @@ void  modePendulaireModeCirculaire() {
       sphereDetail( 4*5); 
       } 
 
-
-
-
-
-  }    
-                                                                                                                                                                                                                                                                                                                                                                                                                                  
+  }                                                                                                                                                                                                                                                                                                                                                                                                                                    
     popMatrix();
   
   }  

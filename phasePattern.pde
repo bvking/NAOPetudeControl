@@ -778,10 +778,10 @@ void phasePattern() { // trigged with $ or *
   else if (key == 'd') {
     println(" d$: INCREASE (clock way) the gap between phases of 5% from the oscillator " + oscillatorBlocked + " called with the same number as memoryi " + memoryi );
     for (int i = 0; i < networkSize; i++) {
-oscillatorBlocked=2;
-   //    net.phase[i] +=(oscillatorBlocked-i)*0.1; // oscillator 10 do not nove
-            net.phase[i] +=(5-i)*0.1; // oscillator 10 do not nove
-     //** */   net.phase[i] +=(networkSize-oscillatorBlocked-i)*0.05;
+
+      net.phase[i] +=(oscillatorBlocked-i)*0.1; // oscillator 10 do not nove
+    //        net.phase[i] +=(5-i)*0.1; // oscillator 10 do not nove
+   //    net.phase[i] +=(networkSize-oscillatorBlocked)*0.05;
     //%%  net.phase[i] = net.phase[i]-(i)*0.05; //oscillatorBlocked;      //     net.phase[i] += (oscillatorBlocked+i)*0.05; reciproque de f ne fonctionne pas
       net.phase[i] =  net.phase[i]%TWO_PI;
       key='#';
