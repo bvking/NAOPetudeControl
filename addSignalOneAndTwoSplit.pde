@@ -212,7 +212,7 @@ void addSignalOneAndTwo(){
  //     +0+","+0+","+0+","+0+","+0+","+0+","+0+","+0+","+0+","+0+","+0+">";    
 
     println(frameCount + ": " +  " addSignalDataMarkedToTeensyNoJo" + ( dataMarkedToTeensyNoJo ));
-  //  DueSerialNativeUSBport101.write(dataMarkedToTeensyNoJo);// Send data to Arduino.
+  //  encoderReceiveUSBport101.write(dataMarkedToTeensyNoJo);// Send data to Arduino.
    // teensyport.write(dataMarkedToTeensyNoJo); // Send data to Teensy. only the movement
    
 }

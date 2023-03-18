@@ -34,7 +34,7 @@ int nbBalls=networkSize;
 
 // MANAGE ARDUINO && TENNSY
 
-Serial DueSerialNativeUSBport101; // The native serial port of the DUE fibish with 101
+Serial encoderReceiveUSBport101; // The native serial port of the DUE fibish with 101
 Serial teensyport;
 
 String dataTransformed ;
@@ -667,10 +667,10 @@ public void setup() {
 //   teensyport = new Serial(this, ports[1], 115200);// si port non connecte Catalina ou connecté Venturey
  //   teensyport = new Serial(this,ports[2],115200); //  si port connecté
   //*************** WITHOUT TEENSY connected
-  //  DueSerialNativeUSBport101 = new Serial(this, Serial.list()[3], 1000000);
+  //  encoderReceiveUSBport101 = new Serial(this, Serial.list()[3], 1000000);
 
   // Read bytes into a buffer until you get a linefeed (ASCII 10):
-  //  DueSerialNativeUSBport101.bufferUntil('\n');
+  //  encoderReceiveUSBport101.bufferUntil('\n');
 
   //********************************************************* BEGIN GRAPHIC CHIMERA STATE SETUP
   float[][] Coupling = new float[networkSizeGraphic][networkSizeGraphic];
@@ -2809,8 +2809,8 @@ public void arduinoPos() {
     println(frameCount + ": " +  " JoDebug "  + ( JoDebug ));
     // teensyport.write(dataMarkedToTeensyJo); // Send data to Teensy. only the movement
 
-    //  DueSerialNativeUSBport101.write(dataMarkedToDueBis ); // Send data to Arduino. 
-    //      DueSerialNativeUSBport101.write(dataMarkedToDue36data);// teensy simulation
+    //  encoderReceiveUSBport101.write(dataMarkedToDueBis ); // Send data to Arduino. 
+    //      encoderReceiveUSBport101.write(dataMarkedToDue36data);// teensy simulation
   }
 
   if ((formerKey != 'o' ) && frameCount%1 == 0 ) {//&& circularMov== false
@@ -2847,7 +2847,7 @@ public void arduinoPos() {
 
 
         println(frameCount + ": " +  " dataMarkedToTeensyJoInMainLoop" + ( dataMarkedToTeensyJo ));
-        //   DueSerialNativeUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
+        //   encoderReceiveUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
        // teensyport.write(dataMarkedToTeensyJo); // Send data to Teensy. only the movement
          
          }
@@ -2878,7 +2878,7 @@ public void arduinoPos() {
       +  decompte[1]+"," +cohesionCounterLow +","+ cohesionCounterHigh +","+ int (map (LevelCohesionToSend, 0, 1, 0, 100))+">";    
 
     println(frameCount + ": " +  " dataMarkedToTeensyNoJo" + ( dataMarkedToTeensyNoJo ));
-    //   DueSerialNativeUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
+    //   encoderReceiveUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
     teensyport.write(dataMarkedToTeensyNoJo); // Send data to Teensy. only the movement
   }
   */
@@ -3175,7 +3175,7 @@ public void keyPressed() {
     print ("dataStop: ");  
     println(frameCount + ": " +  " dataMarkedToDue" + ( dataMarkedToDue ));
 
-    //      DueSerialNativeUSBport101.write(dataMarkedToDue ); 
+    //      encoderReceiveUSBport101.write(dataMarkedToDue ); 
 
     running = false;
 
@@ -7198,10 +7198,10 @@ public void followSignal() {
   arduinoPosJO();
 }  
 
-public void serialEvent(Serial DueSerialNativeUSBport101) { // receive 2 datas splited with , and the last is send with println
+public void serialEvent(Serial encoderReceiveUSBport101) { // receive 2 datas splited with , and the last is send with println
 
   // read the serial buffer:
-  String myString = DueSerialNativeUSBport101.readStringUntil('\n');
+  String myString = encoderReceiveUSBport101.readStringUntil('\n');
 
   // if you got any bytes other than the linefeed:
   myString = trim(myString);
@@ -7691,7 +7691,7 @@ public void followDirectLfo(){
       +  decompte[1]+"," +cohesionCounterLow +","+ cohesionCounterHigh +","+ PApplet.parseInt (map (LevelCohesionToSend, 0, 1, 0, 100))+">";    
 
     println(frameCount + ": " +  " dataMarkedToTeensyNoJo" + ( dataMarkedToTeensyNoJo ));
-   //  DueSerialNativeUSBport101.write(dataMarkedToTeensyNoJo );// Send data to Arduino.
+   //  encoderReceiveUSBport101.write(dataMarkedToTeensyNoJo );// Send data to Arduino.
     teensyport.write(dataMarkedToTeensyNoJo); // Send data to Teensy. only the movement
  
  } 
@@ -7917,7 +7917,7 @@ public void addSignal(){
       +  decompte[1]+"," +cohesionCounterLow +","+ cohesionCounterHigh +","+ PApplet.parseInt (map (LevelCohesionToSend, 0, 1, 0, 100))+">";    
 
     println(frameCount + ": " +  " dataMarkedToTeensyNoJo" + ( dataMarkedToTeensyNoJo ));
-    //   DueSerialNativeUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
+    //   encoderReceiveUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
     teensyport.write(dataMarkedToTeensyNoJo); // Send data to Teensy. only the movement
   }
   
@@ -9621,7 +9621,7 @@ public void addSignalOneAndTwo(){
  //     +0+","+0+","+0+","+0+","+0+","+0+","+0+","+0+","+0+","+0+","+0+">";    
 
     println(frameCount + ": " +  " addSignalDataMarkedToTeensyNoJo" + ( dataMarkedToTeensyNoJo ));
-  //  DueSerialNativeUSBport101.write(dataMarkedToTeensyNoJo);// Send data to Arduino.
+  //  encoderReceiveUSBport101.write(dataMarkedToTeensyNoJo);// Send data to Arduino.
    // teensyport.write(dataMarkedToTeensyNoJo); // Send data to Teensy. only the movement
    
 }
@@ -11882,7 +11882,7 @@ if (formerDecayTime>decayTime){
       +0+","+0+","+0+","+0+","+0+","+0+","+0+","+0+","+0+","+0+","+0+">";    
 
     println(frameCount + ": " +  " FOLLOWSIGNALToTeensyNoJo" + ( dataMarkedToTeensyNoJo ));
-  //  DueSerialNativeUSBport101.write(dataMarkedToTeensyNoJo);// Send data to Arduino.
+  //  encoderReceiveUSBport101.write(dataMarkedToTeensyNoJo);// Send data to Arduino.
    teensyport.write(dataMarkedToTeensyNoJo); // Send data to Teensy. only the movement
 //  sendToTeensyTurnOnDriver();
   
@@ -16514,7 +16514,7 @@ public void send24DatasToTeensy6motors(int accelerationRatio, int driver0_On_Off
   
      else dataTransformed = " dataComputeInTeensy from mode ";
      println(frameCount + ": " + dataTransformed +  keyMode + " " +   dataFromMode );
-  //  DueSerialNativeUSBport101.write(dataMarkedToTeensyNoJo);// Send data to Arduino.
+  //  encoderReceiveUSBport101.write(dataMarkedToTeensyNoJo);// Send data to Arduino.
   //  teensyport.write(dataFromMode);
       }
 int oldOscillatorChangePropagation, oscillatorChangePropagation;

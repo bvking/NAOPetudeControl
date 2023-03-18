@@ -6,7 +6,7 @@ int nbBalls=networkSize;
 
 // MANAGE ARDUINO && TENNSY
 import processing.serial.*;
-Serial DueSerialNativeUSBport101; // The native serial port of the DUE fibish with 101
+Serial encoderReceiveUSBport101; // The native serial port of the DUE fibish with 101
 Serial teensyport;
 
 String dataTransformed ;
@@ -630,19 +630,18 @@ void setup() {
   readOneLine(); // play case frame by frame. Uncomment if you want play in live
   textSize(200);
 
-  //********to send value to serialport
-
+  //********Sending and Receiving data with two different serialport
   String[] ports = Serial.list();
   printArray(Serial.list());
   //*************** WITH TEENSY connected
    teensyport = new Serial(this, ports[0], 115200);// si port non connecte Venturey
-//   teensyport = new Serial(this, ports[1], 115200);// si port non connecte Catalina ou connecté Venturey
+// teensyport = new Serial(this, ports[1], 115200);// si port non connecte Catalina ou connecté Venturey
  //   teensyport = new Serial(this,ports[2],115200); //  si port connecté
-  //*************** WITHOUT TEENSY connected
-  //  DueSerialNativeUSBport101 = new Serial(this, Serial.list()[3], 1000000);
+  //*************** WITHOUT ENODEER connected
+  //  encoderReceiveUSBport101 = new Serial(this, Serial.list()[3], 1000000);
 
   // Read bytes into a buffer until you get a linefeed (ASCII 10):
-  //  DueSerialNativeUSBport101.bufferUntil('\n');
+  //  encoderReceiveUSBport101.bufferUntil('\n');
 
   //********************************************************* BEGIN GRAPHIC CHIMERA STATE SETUP
   float[][] Coupling = new float[networkSizeGraphic][networkSizeGraphic];
@@ -2781,8 +2780,8 @@ void arduinoPos() {
     println(frameCount + ": " +  " JoDebug "  + ( JoDebug ));
     // teensyport.write(dataMarkedToTeensyJo); // Send data to Teensy. only the movement
 
-    //  DueSerialNativeUSBport101.write(dataMarkedToDueBis ); // Send data to Arduino. 
-    //      DueSerialNativeUSBport101.write(dataMarkedToDue36data);// teensy simulation
+    //  encoderReceiveUSBport101.write(dataMarkedToDueBis ); // Send data to Arduino. 
+    //      encoderReceiveUSBport101.write(dataMarkedToDue36data);// teensy simulation
   }
 
   if ((formerKey != 'o' ) && frameCount%1 == 0 ) {//&& circularMov== false
@@ -2819,7 +2818,7 @@ void arduinoPos() {
 
 
         println(frameCount + ": " +  " dataMarkedToTeensyJoInMainLoop" + ( dataMarkedToTeensyJo ));
-        //   DueSerialNativeUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
+        //   encoderReceiveUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
        // teensyport.write(dataMarkedToTeensyJo); // Send data to Teensy. only the movement
          
          }
@@ -2850,7 +2849,7 @@ void arduinoPos() {
       +  decompte[1]+"," +cohesionCounterLow +","+ cohesionCounterHigh +","+ int (map (LevelCohesionToSend, 0, 1, 0, 100))+">";    
 
     println(frameCount + ": " +  " dataMarkedToTeensyNoJo" + ( dataMarkedToTeensyNoJo ));
-    //   DueSerialNativeUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
+    //   encoderReceiveUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
     teensyport.write(dataMarkedToTeensyNoJo); // Send data to Teensy. only the movement
   }
   */
@@ -3147,7 +3146,7 @@ void keyPressed() {
     print ("dataStop: ");  
     println(frameCount + ": " +  " dataMarkedToDue" + ( dataMarkedToDue ));
 
-    //      DueSerialNativeUSBport101.write(dataMarkedToDue ); 
+    //      encoderReceiveUSBport101.write(dataMarkedToDue ); 
 
     running = false;
 
@@ -7170,10 +7169,10 @@ void followSignal() {
   arduinoPosJO();
 }  
 
-void serialEvent(Serial DueSerialNativeUSBport101) { // receive 2 datas splited with , and the last is send with println
+void serialEvent(Serial encoderReceiveUSBport101) { // receive 2 datas splited with , and the last is send with println
 
   // read the serial buffer:
-  String myString = DueSerialNativeUSBport101.readStringUntil('\n');
+  String myString = encoderReceiveUSBport101.readStringUntil('\n');
 
   // if you got any bytes other than the linefeed:
   myString = trim(myString);
@@ -7182,17 +7181,18 @@ void serialEvent(Serial DueSerialNativeUSBport101) { // receive 2 datas splited 
   // and convert the sections into integers:
   int values[] = int(split(myString, ','));
 
-  if (values.length > 0) {// v1 de 0 a 4000
-int v1; int v2; int v3; int v4; int v5; int v6;
+  if (values.length > 0) {// v0 is value of the encodeur from 0 to 4000
+  int v0; int v1; int v2; int v3; int v4; int v5;
 
+    v0 = (int) map (values[0], 0, 4000, 0, 400);
     v1 = (int) map (values[0], 0, 4000, 0, 400);
-     v2 = (int) map (values[0], 0, 4000, 0, 400);
-      v3 = (int) map (values[0], 0, 4000, 0, 400);
-       v4 = (int) map (values[0], 0, 4000, 0, 400);
-        v5 = (int) map (values[0], 0, 4000, 0, 400);
-         v6 = (int) map (values[0], 0, 4000, 0, 400);
+    v2 = (int) map (values[0], 0, 4000, 0, 400);
+    v3 = (int) map (values[0], 0, 4000, 0, 400);
+    v4 = (int) map (values[0], 0, 4000, 0, 400);
+    v5 = (int) map (values[0], 0, 4000, 0, 400);
+    
        
-    println (" v1 " + v1 ); println (" v2 " + v2 ); println (" v3 " + v3 );
+    print (" v1 " + v1 ); println (" v2 " + v2 ); println (" v3 " + v3 );
     println (" v4 " + v4 ); println (" v5 " + v5 ); println (" v6 " + v6 );
     println ( " mouseY " + mouseY);  
 
@@ -7663,7 +7663,7 @@ void followDirectLfo(){
       +  decompte[1]+"," +cohesionCounterLow +","+ cohesionCounterHigh +","+ int (map (LevelCohesionToSend, 0, 1, 0, 100))+">";    
 
     println(frameCount + ": " +  " dataMarkedToTeensyNoJo" + ( dataMarkedToTeensyNoJo ));
-   //  DueSerialNativeUSBport101.write(dataMarkedToTeensyNoJo );// Send data to Arduino.
+   //  encoderReceiveUSBport101.write(dataMarkedToTeensyNoJo );// Send data to Arduino.
     teensyport.write(dataMarkedToTeensyNoJo); // Send data to Teensy. only the movement
  
  } 
@@ -7889,7 +7889,7 @@ void addSignal(){
       +  decompte[1]+"," +cohesionCounterLow +","+ cohesionCounterHigh +","+ int (map (LevelCohesionToSend, 0, 1, 0, 100))+">";    
 
     println(frameCount + ": " +  " dataMarkedToTeensyNoJo" + ( dataMarkedToTeensyNoJo ));
-    //   DueSerialNativeUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
+    //   encoderReceiveUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
     teensyport.write(dataMarkedToTeensyNoJo); // Send data to Teensy. only the movement
   }
   
