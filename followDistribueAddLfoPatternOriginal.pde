@@ -190,13 +190,25 @@ void followDistribueAddLfoPatternControl(){
 
    text ( " signnal2 " +nf(signal[2], 0, 2) , 400, 800 ); // from Processing is -1, 1
 
-   signal[2]= map ( signal[2], 0 , 1, 0, 1);  //from Processing signal2  is -1, 1
+  signal[2]= map ( signal[2], 0 , 1, 0, 1);  //from Processing signal2  is -1, 1
+  //`signal[2]= map ( signal[2], 0 , 1, -TWO_PI, TWO_PI);  //from Processing signal2  is -1, 1`
 
    //**signal[2]= 0.05;
    //**signal[2]= map ( signal[2], 0 , -1, 0, 1);  //from Processing signal2  is -1, 1
 
    text ( " followDistribueAddLfoPatternControl signal2 " + nf(signal[2], 0, 2),  400, 900 ); // from Processing is -1, 1
+/*
+   if (signal[2]<0){
+     DataToDueCircularVirtualPosition[0]= int (map (signal[2], 0, -TWO_PI, numberOfStep, 0));  
+     signal[2]= map (DataToDueCircularVirtualPosition[0], numberOfStep, 0, 0, -TWO_PI);
+   //   newPosF[i]= phaseMapped[i];
+       }
 
+   else {
+    DataToDueCircularVirtualPosition[0]= (int) map (signal[2], 0, TWO_PI, 0, numberOfStep); 
+    signal[2]= map (DataToDueCircularVirtualPosition[0], 0, numberOfStep, 0, TWO_PI); 
+  }
+*/
    for (int i = 0; i <  networkSize-0; i+=1) {
 
     phaseMappedFollow[i]=map (signal[2], 0, 1, 0, TWO_PI);
@@ -211,7 +223,7 @@ void followDistribueAddLfoPatternControl(){
      DataToDueCircularVirtualPosition[i]= int (map (phaseMapped[i], 0, -TWO_PI, numberOfStep, 0)); 
  
       phaseMapped[i]= map (DataToDueCircularVirtualPosition[i], numberOfStep, 0, 0, -TWO_PI);
-      newPosF[i]= phaseMapped[i];
+     // newPosF[i]= phaseMapped[i];
 
        }
        
@@ -220,7 +232,7 @@ void followDistribueAddLfoPatternControl(){
     DataToDueCircularVirtualPosition[i]= (int) map (phaseMapped[i], 0, TWO_PI, 0, numberOfStep); 
 
       phaseMapped[i]= map (DataToDueCircularVirtualPosition[i], numberOfStep, 0, 0, -TWO_PI);
-      newPosF[i]= phaseMapped[i];
+     // newPosF[i]= phaseMapped[i];
     }
     } 
 
@@ -250,8 +262,8 @@ void followDistribueAddLfoPatternControl(){
   for (int i = 0; i < networkSize; i+=1) {  
     text ("  controlTrigLfoPatternIN  " + controlTrigLfoPattern, 200, 200);
        println ("  controlTrigLfoPatternIN  " + controlTrigLfoPattern); 
-    phasePatternFollow[i] =   -phasePatternFollow[i];
-    phasePatternFollow[i] =  phasePatternFollow[i]%TWO_PI; 
+  //  phasePatternFollow[i] =   -phasePatternFollow[i];
+  //  phasePatternFollow[i] =  phasePatternFollow[i]%TWO_PI; 
     } 
   }
     //   phasePattern();
@@ -288,6 +300,10 @@ void followDistribueAddLfoPatternControl(){
 
 
 } 
+     for (int i = 0; i < networkSize-0; i+=1) { 
+  newPosF[i]=phaseMapped[i]%TWO_PI; // display data and use them to control motor
+ // net.phase[i]=phaseMapped[i];
+  }
 //key = '#';
   send24DatasToTeensy6motors(10, 3, -3, -1);
 }  

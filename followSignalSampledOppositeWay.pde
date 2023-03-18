@@ -27,8 +27,8 @@ if (formerDecayTime>decayTime){
    //    }
     
     phases[0][frameCountBis % nbMaxDelais]=movementInterpolated;
-   
-
+    //MAP movementInterpolated
+    
     if (phases[0][frameCountBis % nbMaxDelais]<0){
    
      DataToDueCircularVirtualPosition[0]= int (map (phases[0][frameCountBis % nbMaxDelais], 0, -TWO_PI, numberOfStep, 0)); 

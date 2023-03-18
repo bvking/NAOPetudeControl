@@ -290,7 +290,7 @@ void  modePendulaireModeCirculaire() {
                              if (keyMode != " addSignalOneAndTwoTer " ) {
                                if (keyMode != " followDistribueAddLfoPattern " ) {
                                  if (keyMode != " followDistribueAddLfoPatternControl " ) {
-                                  if ( modeStartKeyToFollow != " followDistribueAddLfoPatternControl " ) {
+                                //  if ( modeStartKeyToFollow != " followDistribueAddLfoPatternControl " ) {
            
                        text (  " lllllll ", -width/4, -height/4 ) ;           
                        
@@ -300,7 +300,7 @@ void  modePendulaireModeCirculaire() {
   
     sphere(side*3);
     sphereDetail( 4*5);
-     }
+   //  }
      }
      }
      }

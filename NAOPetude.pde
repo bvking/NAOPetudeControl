@@ -7192,8 +7192,8 @@ void serialEvent(Serial encoderReceiveUSBport101) { // receive 2 datas splited w
     v5 = (int) map (values[0], 0, 4000, 0, 400);
     
        
-    print (" v1 " + v1 ); println (" v2 " + v2 ); println (" v3 " + v3 );
-    println (" v4 " + v4 ); println (" v5 " + v5 ); println (" v6 " + v6 );
+    println (" v0 " + v0 ); println (" v1 " + v1 ); println (" v2 " + v2 ); println (" v3 " + v3 );
+    println (" v4 " + v4 ); println (" v5 " + v5 );
     println ( " mouseY " + mouseY);  
 
 }
