@@ -18,7 +18,7 @@ class Sample {
 class Sampler {
   
   ArrayList<Sample> samples;
-    ArrayList<Sample> samplesModified;
+  ArrayList<Sample> samplesModified;
   int startTime;
   int playbackFrame;
   
@@ -46,11 +46,19 @@ class Sampler {
     playbackFrame = 0;
     println( samples.size(), "samples over", fullTime(), "milliseconds" );
     if(samples.size() > 0){
-     int deltax = samples.get(0).x - samples.get(samples.size()-1).x;
-     int deltay = samples.get(0).y - samples.get(samples.size()-1).y;
-     
-      for(int i = 0; i < samples.size(); i++) {
-        samplesModified.add( new Sample(samples.get(i).t, samples.get(i).x + i * deltax /samples.size(), samples.get(i).y + i * deltay / samples.size()) );
+      int deltax = samples.get(0).x - samples.get(samples.size()-1).x;
+      int deltay = samples.get(0).y - samples.get(samples.size()-1).y;
+      float sumdist = 0;
+      
+      for(int i = 0; i < samples.size() - 1; i++) {
+        sumdist += sqrt((samples.get(i).x - samples.get(i +1 ).x)*(samples.get(i).x - samples.get(i +1 ).x) + (samples.get(i).y - samples.get(i +1 ).y)*(samples.get(i).y - samples.get(i +1 ).y));
+      }
+      
+      samplesModified.add( new Sample(samples.get(0).t, samples.get(0).x , samples.get(0).y ) );
+      float dist = 0;
+      for(int i = 0; i < samples.size() - 1; i++) {
+        dist += sqrt((samples.get(i).x - samples.get(i +1 ).x)*(samples.get(i).x - samples.get(i +1 ).x) + (samples.get(i).y - samples.get(i +1 ).y)*(samples.get(i).y - samples.get(i +1 ).y));
+        samplesModified.add( new Sample(samples.get(i+1).t, (int) (samples.get(i +1).x + (dist * deltax) / sumdist), (int) (samples.get(i+1).y +( dist * deltay )/ sumdist)) );
         print(samples.get(i).x);
         print(",");
         print(samples.get(i).y);
@@ -62,7 +70,7 @@ class Sampler {
       }
     }
   }
-  
+ 
  
   void draw() {
     stroke( 255 );
@@ -88,13 +96,11 @@ class Sampler {
     float dt = (now - t0) / (t1 - t0);
     float x = lerp( s0.x, s1.x, dt );
     float y = lerp( s0.y, s1.y, dt );
-    // float x = mlerp( s0.x, s1.x, dt, 400 ); // interpolation with 'cylical datas'
-    // float y = mlerp( s0.y, s1.y, dt, 400 ); // interpolation with 'cylical datas'
     circle( x, y, 10 );
-    movementInterpolated=map (y, 0, 400, 0, TWO_PI);
+    println ( "LIMITE y " +int  (y));
+    movementInterpolated=map (y, 0, 800, 0, TWO_PI);
   }
-  
-}
+ } 
 Sampler sampler;
 
 //******************         END INTERPOLATION SamplingMovement
