@@ -1457,9 +1457,9 @@ for (int i = 0; i < networkSize; i++) {
      //  stopSamplingMeasure(3);
     
          activeSamplingInternalClock(1); //do not work
-         stopSamplingInternalClock(3);  //do not work
-         samplingMovementPro(); 
-       //  samplingMovement(2); 
+         stopSamplingInternalClock(4);  //do not work
+       //  samplingMovementPro(); 
+         samplingMovement(2); 
         
   //       print (" v1 ");   print (  v1);  print (" v1 ");   println (  v1); 
     //     sendToTeensy();
