@@ -101,8 +101,10 @@ class Sampler {
     float dt = (now - t0) / (t1 - t0);
     float x = lerp( s0.x, s1.x, dt );
      formerY=interpolatedY;
-     interpolatedY= lerp( s0.y, s1.y, dt );
-   //  y = lerp( s0.y, s1.y, dt );
+     interpolatedY= constrain ( lerp( s0.y, s1.y, dt ), 0, 800);
+   //   formerY=interpolatedY;
+   //  interpolatedY= constrain (interpolatedY, 0, 800);
+    float y = lerp( s0.y, s1.y, dt );
     circle( x, y, 10 );
       println( " good data y " + y);
      
@@ -111,9 +113,10 @@ class Sampler {
        movementInterpolated= map (interpolatedY, 800, 0, 0, TWO_PI);
        }
        else
-      movementInterpolated=map (interpolatedY, 0, 800, 0, TWO_PI);
+       movementInterpolated=map (interpolatedY, 0, 800, 0, TWO_PI);
   }
  } 
+
 Sampler sampler;
 
 //******************         END INTERPOLATION SamplingMovement

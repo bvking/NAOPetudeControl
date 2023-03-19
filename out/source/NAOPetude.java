@@ -12101,6 +12101,7 @@ if (formerDecayTime>decayTime){
       for (int i = 0; i < 1; i+=1) {  // number of sample is 55
    println ( "  samplesModified.get(i).y " + i +  " " + interpolatedY);
      }
+       drawBall( 1, movementInterpolated);
     phases[0][frameCountBis % nbMaxDelais]=movementInterpolated;
     //MAP movementInterpolated
     
@@ -14866,8 +14867,10 @@ class Sampler {
     float dt = (now - t0) / (t1 - t0);
     float x = lerp( s0.x, s1.x, dt );
      formerY=interpolatedY;
-     interpolatedY= lerp( s0.y, s1.y, dt );
-   //  y = lerp( s0.y, s1.y, dt );
+     interpolatedY= constrain ( lerp( s0.y, s1.y, dt ), 0, 800);
+   //   formerY=interpolatedY;
+   //  interpolatedY= constrain (interpolatedY, 0, 800);
+    float y = lerp( s0.y, s1.y, dt );
     circle( x, y, 10 );
       println( " good data y " + y);
      
@@ -14876,9 +14879,10 @@ class Sampler {
        movementInterpolated= map (interpolatedY, 800, 0, 0, TWO_PI);
        }
        else
-      movementInterpolated=map (interpolatedY, 0, 800, 0, TWO_PI);
+       movementInterpolated=map (interpolatedY, 0, 800, 0, TWO_PI);
   }
  } 
+
 Sampler sampler;
 
 //******************         END INTERPOLATION SamplingMovement

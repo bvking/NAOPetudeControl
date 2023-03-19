@@ -28,6 +28,7 @@ if (formerDecayTime>decayTime){
       for (int i = 0; i < 1; i+=1) {  // number of sample is 55
    println ( "  samplesModified.get(i).y " + i +  " " + interpolatedY);
      }
+       drawBall( 1, movementInterpolated);
     phases[0][frameCountBis % nbMaxDelais]=movementInterpolated;
     //MAP movementInterpolated
     
