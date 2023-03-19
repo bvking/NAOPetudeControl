@@ -1456,7 +1456,7 @@ for (int i = 0; i < networkSize; i++) {
      //   activeSamplingMeasure(2);
      //  stopSamplingMeasure(3);
     
-         activeSamplingInternalClock(0); //do not work
+         activeSamplingInternalClock(1); //do not work
          stopSamplingInternalClock(3);  //do not work
          samplingMovementPro(); 
        //  samplingMovement(2); 
