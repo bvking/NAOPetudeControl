@@ -9,7 +9,7 @@ float movementInterpolatedContinue;
 int Movement;
 
 float oldMovementInterpolated, movementInterpolated;
-float formerY;
+float formerInterpolatedY;
 float interpolatedX, interpolatedY;
 
 
@@ -100,7 +100,7 @@ class Sampler {
     float t1 = s1.t;
     float dt = (now - t0) / (t1 - t0);
     float x = lerp( s0.x, s1.x, dt );
-     formerY=interpolatedY;
+     formerInterpolatedY=interpolatedY;
      interpolatedY= constrain ( lerp( s0.y, s1.y, dt ), 0, 800);
    //   formerY=interpolatedY;
    //  interpolatedY= constrain (interpolatedY, 0, 800);
@@ -108,7 +108,7 @@ class Sampler {
     circle( x, y, 10 );
       println( " good data y " + y);
      
-       if (formerY<=interpolatedY){
+       if (formerInterpolatedY<=interpolatedY){
     //  movementInterpolatedContinue=movementInterpolated+oldMovementInterpolated;
        movementInterpolated= map (interpolatedY, 800, 0, 0, TWO_PI);
        }

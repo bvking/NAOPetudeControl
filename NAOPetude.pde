@@ -2,6 +2,8 @@ PNetwork net;
 int networkSize = 6;
 int nbBalls=networkSize;
 
+float [] encodeur = new float [networkSize];
+
 
 
 // MANAGE ARDUINO && TENNSY
@@ -1349,8 +1351,9 @@ for (int i = 0; i < networkSize; i++) {
      
  //    mouseY=(int) map (automationLFO[1], 0, 1, 0, 400);  // position from Ableton LFOdecay
 
-
-
+    
+     //  mouseY=mouseY+10;
+       mouseX=mouseX+20;
 /*
       oldMov = movementRecording;
       
@@ -1376,13 +1379,13 @@ for (int i = 0; i < networkSize; i++) {
 
      // followMovementAll();
      //  displayfollowMovementAll();
-         activeSamplingMeasure(3);
-         stopSamplingMeasure(4);
+      //***** */   activeSamplingMeasure(3);
+     //***** */    stopSamplingMeasure(4);
     
    //      activeSamplingInternalClock(7); //do not work
    //      stopSamplingInternalClock(8);  //do not work
       //   samplingMovement(2);
-        samplingMovementPro(); 
+   //***** */     samplingMovementPro(); 
         
   //       print (" v1 ");   print (  v1);  print (" v1 ");   println (  v1); 
          sendToTeensy();
@@ -1405,17 +1408,19 @@ for (int i = 0; i < networkSize; i++) {
      println ( " samplingModeInternal  ");
     
      beginSample=millis();
-     text ( modeStartKeyToFollow + " mouseY " + measure , width/4, - height - 100);  
+     text ( modeStartKeyToFollow + " mouseY " +  mouseY  + " mouseX " +  mouseX  +  measure , width/4, - height - 100);  
    //      text ( measure + " mouseY ", width/4, -height-400);  
 
     //  mouseY=(float) map (mouseY, 0, 400, 0, TWO_PI);  // position from Ableton LFOdecay
      
- //    mouseY=(int) map (automationLFO[1], 0, 1, 0, 400);  // position from Ableton LFOdecay
+    //  mouseY=(int) map (automationLFO[1], 0, 1, 0, 400);  // position from Ableton LFOdecay
 
      //****  newPosF[networkSize-1]=  map (mouseY, 0, height/2, 0, TWO_PI);
 
-
-     
+      mouseX=mouseX+4;
+      mouseX=mouseX%400;
+      //     mouseY=mouseY+20;
+      mouseY=(int) map (encodeur[0], 0, 400, 0, 400);
     
  
     //****  mouseY=(int) map (automation1, 0, 1, 0, 400);  //POSITION MOTOR
@@ -1431,7 +1436,7 @@ for (int i = 0; i < networkSize; i++) {
     
          activeSamplingInternalClock(1); //do not work
          stopSamplingInternalClock(3);  //do not work
-        samplingMovementPro(); 
+         samplingMovementPro(); 
        //  samplingMovement(2); 
         
   //       print (" v1 ");   print (  v1);  print (" v1 ");   println (  v1); 
@@ -7192,6 +7197,11 @@ void serialEvent(Serial encoderReceiveUSBport101) { // receive 2 datas splited w
     v3 = (int) map (values[0], 0, 4000, 0, 400);
     v4 = (int) map (values[0], 0, 4000, 0, 400);
     v5 = (int) map (values[0], 0, 4000, 0, 400);
+
+    for (int i = 0; i < networkSize; i=+1 ){
+    encodeur[i]= (int) map (values[i], 0, 4000, 0, 400); 
+    printArray(encodeur);
+    }
     
        
     println (" v0 " + v0 ); println (" v1 " + v1 ); println (" v2 " + v2 ); println (" v3 " + v3 );
@@ -7352,7 +7362,7 @@ void samplingMovementPro() {
   //**   samplers.get(samplers.size()-1).addSample( currTime, mouseX, v1InMainLoop );
 
  //net.phase[networkSize-1]=  map (mouseY, 0, height/2, 0, TWO_PI);
-    newPosF[0]=  map (mouseY, 0, height/2, 0, TWO_PI);// uncomment doesn't change anything
+  //*** */  newPosF[0]=  map (mouseY, 0, height/2, 0, TWO_PI);// uncomment doesn't change anything
 
   }
  else {
@@ -7377,7 +7387,7 @@ void activeSamplingMeasure(int beginMeasure) {
   if (measure<=beginMeasure && measure>=beginMeasure && beatTrigged == true && mouseRecorded == true){  
     println (" BEGINTRACK ");      println (" BEGINTRACK ");        println (" BEGINTRACK ");
     // net.phase[networkSize-1]= (float) map (mouseY, 0, 400, 0, TWO_PI);
-       newPosF[networkSize-1]= (float) map (mouseY, 0, 400, 0, TWO_PI);
+   //*** */    newPosF[networkSize-1]= (float) map (mouseY, 0, 400, 0, TWO_PI);
 
   bRecording = true; 
   sampler.beginRecording();
@@ -7851,6 +7861,8 @@ void addSignal(){
   }
   
    if (formerKeyMetro=='B') {
+
+
          for (int i = 0; i < networkSize; i++) {
       // rev[i]=rev[0];
 

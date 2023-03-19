@@ -30,6 +30,8 @@ PNetwork net;
 int networkSize = 6;
 int nbBalls=networkSize;
 
+float [] encodeur = new float [networkSize];
+
 
 
 // MANAGE ARDUINO && TENNSY
@@ -1377,8 +1379,9 @@ for (int i = 0; i < networkSize; i++) {
      
  //    mouseY=(int) map (automationLFO[1], 0, 1, 0, 400);  // position from Ableton LFOdecay
 
-
-
+    
+     //  mouseY=mouseY+10;
+       mouseX=mouseX+20;
 /*
       oldMov = movementRecording;
       
@@ -1404,13 +1407,13 @@ for (int i = 0; i < networkSize; i++) {
 
      // followMovementAll();
      //  displayfollowMovementAll();
-         activeSamplingMeasure(3);
-         stopSamplingMeasure(4);
+      //***** */   activeSamplingMeasure(3);
+     //***** */    stopSamplingMeasure(4);
     
    //      activeSamplingInternalClock(7); //do not work
    //      stopSamplingInternalClock(8);  //do not work
       //   samplingMovement(2);
-        samplingMovementPro(); 
+   //***** */     samplingMovementPro(); 
         
   //       print (" v1 ");   print (  v1);  print (" v1 ");   println (  v1); 
          sendToTeensy();
@@ -1433,17 +1436,19 @@ for (int i = 0; i < networkSize; i++) {
      println ( " samplingModeInternal  ");
     
      beginSample=millis();
-     text ( modeStartKeyToFollow + " mouseY " + measure , width/4, - height - 100);  
+     text ( modeStartKeyToFollow + " mouseY " +  mouseY  + " mouseX " +  mouseX  +  measure , width/4, - height - 100);  
    //      text ( measure + " mouseY ", width/4, -height-400);  
 
     //  mouseY=(float) map (mouseY, 0, 400, 0, TWO_PI);  // position from Ableton LFOdecay
      
- //    mouseY=(int) map (automationLFO[1], 0, 1, 0, 400);  // position from Ableton LFOdecay
+    //  mouseY=(int) map (automationLFO[1], 0, 1, 0, 400);  // position from Ableton LFOdecay
 
      //****  newPosF[networkSize-1]=  map (mouseY, 0, height/2, 0, TWO_PI);
 
-
-     
+      mouseX=mouseX+4;
+      mouseX=mouseX%400;
+      //     mouseY=mouseY+20;
+      mouseY=(int) map (encodeur[0], 0, 400, 0, 400);
     
  
     //****  mouseY=(int) map (automation1, 0, 1, 0, 400);  //POSITION MOTOR
@@ -1459,7 +1464,7 @@ for (int i = 0; i < networkSize; i++) {
     
          activeSamplingInternalClock(1); //do not work
          stopSamplingInternalClock(3);  //do not work
-        samplingMovementPro(); 
+         samplingMovementPro(); 
        //  samplingMovement(2); 
         
   //       print (" v1 ");   print (  v1);  print (" v1 ");   println (  v1); 
@@ -7220,6 +7225,11 @@ public void serialEvent(Serial encoderReceiveUSBport101) { // receive 2 datas sp
     v3 = (int) map (values[0], 0, 4000, 0, 400);
     v4 = (int) map (values[0], 0, 4000, 0, 400);
     v5 = (int) map (values[0], 0, 4000, 0, 400);
+
+    for (int i = 0; i < networkSize; i=+1 ){
+    encodeur[i]= (int) map (values[i], 0, 4000, 0, 400); 
+    printArray(encodeur);
+    }
     
        
     println (" v0 " + v0 ); println (" v1 " + v1 ); println (" v2 " + v2 ); println (" v3 " + v3 );
@@ -7380,7 +7390,7 @@ public void samplingMovementPro() {
   //**   samplers.get(samplers.size()-1).addSample( currTime, mouseX, v1InMainLoop );
 
  //net.phase[networkSize-1]=  map (mouseY, 0, height/2, 0, TWO_PI);
-    newPosF[0]=  map (mouseY, 0, height/2, 0, TWO_PI);// uncomment doesn't change anything
+  //*** */  newPosF[0]=  map (mouseY, 0, height/2, 0, TWO_PI);// uncomment doesn't change anything
 
   }
  else {
@@ -7405,7 +7415,7 @@ public void activeSamplingMeasure(int beginMeasure) {
   if (measure<=beginMeasure && measure>=beginMeasure && beatTrigged == true && mouseRecorded == true){  
     println (" BEGINTRACK ");      println (" BEGINTRACK ");        println (" BEGINTRACK ");
     // net.phase[networkSize-1]= (float) map (mouseY, 0, 400, 0, TWO_PI);
-       newPosF[networkSize-1]= (float) map (mouseY, 0, 400, 0, TWO_PI);
+   //*** */    newPosF[networkSize-1]= (float) map (mouseY, 0, 400, 0, TWO_PI);
 
   bRecording = true; 
   sampler.beginRecording();
@@ -7879,6 +7889,8 @@ public void addSignal(){
   }
   
    if (formerKeyMetro=='B') {
+
+
          for (int i = 0; i < networkSize; i++) {
       // rev[i]=rev[0];
 
@@ -12102,10 +12114,10 @@ if (formerDecayTime>decayTime){
    println ( "  samplesModified.get(i).y " + i +  " " + interpolatedY);
      }
        drawBall( 1, movementInterpolated);
-    phases[0][frameCountBis % nbMaxDelais]=movementInterpolated;
+       phases[0][frameCountBis % nbMaxDelais]=movementInterpolated;
     //MAP movementInterpolated
     
-    if (phases[0][frameCountBis % nbMaxDelais]<0){
+    if (phases[0][frameCountBis % nbMaxDelais]<=0){
    
      DataToDueCircularVirtualPosition[0]= PApplet.parseInt (map (phases[0][frameCountBis % nbMaxDelais], 0, -TWO_PI, numberOfStep, 0)); 
  
@@ -12118,13 +12130,14 @@ if (formerDecayTime>decayTime){
     
     DataToDueCircularVirtualPosition[0]= (int) map (phases[0][frameCountBis % nbMaxDelais], 0, TWO_PI, 0, numberOfStep); 
 
-      phases[0][frameCountBis % nbMaxDelais]= map (DataToDueCircularVirtualPosition[0], numberOfStep, 0, 0, -TWO_PI);
+      phases[0][frameCountBis % nbMaxDelais]= map (DataToDueCircularVirtualPosition[0], 0, numberOfStep, 0, TWO_PI);
    
   }
-   drawBallOppositeWay(  0, phases[0][frameCountBis % nbMaxDelais] );  
+   drawBallOppositeWay(  2, phases[0][frameCountBis % nbMaxDelais] );  
   //   newPosFollowed[i]
 
-      newPosFollowed[0]= phases[0][frameCountBis % nbMaxDelais]%TWO_PI;
+     // newPosFollowed[0]= phases[0][frameCountBis % nbMaxDelais]; // %TWO_PI
+     //println ( " phases[0][frameCountBis % nbMaxDelais " + phases[0][frameCountBis % nbMaxDelais] ) ; // %TWO_PI
 
 
 
@@ -12136,15 +12149,9 @@ if (formerDecayTime>decayTime){
      followOppositeWay( i-1, i+0, delayTimeFollowPhase11*1*frameRatio/ratioTimeFrame, (phaseShiftingFollowPhase11));  // ici, le temps que les points attendent pour se suivre est de 5 frames, et il faut un espace entre eux de QUARTER_PI/6
 
   //*** phaseMapped[i]=phases[i-0][frameCountBis % nbMaxDelais]; // use varaible phaseMapped (to play movement with time delay or phase delay) to well send it in Teensy
-  // newPosFollowed[i]=phaseMapped[i]; // display data and use them to control motor
 
-   
- 
-    drawBallOppositeWay( i, phases[i-0][frameCountBis % nbMaxDelais] );
-   
-   // net.phase[i]=phaseMapped[i]; // display data and use them to control motor  
- 
-   // drawBallOppositeWay(  i, phases[i+0][frameCountBis % nbMaxDelais] );  
+       drawBallOppositeWay( i, phases[i-0][frameCountBis % nbMaxDelais] ); 
+    //  println ( " phases[i][frameCountBis % nbMaxDelais " + i + " " + phases[i][frameCountBis % nbMaxDelais] ) ; 
  }
  
  
@@ -12215,88 +12222,64 @@ println ( " modeStartKeyToFollow " + modeStartKeyToFollow);
  for (int i = 0; i < networkSize-0; i+=1) { 
   newPosF[i]=phaseMapped[i]; // %TWO_PI      display data and use them to control motor
  // net.phase[i]=phaseMapped[i];
- print ( " newPosF[i] " + newPosF[i]);
+  newPosX[i]=-phaseMapped[i]; // better to count revolution
+  //print ( " newPosF[i] " + newPosF[i]);
   }
+
+
+  // COUNT REVOLUTION
+
+  for (int i = 0; i <  networkSize+0; i+=1) { // la premiere celle du fond i=2,  la derniere celle du devant i=11
+
+    drawBall(i, newPosX[i] );
+
+   
+    print( " oldPositionToMotor[i]" ); print ( oldPositionToMotor[i]);
+    positionToMotor[i]= ((int) map (newPosX[i], 0, TWO_PI, 0, numberOfStep)%numberOfStep); //
+    
+    
+    newPosX[i]=positionToMotor[i]%6400;
+ //   if (oldPositionToMotor[i]>positionToMotor[i]){
+    if ( oldPosF[i]>newPosX[i]){
+      revLfo[i]++;
+     
+    } 
+     oldPositionToMotor[i]=  positionToMotor[i];
+     oldPosF[i]=newPosX[i];
+
+     print( " newPosF[i] " ); print ( newPosF[i]); print( " newPosX[i] " ); print ( newPosX[i]);
+     print( " positionToMotor[i] " ); print ( positionToMotor[i]);
+     print (" revolutionLFO "); print ( i); print ("  "); println (revLfo[i]); 
+  }
+
+
+
+     for (int i = 0; i < networkSize; i++) {
+      // rev[i]=rev[0];
+
+
+      //*******************************  ASSIGN MOTOR WITH POSITION à simplifier
+
+      if (revLfo[i]!=0  && (newPosF[i] >  0) ) { // number of revLfoolution is even and rotation is clock wise   
+        DataToDueCircularVirtualPosition[i]= PApplet.parseInt (map (newPosX[i], 0, numberOfStep, 0, numberOfStep))+ (revLfo[i]*numberOfStep);
+      }
+
+      if (revLfo[i]!=0  && (newPosF[i] <  0)) { // number of revLfoolution is even and rotation is Counter clock wise          // pos[i]= int (map (newPosF[i], 0, -numberOfStep, 0,  numberOfStep))+ (revLfo[i]*numberOfStep);
+
+        DataToDueCircularVirtualPosition[i]= PApplet.parseInt (map (newPosX[i], 0, -numberOfStep, numberOfStep, 0)) +(revLfo[i]*numberOfStep);       //   print ("pos "); print (i); print (" ");println (pos[i]);
+      }
+
+      if (revLfo[i]==0 && (newPosF[i] < 0) ) { //  number of revLfoolution is 0 and rotation is counter clock wise 
+        DataToDueCircularVirtualPosition[i]= PApplet.parseInt (map (newPosX[i], 0, -numberOfStep, numberOfStep, 0));        
+      }         
+      if  (revLfo[i]==0 && (newPosF[i] > 0) ) {  //  number of revLfoolution is 0 and rotation is clock wise     
+        DataToDueCircularVirtualPosition[i]= PApplet.parseInt (map (newPosX[i], 0, numberOfStep, 0, numberOfStep));                //      print ("pos "); print (i); print (" CW revLfo=0 ");println (pos[i]);
+      }
+    }
 
  send24DatasToTeensy6motors(10, 3, -3, -1);  // avant dernier >-1 alors compute data
  // mapDataToMotor(); // do not work
   
-}
-
-public void countRevsLfoPattern11() { // =========================================== Ter NE PAS TOUCHER LE COMPTEUR ou Reduire l'espace avant et apres 0 pour eviter bug à grande vitesse
-
-  for (int i = 1; i < 2; i++) { 
-     print (" oldLfoCount[i] "); print (i); print (" ");  println (oldPhaseLfo[i]); print (" newPhaseLfoCount[i] ");; print (i); print (" ");    println (newPhaseLfo[i]); 
-//**    print (net.oldPhase[i]); print ("count rev ");   println (net.phase[i]); 
-    // decrement caused by negative angular velocity
-    // both positive angles || both negative angles || positive-to-negative angle
-    //   if (//(net.oldPhase[i] < 0.25 * PI && net.phase[i] > 1.75 * PI) ||//
-    if (
-      ((oldPhaseLfo[i] < 0.25f *PI && oldPhaseLfo[i]>0)  && (newPhaseLfo[i] > -0.25f* PI && newPhaseLfo[i] <0))  || 
-       (oldPhaseLfo[i] < -1.75f * PI && newPhaseLfo[i] > -0.25f * PI)// ||
-       
-    
-      ) {
-    
-      //    TrigmodPos[i]=0;
-      revLfo[i]--;
-      //      print (" revultion negative  "); println (revolution[i]=i+1); 
-      //   revolution[i]=i+1;
-     revolution[i]=0; // trig 0 to sent 0 in Max4Live
-      memoryi=i;
-
-
-   //   decompte[i] = -1; // // RESET COUNTER AT 0 (i know it's strange, otherwise with 0 it begin at 1, not 0)
-    } else { // if you do twice there is a funny bug
-      //    decompte[i]  ++; 
-      //   revolution[i]=0;
-    }
-
-
-    // increment caused by positive angular velocity
-    // both positive angles || both negative angles || negative-to-positive angle
-
-    if (
-      ((oldPhaseLfo[i] > -0.25f *PI && oldPhaseLfo[i]<0)  && (newPhaseLfo[i] < 0.25f* PI && newPhaseLfo[i] >0))  || 
-       (oldPhaseLfo[i] > 1.75f * PI && newPhaseLfo[i] < 0.25f*PI)
-      ) {
-      onOFF = 1;
-      //   TrigmodPos[i]=0;
-      revLfo[i]++;
-      //   revolution[i]=i+1;
-      revolution[i]=0;   // trig 0 to sent 0 in Max4Live
-      memoryi=i;
-      decompte[i] = 0;  // RESET COUNTER AT 0
-    } else {
-
-      decompte[i]  ++; //START COUNTER when a REVOLUTION START OR FINISH
-
-      revolution[i]=1;
-    }
-     if (  revolution[i]<1) {
-   print (" revolutionPattern[i] "); print ( memoryi); print ("  "); print (revolution[memoryi]);
-    }
-  
-    print (" revPattern "); print ( i); print ("  "); println (revLfo[i]);
-  }
-  if (
-
-   
-    (newPhaseLfo[memoryi] < -1.75f * PI && newPhaseLfo[memoryi] >= -0.25f*TWO_PI) || ( newPhaseLfo[memoryi]<=-TWO_PI+0.23f  && newPhaseLfo[memoryi] >= -0.25f*TWO_PI ) 
-    ) {
-    onOFF = 1;
-    //   background (27,59,78);
-    //    TrigmodPos[i]=0;
-    rev[memoryi]--;
-    //      print (" revultion negative  "); println (revolution[i]=i+1);
-    //   revolution[i]=i+1;
-//**** revolution[memoryi]=0; // trig 0 to sent 0 in Max4Live   brecause it count twice in negative way!!!
-    // memoryi=i;
-
-
-    decompte[memoryi] = -1; // // RESET COUNTER AT 0 (i know it's strange, otherwise with 0 it begin at 1, not 0)
-  }
- 
 }
 
 public void followSignalSampledLPF(int ratioTimeFrame){ // from followSignalLfo
@@ -14775,7 +14758,7 @@ float movementInterpolatedContinue;
 int Movement;
 
 float oldMovementInterpolated, movementInterpolated;
-float formerY;
+float formerInterpolatedY;
 float interpolatedX, interpolatedY;
 
 
@@ -14866,7 +14849,7 @@ class Sampler {
     float t1 = s1.t;
     float dt = (now - t0) / (t1 - t0);
     float x = lerp( s0.x, s1.x, dt );
-     formerY=interpolatedY;
+     formerInterpolatedY=interpolatedY;
      interpolatedY= constrain ( lerp( s0.y, s1.y, dt ), 0, 800);
    //   formerY=interpolatedY;
    //  interpolatedY= constrain (interpolatedY, 0, 800);
@@ -14874,7 +14857,7 @@ class Sampler {
     circle( x, y, 10 );
       println( " good data y " + y);
      
-       if (formerY<=interpolatedY){
+       if (formerInterpolatedY<=interpolatedY){
     //  movementInterpolatedContinue=movementInterpolated+oldMovementInterpolated;
        movementInterpolated= map (interpolatedY, 800, 0, 0, TWO_PI);
        }
