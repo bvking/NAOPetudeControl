@@ -26,9 +26,9 @@ if (formerDecayTime>decayTime){
    //   movementInterpolated= map (movementInterpolated, 0, TWO_PI, TWO_PI, 0);
    //    }
       for (int i = 0; i < 1; i+=1) {  // number of sample is 55
-   println ( "  samplesModified.get(i).y " + i +  " " + positionInterpolatedY);
+   println ( "  samplesModified.get(i).y " + i +  " " + interpolatedY);
      }
-    phases[0][frameCountBis % nbMaxDelais]=movementInterpolatedContinue;
+    phases[0][frameCountBis % nbMaxDelais]=movementInterpolated;
     //MAP movementInterpolated
     
     if (phases[0][frameCountBis % nbMaxDelais]<0){

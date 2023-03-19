@@ -12099,9 +12099,9 @@ if (formerDecayTime>decayTime){
    //   movementInterpolated= map (movementInterpolated, 0, TWO_PI, TWO_PI, 0);
    //    }
       for (int i = 0; i < 1; i+=1) {  // number of sample is 55
-   println ( "  samplesModified.get(i).y " + i +  " " + positionInterpolatedY);
+   println ( "  samplesModified.get(i).y " + i +  " " + interpolatedY);
      }
-    phases[0][frameCountBis % nbMaxDelais]=movementInterpolatedContinue;
+    phases[0][frameCountBis % nbMaxDelais]=movementInterpolated;
     //MAP movementInterpolated
     
     if (phases[0][frameCountBis % nbMaxDelais]<0){
@@ -14769,10 +14769,13 @@ int actualSec,lastSec, lastLastSec, measure;  // trig internal clock each second
 int currTime;
 boolean bRecording = true;
 boolean mouseRecorded = true;
-float movementInterpolatedContinue, movementInterpolated, oldMovementInterpolated;
-int positionInterpolatedX, positionInterpolatedY;
+float movementInterpolatedContinue;
+
 int Movement;
 
+float oldMovementInterpolated, movementInterpolated;
+float formerY;
+float interpolatedX, interpolatedY;
 
 
 class Sample {
@@ -14830,11 +14833,9 @@ class Sampler {
         print(",");
         print(samples.get(i).y);
         print(",");
-        print(samplesModified.get(i).x);
-        positionInterpolatedX=samplesModified.get(i).x;
+        print( " good data x " + samplesModified.get(i).x);
         print(",");
-        print(samplesModified.get(i).y);
-        positionInterpolatedY=samplesModified.get(i).y;
+        print( " good data y " + samplesModified.get(i).y);
         println("");      
       }
     }
@@ -14864,20 +14865,20 @@ class Sampler {
     float t1 = s1.t;
     float dt = (now - t0) / (t1 - t0);
     float x = lerp( s0.x, s1.x, dt );
-    float y = lerp( s0.y, s1.y, dt );
+     formerY=interpolatedY;
+     interpolatedY= lerp( s0.y, s1.y, dt );
+   //  y = lerp( s0.y, s1.y, dt );
     circle( x, y, 10 );
-   // float  movementInterpolated=map (y, 0, 400, 0, TWO_PI);
-   oldMovementInterpolated= movementInterpolated;
-    movementInterpolated= map (y, 0, 100, 0, TWO_PI);
-
-    print ( " old " + oldMovementInterpolated + " mov " + movementInterpolated + " movContinue " + movementInterpolatedContinue);
-    if (oldMovementInterpolated>=movementInterpolated){
+      println( " good data y " + y);
+     
+       if (formerY<=interpolatedY){
     //  movementInterpolatedContinue=movementInterpolated+oldMovementInterpolated;
-   // movementInterpolated= map (y, 100, 0, 0, TWO_PI);
+       movementInterpolated= map (interpolatedY, 800, 0, 0, TWO_PI);
        }
+       else
+      movementInterpolated=map (interpolatedY, 0, 800, 0, TWO_PI);
   }
-   //
-}
+ } 
 Sampler sampler;
 
 //******************         END INTERPOLATION SamplingMovement
