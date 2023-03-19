@@ -818,6 +818,7 @@ void setup() {
 //keyMode = " addSignalOneAndTwoBis ";  
 keyMode = " phasePattern ";                                                                                                                                                                                                                 
 formerKeyMetro = '@';
+translate(0, -800,3000);
  
 }
 // END SETUP
@@ -1380,8 +1381,8 @@ for (int i = 0; i < networkSize; i++) {
     
    //      activeSamplingInternalClock(7); //do not work
    //      stopSamplingInternalClock(8);  //do not work
-         samplingMovement(2);
-         samplingMovementPro(); 
+      //   samplingMovement(2);
+        samplingMovementPro(); 
         
   //       print (" v1 ");   print (  v1);  print (" v1 ");   println (  v1); 
          sendToTeensy();
@@ -1407,7 +1408,7 @@ for (int i = 0; i < networkSize; i++) {
      text ( modeStartKeyToFollow + " mouseY " + measure , width/4, - height - 100);  
    //      text ( measure + " mouseY ", width/4, -height-400);  
 
-    //  mouseY=(float) map (mouseY, 0, height, 0, TWO_PI);  // position from Ableton LFOdecay
+    //  mouseY=(float) map (mouseY, 0, 400, 0, TWO_PI);  // position from Ableton LFOdecay
      
  //    mouseY=(int) map (automationLFO[1], 0, 1, 0, 400);  // position from Ableton LFOdecay
 
@@ -1429,9 +1430,9 @@ for (int i = 0; i < networkSize; i++) {
      //  stopSamplingMeasure(3);
     
          activeSamplingInternalClock(1); //do not work
-         stopSamplingInternalClock(4);  //do not work
-       //  samplingMovementPro(); 
-         samplingMovement(2); 
+         stopSamplingInternalClock(3);  //do not work
+        samplingMovementPro(); 
+       //  samplingMovement(2); 
         
   //       print (" v1 ");   print (  v1);  print (" v1 ");   println (  v1); 
     //     sendToTeensy();
@@ -7893,7 +7894,7 @@ void addSignal(){
     //   encoderReceiveUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
     teensyport.write(dataMarkedToTeensyNoJo); // Send data to Teensy. only the movement
   }
-  
+  /*
 void countRevsLfoPattern11() { // =========================================== Ter NE PAS TOUCHER LE COMPTEUR ou Reduire l'espace avant et apres 0 pour eviter bug à grande vitesse
 
   for (int i = 1; i < 2; i++) { 
@@ -8045,3 +8046,4 @@ void countRevsLfoPattern22() { // =========================================== Te
   }
  
 }
+*/

@@ -846,6 +846,7 @@ public void setup() {
 //keyMode = " addSignalOneAndTwoBis ";  
 keyMode = " phasePattern ";                                                                                                                                                                                                                 
 formerKeyMetro = '@';
+translate(0, -800,3000);
  
 }
 // END SETUP
@@ -1408,8 +1409,8 @@ for (int i = 0; i < networkSize; i++) {
     
    //      activeSamplingInternalClock(7); //do not work
    //      stopSamplingInternalClock(8);  //do not work
-         samplingMovement(2);
-         samplingMovementPro(); 
+      //   samplingMovement(2);
+        samplingMovementPro(); 
         
   //       print (" v1 ");   print (  v1);  print (" v1 ");   println (  v1); 
          sendToTeensy();
@@ -1435,7 +1436,7 @@ for (int i = 0; i < networkSize; i++) {
      text ( modeStartKeyToFollow + " mouseY " + measure , width/4, - height - 100);  
    //      text ( measure + " mouseY ", width/4, -height-400);  
 
-    //  mouseY=(float) map (mouseY, 0, height, 0, TWO_PI);  // position from Ableton LFOdecay
+    //  mouseY=(float) map (mouseY, 0, 400, 0, TWO_PI);  // position from Ableton LFOdecay
      
  //    mouseY=(int) map (automationLFO[1], 0, 1, 0, 400);  // position from Ableton LFOdecay
 
@@ -1457,9 +1458,9 @@ for (int i = 0; i < networkSize; i++) {
      //  stopSamplingMeasure(3);
     
          activeSamplingInternalClock(1); //do not work
-         stopSamplingInternalClock(4);  //do not work
-       //  samplingMovementPro(); 
-         samplingMovement(2); 
+         stopSamplingInternalClock(3);  //do not work
+        samplingMovementPro(); 
+       //  samplingMovement(2); 
         
   //       print (" v1 ");   print (  v1);  print (" v1 ");   println (  v1); 
     //     sendToTeensy();
@@ -7921,8 +7922,8 @@ public void addSignal(){
     //   encoderReceiveUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
     teensyport.write(dataMarkedToTeensyNoJo); // Send data to Teensy. only the movement
   }
-  
-public void countRevsLfoPattern11() { // =========================================== Ter NE PAS TOUCHER LE COMPTEUR ou Reduire l'espace avant et apres 0 pour eviter bug à grande vitesse
+  /*
+void countRevsLfoPattern11() { // =========================================== Ter NE PAS TOUCHER LE COMPTEUR ou Reduire l'espace avant et apres 0 pour eviter bug à grande vitesse
 
   for (int i = 1; i < 2; i++) { 
      print (" oldLfoCount[i] "); print (i); print (" ");  println (oldPhaseLfo[i]); print (" newPhaseLfoCount[i] ");; print (i); print (" ");    println (newPhaseLfo[i]); 
@@ -7931,8 +7932,8 @@ public void countRevsLfoPattern11() { // =======================================
     // both positive angles || both negative angles || positive-to-negative angle
     //   if (//(net.oldPhase[i] < 0.25 * PI && net.phase[i] > 1.75 * PI) ||//
     if (
-      ((oldPhaseLfo[i] < 0.25f *PI && oldPhaseLfo[i]>0)  && (newPhaseLfo[i] > -0.25f* PI && newPhaseLfo[i] <0))  || 
-       (oldPhaseLfo[i] < -1.75f * PI && newPhaseLfo[i] > -0.25f * PI)// ||
+      ((oldPhaseLfo[i] < 0.25 *PI && oldPhaseLfo[i]>0)  && (newPhaseLfo[i] > -0.25* PI && newPhaseLfo[i] <0))  || 
+       (oldPhaseLfo[i] < -1.75 * PI && newPhaseLfo[i] > -0.25 * PI)// ||
        
     
       ) {
@@ -7956,8 +7957,8 @@ public void countRevsLfoPattern11() { // =======================================
     // both positive angles || both negative angles || negative-to-positive angle
 
     if (
-      ((oldPhaseLfo[i] > -0.25f *PI && oldPhaseLfo[i]<0)  && (newPhaseLfo[i] < 0.25f* PI && newPhaseLfo[i] >0))  || 
-       (oldPhaseLfo[i] > 1.75f * PI && newPhaseLfo[i] < 0.25f*PI)
+      ((oldPhaseLfo[i] > -0.25 *PI && oldPhaseLfo[i]<0)  && (newPhaseLfo[i] < 0.25* PI && newPhaseLfo[i] >0))  || 
+       (oldPhaseLfo[i] > 1.75 * PI && newPhaseLfo[i] < 0.25*PI)
       ) {
       onOFF = 1;
       //   TrigmodPos[i]=0;
@@ -7981,7 +7982,7 @@ public void countRevsLfoPattern11() { // =======================================
   if (
 
    
-    (newPhaseLfo[memoryi] < -1.75f * PI && newPhaseLfo[memoryi] >= -0.25f*TWO_PI) || ( newPhaseLfo[memoryi]<=-TWO_PI+0.23f  && newPhaseLfo[memoryi] >= -0.25f*TWO_PI ) 
+    (newPhaseLfo[memoryi] < -1.75 * PI && newPhaseLfo[memoryi] >= -0.25*TWO_PI) || ( newPhaseLfo[memoryi]<=-TWO_PI+0.23  && newPhaseLfo[memoryi] >= -0.25*TWO_PI ) 
     ) {
     onOFF = 1;
     //   background (27,59,78);
@@ -7998,7 +7999,7 @@ public void countRevsLfoPattern11() { // =======================================
  
 }
 
-public void countRevsLfoPattern22() { // =========================================== Ter NE PAS TOUCHER LE COMPTEUR ou Reduire l'espace avant et apres 0 pour eviter bug à grande vitesse
+void countRevsLfoPattern22() { // =========================================== Ter NE PAS TOUCHER LE COMPTEUR ou Reduire l'espace avant et apres 0 pour eviter bug à grande vitesse
 
   for (int i = 2; i < 3; i++) { 
      print (" oldLfoCount[i] "); print (i); print (" ");  println (oldPhaseLfo[i]); print (" newPhaseLfoCount[i] ");; print (i); print (" ");    println (newPhaseLfo[i]); 
@@ -8007,8 +8008,8 @@ public void countRevsLfoPattern22() { // =======================================
     // both positive angles || both negative angles || positive-to-negative angle
     //   if (//(net.oldPhase[i] < 0.25 * PI && net.phase[i] > 1.75 * PI) ||//
     if (
-      ((oldPhaseLfo[i] < 0.25f *PI && oldPhaseLfo[i]>0)  && (newPhaseLfo[i] > -0.25f* PI && newPhaseLfo[i] <0))  || 
-       (oldPhaseLfo[i] < -1.75f * PI && newPhaseLfo[i] > -0.25f * PI)// ||
+      ((oldPhaseLfo[i] < 0.25 *PI && oldPhaseLfo[i]>0)  && (newPhaseLfo[i] > -0.25* PI && newPhaseLfo[i] <0))  || 
+       (oldPhaseLfo[i] < -1.75 * PI && newPhaseLfo[i] > -0.25 * PI)// ||
        
     
       ) {
@@ -8032,8 +8033,8 @@ public void countRevsLfoPattern22() { // =======================================
     // both positive angles || both negative angles || negative-to-positive angle
 
     if (
-      ((oldPhaseLfo[i] > -0.25f *PI && oldPhaseLfo[i]<0)  && (newPhaseLfo[i] < 0.25f* PI && newPhaseLfo[i] >0))  || 
-       (oldPhaseLfo[i] > 1.75f * PI && newPhaseLfo[i] < 0.25f*PI)
+      ((oldPhaseLfo[i] > -0.25 *PI && oldPhaseLfo[i]<0)  && (newPhaseLfo[i] < 0.25* PI && newPhaseLfo[i] >0))  || 
+       (oldPhaseLfo[i] > 1.75 * PI && newPhaseLfo[i] < 0.25*PI)
       ) {
       onOFF = 1;
       //   TrigmodPos[i]=0;
@@ -8057,7 +8058,7 @@ public void countRevsLfoPattern22() { // =======================================
   if (
 
    
-    (newPhaseLfo[memoryi] < -1.75f * PI && newPhaseLfo[memoryi] >= -0.25f*TWO_PI) || ( newPhaseLfo[memoryi]<=-TWO_PI+0.23f  && newPhaseLfo[memoryi] >= -0.25f*TWO_PI ) 
+    (newPhaseLfo[memoryi] < -1.75 * PI && newPhaseLfo[memoryi] >= -0.25*TWO_PI) || ( newPhaseLfo[memoryi]<=-TWO_PI+0.23  && newPhaseLfo[memoryi] >= -0.25*TWO_PI ) 
     ) {
     onOFF = 1;
     //   background (27,59,78);
@@ -8073,6 +8074,7 @@ public void countRevsLfoPattern22() { // =======================================
   }
  
 }
+*/
 public void addSignalOneAndTwoBis(){
  //   print (formerKeyMetro);
  //   signal2 continue
@@ -12092,12 +12094,14 @@ if (formerDecayTime>decayTime){
 
     samplingMovementPro();
     println ( "  movementInterpolated in FOLLOW opposite WAY", movementInterpolated,
-             " oldmovementInterpolated ", oldMovementInterpolated );
+               " oldmovementInterpolated ", oldMovementInterpolated );
    // if (oldMovementInterpolated>movementInterpolated){
    //   movementInterpolated= map (movementInterpolated, 0, TWO_PI, TWO_PI, 0);
    //    }
-    
-    phases[0][frameCountBis % nbMaxDelais]=movementInterpolated;
+      for (int i = 0; i < 1; i+=1) {  // number of sample is 55
+   println ( "  samplesModified.get(i).y " + i +  " " + positionInterpolatedY);
+     }
+    phases[0][frameCountBis % nbMaxDelais]=movementInterpolatedContinue;
     //MAP movementInterpolated
     
     if (phases[0][frameCountBis % nbMaxDelais]<0){
@@ -12119,7 +12123,7 @@ if (formerDecayTime>decayTime){
    drawBallOppositeWay(  0, phases[0][frameCountBis % nbMaxDelais] );  
   //   newPosFollowed[i]
 
-      newPosFollowed[0]= phases[0][frameCountBis % nbMaxDelais];
+      newPosFollowed[0]= phases[0][frameCountBis % nbMaxDelais]%TWO_PI;
 
 
 
@@ -12208,14 +12212,92 @@ println ( " modeStartKeyToFollow " + modeStartKeyToFollow);
  }
 
  for (int i = 0; i < networkSize-0; i+=1) { 
-  newPosF[i]=phaseMapped[i]%TWO_PI; // display data and use them to control motor
+  newPosF[i]=phaseMapped[i]; // %TWO_PI      display data and use them to control motor
  // net.phase[i]=phaseMapped[i];
+ print ( " newPosF[i] " + newPosF[i]);
   }
 
  send24DatasToTeensy6motors(10, 3, -3, -1);  // avant dernier >-1 alors compute data
  // mapDataToMotor(); // do not work
   
 }
+
+public void countRevsLfoPattern11() { // =========================================== Ter NE PAS TOUCHER LE COMPTEUR ou Reduire l'espace avant et apres 0 pour eviter bug à grande vitesse
+
+  for (int i = 1; i < 2; i++) { 
+     print (" oldLfoCount[i] "); print (i); print (" ");  println (oldPhaseLfo[i]); print (" newPhaseLfoCount[i] ");; print (i); print (" ");    println (newPhaseLfo[i]); 
+//**    print (net.oldPhase[i]); print ("count rev ");   println (net.phase[i]); 
+    // decrement caused by negative angular velocity
+    // both positive angles || both negative angles || positive-to-negative angle
+    //   if (//(net.oldPhase[i] < 0.25 * PI && net.phase[i] > 1.75 * PI) ||//
+    if (
+      ((oldPhaseLfo[i] < 0.25f *PI && oldPhaseLfo[i]>0)  && (newPhaseLfo[i] > -0.25f* PI && newPhaseLfo[i] <0))  || 
+       (oldPhaseLfo[i] < -1.75f * PI && newPhaseLfo[i] > -0.25f * PI)// ||
+       
+    
+      ) {
+    
+      //    TrigmodPos[i]=0;
+      revLfo[i]--;
+      //      print (" revultion negative  "); println (revolution[i]=i+1); 
+      //   revolution[i]=i+1;
+     revolution[i]=0; // trig 0 to sent 0 in Max4Live
+      memoryi=i;
+
+
+   //   decompte[i] = -1; // // RESET COUNTER AT 0 (i know it's strange, otherwise with 0 it begin at 1, not 0)
+    } else { // if you do twice there is a funny bug
+      //    decompte[i]  ++; 
+      //   revolution[i]=0;
+    }
+
+
+    // increment caused by positive angular velocity
+    // both positive angles || both negative angles || negative-to-positive angle
+
+    if (
+      ((oldPhaseLfo[i] > -0.25f *PI && oldPhaseLfo[i]<0)  && (newPhaseLfo[i] < 0.25f* PI && newPhaseLfo[i] >0))  || 
+       (oldPhaseLfo[i] > 1.75f * PI && newPhaseLfo[i] < 0.25f*PI)
+      ) {
+      onOFF = 1;
+      //   TrigmodPos[i]=0;
+      revLfo[i]++;
+      //   revolution[i]=i+1;
+      revolution[i]=0;   // trig 0 to sent 0 in Max4Live
+      memoryi=i;
+      decompte[i] = 0;  // RESET COUNTER AT 0
+    } else {
+
+      decompte[i]  ++; //START COUNTER when a REVOLUTION START OR FINISH
+
+      revolution[i]=1;
+    }
+     if (  revolution[i]<1) {
+   print (" revolutionPattern[i] "); print ( memoryi); print ("  "); print (revolution[memoryi]);
+    }
+  
+    print (" revPattern "); print ( i); print ("  "); println (revLfo[i]);
+  }
+  if (
+
+   
+    (newPhaseLfo[memoryi] < -1.75f * PI && newPhaseLfo[memoryi] >= -0.25f*TWO_PI) || ( newPhaseLfo[memoryi]<=-TWO_PI+0.23f  && newPhaseLfo[memoryi] >= -0.25f*TWO_PI ) 
+    ) {
+    onOFF = 1;
+    //   background (27,59,78);
+    //    TrigmodPos[i]=0;
+    rev[memoryi]--;
+    //      print (" revultion negative  "); println (revolution[i]=i+1);
+    //   revolution[i]=i+1;
+//**** revolution[memoryi]=0; // trig 0 to sent 0 in Max4Live   brecause it count twice in negative way!!!
+    // memoryi=i;
+
+
+    decompte[memoryi] = -1; // // RESET COUNTER AT 0 (i know it's strange, otherwise with 0 it begin at 1, not 0)
+  }
+ 
+}
+
 public void followSignalSampledLPF(int ratioTimeFrame){ // from followSignalLfo
   
   int delayRatio=ratioTimeFrame;
@@ -14687,7 +14769,8 @@ int actualSec,lastSec, lastLastSec, measure;  // trig internal clock each second
 int currTime;
 boolean bRecording = true;
 boolean mouseRecorded = true;
-float movementInterpolated, oldMovementInterpolated;
+float movementInterpolatedContinue, movementInterpolated, oldMovementInterpolated;
+int positionInterpolatedX, positionInterpolatedY;
 int Movement;
 
 
@@ -14698,6 +14781,7 @@ class Sample {
     this.t = t;  this.x = x;  this.y = y;
   }
 }
+
 class Sampler {
   
   ArrayList<Sample> samples;
@@ -14747,8 +14831,10 @@ class Sampler {
         print(samples.get(i).y);
         print(",");
         print(samplesModified.get(i).x);
+        positionInterpolatedX=samplesModified.get(i).x;
         print(",");
         print(samplesModified.get(i).y);
+        positionInterpolatedY=samplesModified.get(i).y;
         println("");      
       }
     }
@@ -14780,10 +14866,18 @@ class Sampler {
     float x = lerp( s0.x, s1.x, dt );
     float y = lerp( s0.y, s1.y, dt );
     circle( x, y, 10 );
-    println ( "LIMITE y " +PApplet.parseInt  (y));
-    movementInterpolated=map (y, 0, 800, 0, TWO_PI);
+   // float  movementInterpolated=map (y, 0, 400, 0, TWO_PI);
+   oldMovementInterpolated= movementInterpolated;
+    movementInterpolated= map (y, 0, 100, 0, TWO_PI);
+
+    print ( " old " + oldMovementInterpolated + " mov " + movementInterpolated + " movContinue " + movementInterpolatedContinue);
+    if (oldMovementInterpolated>=movementInterpolated){
+    //  movementInterpolatedContinue=movementInterpolated+oldMovementInterpolated;
+   // movementInterpolated= map (y, 100, 0, 0, TWO_PI);
+       }
   }
- } 
+   //
+}
 Sampler sampler;
 
 //******************         END INTERPOLATION SamplingMovement

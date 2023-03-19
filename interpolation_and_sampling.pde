@@ -4,7 +4,8 @@ int actualSec,lastSec, lastLastSec, measure;  // trig internal clock each second
 int currTime;
 boolean bRecording = true;
 boolean mouseRecorded = true;
-float movementInterpolated, oldMovementInterpolated;
+float movementInterpolatedContinue, movementInterpolated, oldMovementInterpolated;
+int positionInterpolatedX, positionInterpolatedY;
 int Movement;
 
 
@@ -15,6 +16,7 @@ class Sample {
     this.t = t;  this.x = x;  this.y = y;
   }
 }
+
 class Sampler {
   
   ArrayList<Sample> samples;
@@ -64,8 +66,10 @@ class Sampler {
         print(samples.get(i).y);
         print(",");
         print(samplesModified.get(i).x);
+        positionInterpolatedX=samplesModified.get(i).x;
         print(",");
         print(samplesModified.get(i).y);
+        positionInterpolatedY=samplesModified.get(i).y;
         println("");      
       }
     }
@@ -97,10 +101,18 @@ class Sampler {
     float x = lerp( s0.x, s1.x, dt );
     float y = lerp( s0.y, s1.y, dt );
     circle( x, y, 10 );
-    println ( "LIMITE y " +int  (y));
-    movementInterpolated=map (y, 0, 800, 0, TWO_PI);
+   // float  movementInterpolated=map (y, 0, 400, 0, TWO_PI);
+   oldMovementInterpolated= movementInterpolated;
+    movementInterpolated= map (y, 0, 100, 0, TWO_PI);
+
+    print ( " old " + oldMovementInterpolated + " mov " + movementInterpolated + " movContinue " + movementInterpolatedContinue);
+    if (oldMovementInterpolated>=movementInterpolated){
+    //  movementInterpolatedContinue=movementInterpolated+oldMovementInterpolated;
+   // movementInterpolated= map (y, 100, 0, 0, TWO_PI);
+       }
   }
- } 
+   //
+}
 Sampler sampler;
 
 //******************         END INTERPOLATION SamplingMovement
