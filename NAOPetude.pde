@@ -1380,6 +1380,7 @@ for (int i = 0; i < networkSize; i++) {
     
    //      activeSamplingInternalClock(7); //do not work
    //      stopSamplingInternalClock(8);  //do not work
+         samplingMovement(2);
          samplingMovementPro(); 
         
   //       print (" v1 ");   print (  v1);  print (" v1 ");   println (  v1); 
