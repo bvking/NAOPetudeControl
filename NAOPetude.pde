@@ -1,12 +1,14 @@
-PNetwork net; 
+ PNetwork net; 
 int networkSize = 6;
 int nbBalls=networkSize;
+
+float [] encodeur = new float [networkSize];
 
 
 
 // MANAGE ARDUINO && TENNSY
 import processing.serial.*;
-Serial DueSerialNativeUSBport101; // The native serial port of the DUE fibish with 101
+Serial encoderReceiveUSBport101; // The native serial port of the DUE fibish with 101
 Serial teensyport;
 
 String dataTransformed ;
@@ -160,6 +162,7 @@ float trigLfo; // send only to float to osc
 float oldMov;
 float movementRecording; 
 
+// IMPORTANT TO COMPARE
 // to interpolate angle
 float mlerp(float x0, float x1, float t, float M ){
    float dx = (x1 - x0 + 1.5*M) % M - 0.5*M;
@@ -630,19 +633,18 @@ void setup() {
   readOneLine(); // play case frame by frame. Uncomment if you want play in live
   textSize(200);
 
-  //********to send value to serialport
-
+  //********Sending and Receiving data with two different serialport
   String[] ports = Serial.list();
   printArray(Serial.list());
   //*************** WITH TEENSY connected
-  //  teensyport = new Serial(this, ports[0], 115200);// si port non connecte Venturey
- //    teensyport = new Serial(this, ports[1], 115200);// si port non connecte Catalina
+ //  teensyport = new Serial(this, ports[0], 115200);// si port non connecte Venturey
+// teensyport = new Serial(this, ports[1], 115200);// si port non connecte Catalina ou connecté Venturey
     teensyport = new Serial(this,ports[2],115200); //  si port connecté
-  //*************** WITHOUT TEENSY connected
-  //  DueSerialNativeUSBport101 = new Serial(this, Serial.list()[3], 1000000);
+  //*************** WITHOUT ENODEER connected
+    encoderReceiveUSBport101 = new Serial(this, Serial.list()[3], 1000000);
 
   // Read bytes into a buffer until you get a linefeed (ASCII 10):
-  //  DueSerialNativeUSBport101.bufferUntil('\n');
+     encoderReceiveUSBport101.bufferUntil('\n');
 
   //********************************************************* BEGIN GRAPHIC CHIMERA STATE SETUP
   float[][] Coupling = new float[networkSizeGraphic][networkSizeGraphic];
@@ -819,6 +821,7 @@ void setup() {
 //keyMode = " addSignalOneAndTwoBis ";  
 keyMode = " phasePattern ";                                                                                                                                                                                                                 
 formerKeyMetro = '@';
+translate(0, -800,3000);
  
 }
 // END SETUP
@@ -1011,6 +1014,11 @@ void draw() {
     keyMode = " methodAbleton " ;
     formerKeyMetro = '*';
   }
+
+       if (moveKeys[8]==true && moveKeys[12]==true){ // ALT & v
+    keyMode = " trigEventWithAbletonSignal " ;
+    formerKeyMetro = '*';
+  }
     
      if (key == '%' ){ 
     keyMode = " phasePattern " ;
@@ -1059,6 +1067,13 @@ void draw() {
         println (" modeStartKeyToFollow ", modeStartKeyToFollow, " keyModeRed",  keyModeRed,"keyMode",  keyMode, "formerKeyMetro ", formerKeyMetro, " controlTrigLfoPattern ", controlTrigLfoPattern );
     keyModeRed = keyMode; // dont read keyMode in file.txt
 
+     if (  keyMode == " trigEventWithAbletonSignal " || keyModeRed == " trigEventWithAbletonSignal " ) {
+    //  formerKeyMetro = '@';       
+          //  modeStartKeyToFollow = " trigEventWithAbletonSignal ";
+            trigEventWithAbletonSignal();
+      text ( keyMode, -width, -height); 
+       }
+     
       if (keyMode == " addSignalOneAndTwoQuater " || keyModeRed == " addSignalOneAndQuater " ) { //drive ball with lfo
     //   PatternFollowLfo();
      propagationMode();
@@ -1337,8 +1352,9 @@ for (int i = 0; i < networkSize; i++) {
      
  //    mouseY=(int) map (automationLFO[1], 0, 1, 0, 400);  // position from Ableton LFOdecay
 
-
-
+    
+     //  mouseY=mouseY+10;
+       mouseX=mouseX+20;
 /*
       oldMov = movementRecording;
       
@@ -1364,12 +1380,13 @@ for (int i = 0; i < networkSize; i++) {
 
      // followMovementAll();
      //  displayfollowMovementAll();
-         activeSamplingMeasure(3);
-         stopSamplingMeasure(4);
+      //***** */   activeSamplingMeasure(3);
+     //***** */    stopSamplingMeasure(4);
     
    //      activeSamplingInternalClock(7); //do not work
    //      stopSamplingInternalClock(8);  //do not work
-         samplingMovementPro(); 
+      //   samplingMovement(2);
+   //***** */     samplingMovementPro(); 
         
   //       print (" v1 ");   print (  v1);  print (" v1 ");   println (  v1); 
          sendToTeensy();
@@ -1392,17 +1409,19 @@ for (int i = 0; i < networkSize; i++) {
      println ( " samplingModeInternal  ");
     
      beginSample=millis();
-     text ( modeStartKeyToFollow + " mouseY " + measure , width/4, - height - 100);  
+     text ( modeStartKeyToFollow + " mouseY " +  mouseY  + " mouseX " +  mouseX  +  measure , width/4, - height - 100);  
    //      text ( measure + " mouseY ", width/4, -height-400);  
 
-    //  mouseY=(float) map (mouseY, 0, height, 0, TWO_PI);  // position from Ableton LFOdecay
+    //  mouseY=(float) map (mouseY, 0, 400, 0, TWO_PI);  // position from Ableton LFOdecay
      
- //    mouseY=(int) map (automationLFO[1], 0, 1, 0, 400);  // position from Ableton LFOdecay
+    //  mouseY=(int) map (automationLFO[1], 0, 1, 0, 400);  // position from Ableton LFOdecay
 
      //****  newPosF[networkSize-1]=  map (mouseY, 0, height/2, 0, TWO_PI);
 
-
-     
+      mouseX=mouseX+4;
+      mouseX=mouseX%400;
+      //     mouseY=mouseY+20;
+      mouseY=(int) map (encodeur[0], 0, 400, 0, 400);
     
  
     //****  mouseY=(int) map (automation1, 0, 1, 0, 400);  //POSITION MOTOR
@@ -1417,9 +1436,9 @@ for (int i = 0; i < networkSize; i++) {
      //  stopSamplingMeasure(3);
     
          activeSamplingInternalClock(1); //do not work
-         stopSamplingInternalClock(4);  //do not work
-       //  samplingMovementPro(); 
-         samplingMovement(2); 
+         stopSamplingInternalClock(3);  //do not work
+         samplingMovementPro(); 
+       //  samplingMovement(2); 
         
   //       print (" v1 ");   print (  v1);  print (" v1 ");   println (  v1); 
     //     sendToTeensy();
@@ -2062,7 +2081,7 @@ for (int i = 0; i < networkSize; i++) {
    }
   //************ arduinoPos(); // to control Pos of motor and Trigging note and computing pulsation
   // countPendularTrig ();
-  frameStop(); 
+  //frameStop(); 
   formerFormerKey= formerKey;
 
   if ( key!=':' ) {// formerKey!=':' ||  || key=='ç'
@@ -2769,8 +2788,8 @@ void arduinoPos() {
     println(frameCount + ": " +  " JoDebug "  + ( JoDebug ));
     // teensyport.write(dataMarkedToTeensyJo); // Send data to Teensy. only the movement
 
-    //  DueSerialNativeUSBport101.write(dataMarkedToDueBis ); // Send data to Arduino. 
-    //      DueSerialNativeUSBport101.write(dataMarkedToDue36data);// teensy simulation
+    //  encoderReceiveUSBport101.write(dataMarkedToDueBis ); // Send data to Arduino. 
+    //      encoderReceiveUSBport101.write(dataMarkedToDue36data);// teensy simulation
   }
 
   if ((formerKey != 'o' ) && frameCount%1 == 0 ) {//&& circularMov== false
@@ -2807,7 +2826,7 @@ void arduinoPos() {
 
 
         println(frameCount + ": " +  " dataMarkedToTeensyJoInMainLoop" + ( dataMarkedToTeensyJo ));
-        //   DueSerialNativeUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
+        //   encoderReceiveUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
        // teensyport.write(dataMarkedToTeensyJo); // Send data to Teensy. only the movement
          
          }
@@ -2838,7 +2857,7 @@ void arduinoPos() {
       +  decompte[1]+"," +cohesionCounterLow +","+ cohesionCounterHigh +","+ int (map (LevelCohesionToSend, 0, 1, 0, 100))+">";    
 
     println(frameCount + ": " +  " dataMarkedToTeensyNoJo" + ( dataMarkedToTeensyNoJo ));
-    //   DueSerialNativeUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
+    //   encoderReceiveUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
     teensyport.write(dataMarkedToTeensyNoJo); // Send data to Teensy. only the movement
   }
   */
@@ -3135,7 +3154,7 @@ void keyPressed() {
     print ("dataStop: ");  
     println(frameCount + ": " +  " dataMarkedToDue" + ( dataMarkedToDue ));
 
-    //      DueSerialNativeUSBport101.write(dataMarkedToDue ); 
+    //      encoderReceiveUSBport101.write(dataMarkedToDue ); 
 
     running = false;
 
@@ -7158,10 +7177,10 @@ void followSignal() {
   arduinoPosJO();
 }  
 
-void serialEvent(Serial DueSerialNativeUSBport101) { // receive 2 datas splited with , and the last is send with println
+void serialEvent(Serial encoderReceiveUSBport101) { // receive 2 datas splited with , and the last is send with println
 
   // read the serial buffer:
-  String myString = DueSerialNativeUSBport101.readStringUntil('\n');
+  String myString = encoderReceiveUSBport101.readStringUntil('\n');
 
   // if you got any bytes other than the linefeed:
   myString = trim(myString);
@@ -7170,18 +7189,24 @@ void serialEvent(Serial DueSerialNativeUSBport101) { // receive 2 datas splited 
   // and convert the sections into integers:
   int values[] = int(split(myString, ','));
 
-  if (values.length > 0) {// v1 de 0 a 4000
-int v1; int v2; int v3; int v4; int v5; int v6;
+  if (values.length > 0) {// v0 is value of the encodeur from 0 to 4000
+  int v0; int v1; int v2; int v3; int v4; int v5;
 
+    v0 = (int) map (values[0], 0, 4000, 0, 400);
     v1 = (int) map (values[0], 0, 4000, 0, 400);
-     v2 = (int) map (values[0], 0, 4000, 0, 400);
-      v3 = (int) map (values[0], 0, 4000, 0, 400);
-       v4 = (int) map (values[0], 0, 4000, 0, 400);
-        v5 = (int) map (values[0], 0, 4000, 0, 400);
-         v6 = (int) map (values[0], 0, 4000, 0, 400);
+    v2 = (int) map (values[0], 0, 4000, 0, 400);
+    v3 = (int) map (values[0], 0, 4000, 0, 400);
+    v4 = (int) map (values[0], 0, 4000, 0, 400);
+    v5 = (int) map (values[0], 0, 4000, 0, 400);
+
+    for (int i = 0; i < networkSize; i=+1 ){
+    encodeur[i]= (int) map (values[i], 0, 4000, 0, 400); 
+    printArray(encodeur);
+    }
+    
        
-    println (" v1 " + v1 ); println (" v2 " + v2 ); println (" v3 " + v3 );
-    println (" v4 " + v4 ); println (" v5 " + v5 ); println (" v6 " + v6 );
+    println (" v0 " + v0 ); println (" v1 " + v1 ); println (" v2 " + v2 ); println (" v3 " + v3 );
+    println (" v4 " + v4 ); println (" v5 " + v5 );
     println ( " mouseY " + mouseY);  
 
 }
@@ -7338,7 +7363,7 @@ void samplingMovementPro() {
   //**   samplers.get(samplers.size()-1).addSample( currTime, mouseX, v1InMainLoop );
 
  //net.phase[networkSize-1]=  map (mouseY, 0, height/2, 0, TWO_PI);
-    newPosF[0]=  map (mouseY, 0, height/2, 0, TWO_PI);// uncomment doesn't change anything
+  //*** */  newPosF[0]=  map (mouseY, 0, height/2, 0, TWO_PI);// uncomment doesn't change anything
 
   }
  else {
@@ -7363,7 +7388,7 @@ void activeSamplingMeasure(int beginMeasure) {
   if (measure<=beginMeasure && measure>=beginMeasure && beatTrigged == true && mouseRecorded == true){  
     println (" BEGINTRACK ");      println (" BEGINTRACK ");        println (" BEGINTRACK ");
     // net.phase[networkSize-1]= (float) map (mouseY, 0, 400, 0, TWO_PI);
-       newPosF[networkSize-1]= (float) map (mouseY, 0, 400, 0, TWO_PI);
+   //*** */    newPosF[networkSize-1]= (float) map (mouseY, 0, 400, 0, TWO_PI);
 
   bRecording = true; 
   sampler.beginRecording();
@@ -7651,7 +7676,7 @@ void followDirectLfo(){
       +  decompte[1]+"," +cohesionCounterLow +","+ cohesionCounterHigh +","+ int (map (LevelCohesionToSend, 0, 1, 0, 100))+">";    
 
     println(frameCount + ": " +  " dataMarkedToTeensyNoJo" + ( dataMarkedToTeensyNoJo ));
-   //  DueSerialNativeUSBport101.write(dataMarkedToTeensyNoJo );// Send data to Arduino.
+   //  encoderReceiveUSBport101.write(dataMarkedToTeensyNoJo );// Send data to Arduino.
     teensyport.write(dataMarkedToTeensyNoJo); // Send data to Teensy. only the movement
  
  } 
@@ -7837,6 +7862,8 @@ void addSignal(){
   }
   
    if (formerKeyMetro=='B') {
+
+
          for (int i = 0; i < networkSize; i++) {
       // rev[i]=rev[0];
 
@@ -7877,10 +7904,10 @@ void addSignal(){
       +  decompte[1]+"," +cohesionCounterLow +","+ cohesionCounterHigh +","+ int (map (LevelCohesionToSend, 0, 1, 0, 100))+">";    
 
     println(frameCount + ": " +  " dataMarkedToTeensyNoJo" + ( dataMarkedToTeensyNoJo ));
-    //   DueSerialNativeUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
+    //   encoderReceiveUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
     teensyport.write(dataMarkedToTeensyNoJo); // Send data to Teensy. only the movement
   }
-  
+  /*
 void countRevsLfoPattern11() { // =========================================== Ter NE PAS TOUCHER LE COMPTEUR ou Reduire l'espace avant et apres 0 pour eviter bug à grande vitesse
 
   for (int i = 1; i < 2; i++) { 
@@ -8032,3 +8059,4 @@ void countRevsLfoPattern22() { // =========================================== Te
   }
  
 }
+*/

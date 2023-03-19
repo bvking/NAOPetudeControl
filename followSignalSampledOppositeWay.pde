@@ -21,15 +21,18 @@ if (formerDecayTime>decayTime){
 
     samplingMovementPro();
     println ( "  movementInterpolated in FOLLOW opposite WAY", movementInterpolated,
-             " oldmovementInterpolated ", oldMovementInterpolated );
+               " oldmovementInterpolated ", oldMovementInterpolated );
    // if (oldMovementInterpolated>movementInterpolated){
    //   movementInterpolated= map (movementInterpolated, 0, TWO_PI, TWO_PI, 0);
    //    }
+      for (int i = 0; i < 1; i+=1) {  // number of sample is 55
+   println ( "  samplesModified.get(i).y " + i +  " " + interpolatedY);
+     }
+       drawBall( 1, movementInterpolated);
+       phases[0][frameCountBis % nbMaxDelais]=movementInterpolated;
+    //MAP movementInterpolated
     
-    phases[0][frameCountBis % nbMaxDelais]=movementInterpolated;
-   
-
-    if (phases[0][frameCountBis % nbMaxDelais]<0){
+    if (phases[0][frameCountBis % nbMaxDelais]<=0){
    
      DataToDueCircularVirtualPosition[0]= int (map (phases[0][frameCountBis % nbMaxDelais], 0, -TWO_PI, numberOfStep, 0)); 
  
@@ -42,13 +45,14 @@ if (formerDecayTime>decayTime){
     
     DataToDueCircularVirtualPosition[0]= (int) map (phases[0][frameCountBis % nbMaxDelais], 0, TWO_PI, 0, numberOfStep); 
 
-      phases[0][frameCountBis % nbMaxDelais]= map (DataToDueCircularVirtualPosition[0], numberOfStep, 0, 0, -TWO_PI);
+      phases[0][frameCountBis % nbMaxDelais]= map (DataToDueCircularVirtualPosition[0], 0, numberOfStep, 0, TWO_PI);
    
   }
-   drawBallOppositeWay(  0, phases[0][frameCountBis % nbMaxDelais] );  
+   drawBallOppositeWay(  2, phases[0][frameCountBis % nbMaxDelais] );  
   //   newPosFollowed[i]
 
-      newPosFollowed[0]= phases[0][frameCountBis % nbMaxDelais];
+     // newPosFollowed[0]= phases[0][frameCountBis % nbMaxDelais]; // %TWO_PI
+     //println ( " phases[0][frameCountBis % nbMaxDelais " + phases[0][frameCountBis % nbMaxDelais] ) ; // %TWO_PI
 
 
 
@@ -60,15 +64,9 @@ if (formerDecayTime>decayTime){
      followOppositeWay( i-1, i+0, delayTimeFollowPhase11*1*frameRatio/ratioTimeFrame, (phaseShiftingFollowPhase11));  // ici, le temps que les points attendent pour se suivre est de 5 frames, et il faut un espace entre eux de QUARTER_PI/6
 
   //*** phaseMapped[i]=phases[i-0][frameCountBis % nbMaxDelais]; // use varaible phaseMapped (to play movement with time delay or phase delay) to well send it in Teensy
-  // newPosFollowed[i]=phaseMapped[i]; // display data and use them to control motor
 
-   
- 
-    drawBallOppositeWay( i, phases[i-0][frameCountBis % nbMaxDelais] );
-   
-   // net.phase[i]=phaseMapped[i]; // display data and use them to control motor  
- 
-   // drawBallOppositeWay(  i, phases[i+0][frameCountBis % nbMaxDelais] );  
+       drawBallOppositeWay( i, phases[i-0][frameCountBis % nbMaxDelais] ); 
+    //  println ( " phases[i][frameCountBis % nbMaxDelais " + i + " " + phases[i][frameCountBis % nbMaxDelais] ) ; 
  }
  
  
@@ -137,11 +135,65 @@ println ( " modeStartKeyToFollow " + modeStartKeyToFollow);
  }
 
  for (int i = 0; i < networkSize-0; i+=1) { 
-  newPosF[i]=phaseMapped[i]%TWO_PI; // display data and use them to control motor
+  newPosF[i]=phaseMapped[i]; // %TWO_PI      display data and use them to control motor
  // net.phase[i]=phaseMapped[i];
+  newPosX[i]=-phaseMapped[i]; // better to count revolution
+  //print ( " newPosF[i] " + newPosF[i]);
   }
+
+
+  // COUNT REVOLUTION
+
+  for (int i = 0; i <  networkSize+0; i+=1) { // la premiere celle du fond i=2,  la derniere celle du devant i=11
+
+    drawBall(i, newPosX[i] );
+
+   
+    print( " oldPositionToMotor[i]" ); print ( oldPositionToMotor[i]);
+    positionToMotor[i]= ((int) map (newPosX[i], 0, TWO_PI, 0, numberOfStep)%numberOfStep); //
+    
+    
+    newPosX[i]=positionToMotor[i]%6400;
+ //   if (oldPositionToMotor[i]>positionToMotor[i]){
+    if ( oldPosF[i]>newPosX[i]){
+      revLfo[i]++;
+     
+    } 
+     oldPositionToMotor[i]=  positionToMotor[i];
+     oldPosF[i]=newPosX[i];
+
+     print( " newPosF[i] " ); print ( newPosF[i]); print( " newPosX[i] " ); print ( newPosX[i]);
+     print( " positionToMotor[i] " ); print ( positionToMotor[i]);
+     print (" revolutionLFO "); print ( i); print ("  "); println (revLfo[i]); 
+  }
+
+
+
+     for (int i = 0; i < networkSize; i++) {
+      // rev[i]=rev[0];
+
+
+      //*******************************  ASSIGN MOTOR WITH POSITION à simplifier
+
+      if (revLfo[i]!=0  && (newPosF[i] >  0) ) { // number of revLfoolution is even and rotation is clock wise   
+        DataToDueCircularVirtualPosition[i]= int (map (newPosX[i], 0, numberOfStep, 0, numberOfStep))+ (revLfo[i]*numberOfStep);
+      }
+
+      if (revLfo[i]!=0  && (newPosF[i] <  0)) { // number of revLfoolution is even and rotation is Counter clock wise          // pos[i]= int (map (newPosF[i], 0, -numberOfStep, 0,  numberOfStep))+ (revLfo[i]*numberOfStep);
+
+        DataToDueCircularVirtualPosition[i]= int (map (newPosX[i], 0, -numberOfStep, numberOfStep, 0)) +(revLfo[i]*numberOfStep);       //   print ("pos "); print (i); print (" ");println (pos[i]);
+      }
+
+      if (revLfo[i]==0 && (newPosF[i] < 0) ) { //  number of revLfoolution is 0 and rotation is counter clock wise 
+        DataToDueCircularVirtualPosition[i]= int (map (newPosX[i], 0, -numberOfStep, numberOfStep, 0));        
+      }         
+      if  (revLfo[i]==0 && (newPosF[i] > 0) ) {  //  number of revLfoolution is 0 and rotation is clock wise     
+        DataToDueCircularVirtualPosition[i]= int (map (newPosX[i], 0, numberOfStep, 0, numberOfStep));                //      print ("pos "); print (i); print (" CW revLfo=0 ");println (pos[i]);
+      }
+    }
 
  send24DatasToTeensy6motors(10, 3, -3, -1);  // avant dernier >-1 alors compute data
  // mapDataToMotor(); // do not work
   
 }
+

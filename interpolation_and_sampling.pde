@@ -4,9 +4,13 @@ int actualSec,lastSec, lastLastSec, measure;  // trig internal clock each second
 int currTime;
 boolean bRecording = true;
 boolean mouseRecorded = true;
-float movementInterpolated, oldMovementInterpolated;
+float movementInterpolatedContinue;
+
 int Movement;
 
+float oldMovementInterpolated, movementInterpolated;
+float formerInterpolatedY;
+float interpolatedX, interpolatedY;
 
 
 class Sample {
@@ -15,97 +19,104 @@ class Sample {
     this.t = t;  this.x = x;  this.y = y;
   }
 }
+
 class Sampler {
+  
   ArrayList<Sample> samples;
+  ArrayList<Sample> samplesModified;
   int startTime;
   int playbackFrame;
+  
   Sampler() {
     samples = new ArrayList<Sample>();
+        samplesModified = new ArrayList<Sample>();
     startTime = 0;
   }
-  void beginRecording() {
+  void beginRecording() {   
     samples = new ArrayList<Sample>();
+    samplesModified = new ArrayList<Sample>();
     playbackFrame = 0;
   }
-  void addSample( int x, int y ) {
+  void addSample( int x, int y ) {  // add sample when bRecording
     int now = millis();
     if( samples.size() == 0 ) startTime = now;
     samples.add( new Sample( now - startTime, x, y ) );
   }
   int fullTime() {
     return ( samples.size() > 1 ) ? 
-      samples.get( samples.size()-1 ).t : 0;
+    samples.get( samples.size()-1 ).t : 0;
   }
   void beginPlaying() {
     startTime = millis();
     playbackFrame = 0;
     println( samples.size(), "samples over", fullTime(), "milliseconds" );
+    if(samples.size() > 0){
+      int deltax = samples.get(0).x - samples.get(samples.size()-1).x;
+      int deltay = samples.get(0).y - samples.get(samples.size()-1).y;
+      float sumdist = 0;
+      
+      for(int i = 0; i < samples.size() - 1; i++) {
+        sumdist += sqrt((samples.get(i).x - samples.get(i +1 ).x)*(samples.get(i).x - samples.get(i +1 ).x) + (samples.get(i).y - samples.get(i +1 ).y)*(samples.get(i).y - samples.get(i +1 ).y));
+      }
+      
+      samplesModified.add( new Sample(samples.get(0).t, samples.get(0).x , samples.get(0).y ) );
+      float dist = 0;
+      for(int i = 0; i < samples.size() - 1; i++) {
+        dist += sqrt((samples.get(i).x - samples.get(i +1 ).x)*(samples.get(i).x - samples.get(i +1 ).x) + (samples.get(i).y - samples.get(i +1 ).y)*(samples.get(i).y - samples.get(i +1 ).y));
+        samplesModified.add( new Sample(samples.get(i+1).t, (int) (samples.get(i +1).x + (dist * deltax) / sumdist), (int) (samples.get(i+1).y +( dist * deltay )/ sumdist)) );
+        print(samples.get(i).x);
+        print(",");
+        print(samples.get(i).y);
+        print(",");
+        print( " good data x " + samplesModified.get(i).x);
+        print(",");
+        print( " good data y " + samplesModified.get(i).y);
+        println("");      
+      }
+    }
   }
+ 
+ 
   void draw() {
     stroke( 255 );
+    
+    //**RECORD
     beginShape(LINES);
     for( int i=1; i<samples.size(); i++) {
-      vertex( samples.get(i-1).x, samples.get(i-1).y );
-      vertex( samples.get(i).x, samples.get(i).y );
+      vertex( samplesModified.get(i-1).x, samplesModified.get(i-1).y ); // replace vertex with Pvector
+      vertex( samplesModified.get(i).x, samplesModified.get(i).y );
     }
     endShape();
+    //**ENDRECORD
+    
+    //**REPEAT
     int now = (millis() - startTime) % fullTime();
-    if( now < samples.get( playbackFrame ).t ) playbackFrame = 0;
-    while( samples.get( playbackFrame+1).t < now )
+    if( now < samplesModified.get( playbackFrame ).t ) playbackFrame = 0;
+    while( samplesModified.get( playbackFrame+1).t < now )
       playbackFrame = (playbackFrame+1) % (samples.size()-1);
-    Sample s0 = samples.get( playbackFrame );
-    Sample s1 = samples.get( playbackFrame+1 );
+    Sample s0 = samplesModified.get( playbackFrame );
+    Sample s1 = samplesModified.get( playbackFrame+1 );
     float t0 = s0.t;
     float t1 = s1.t;
     float dt = (now - t0) / (t1 - t0);
-    
-    
+    float x = lerp( s0.x, s1.x, dt );
+     formerInterpolatedY=interpolatedY;
+     interpolatedY= constrain ( lerp( s0.y, s1.y, dt ), 0, 800);
+   //   formerY=interpolatedY;
+   //  interpolatedY= constrain (interpolatedY, 0, 800);
+    float y = lerp( s0.y, s1.y, dt );
+    circle( x, y, 10 );
+      println( " good data y " + y);
+     
+       if (formerInterpolatedY<=interpolatedY){
+    //  movementInterpolatedContinue=movementInterpolated+oldMovementInterpolated;
+       movementInterpolated= map (interpolatedY, 800, 0, 0, TWO_PI);
+       }
+       else
+       movementInterpolated=map (interpolatedY, 0, 800, 0, TWO_PI);
+  }
+ } 
 
-    float x = mlerp( s0.x, s1.x, dt, 400 ); // interpolation with 'cylical datas'
-    float y = mlerp( s0.y, s1.y, dt, 400 ); // interpolation with 'cylical datas'
-       
-    oldYsampled=ySampled;
-    ySampled=y;  
-
-    movementInterpolated = map (ySampled, 0, 400, 0, TWO_PI) ;
- 
-    oldMovementInterpolated = movementInterpolated;
-     println ("y ", y, " ySampled ", ySampled , " oldYSampled ", oldYsampled );
-
-  if (oldYsampled>=  ySampled ){ // go down
-
-  //   movementInterpolated = map (y, 400, 0, -TWO_PI, 0) ;
-
- //  if (ySampled){ // go down
-
-    //  if (oldMovementInterpolated>=   movementInterpolated){
-       
- //   movementInterpolated= map (y, 0, TWO_PI, 0, TWO_PI); 
- //   movementInterpolated=movementInterpolated%TWO_PI;
-      }
-    else { 
-    movementInterpolated= map (y, 0, 400, 0, TWO_PI);
-   // movementInterpolated=movementInterpolated%TWO_PI;
-     }
-        println ("  movementInterpolated ", movementInterpolated, " oldmovementInterpolated ", oldMovementInterpolated );
-
-
-    noStroke();
-    fill( 255, 40, 40 );
-    rotate (HALF_PI);
-    
-    float time= (millis()/5)%1000;
-//    circle ( time+400, 100*sin (movement)+400, 20);
-    circle ( time+400, 100*sin (movementInterpolated) +net.phase[2] + net.phase[3] + net.phase[4] + net.phase[5], 20) ;//+ net.phase[6]+ net.phase[7]+ net.phase[8]+ net.phase[9]+ net.phase[10]+400, 20);
-    addPhase =sin (movementInterpolated) + net.phase[2] + net.phase[3] + net.phase[4] + net.phase[5];//+ net.phase[6]+ net.phase[7]+ net.phase[8]+ net.phase[9]+ net.phase[10];
-    addPhase= map (addPhase, -(networkSize-1)*TWO_PI, (networkSize-1)*TWO_PI, -TWO_PI, TWO_PI);
-    print ( "addPhase "); println (addPhase); 
-    fill( 2500 , 40, 255 );
-    circle ( time, 100 * addPhase, 20); //
- //   circle ( time, 200*(sin (net.phase[2])+ sin (net.phase[3])+ sin (net.phase[4])), 20); //+net.phase[5]+net.phase[6]+net.phase[7]+net.phase[8]+net.phase[9]+net.phase[10]+net.phase[11]
-    rotate (-HALF_PI);
-}
-}
 Sampler sampler;
 
 //******************         END INTERPOLATION SamplingMovement
