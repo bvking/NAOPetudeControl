@@ -6,9 +6,9 @@ void  modePendulaireModeCirculaire() {
     // ***************************************DATA TO MANAGE SOUND in Processing USELESS
     j[i]= rev[i]%2; // if j==0 the number of revolution is pair, j==1 -->impair, j==-1--> impair and negative
     if (net.naturalFrequency[i] < 0) {
-      freqi[i] = constrain( map( net.naturalFrequency[i], 0, -5, 200, 16000 ), freqMin, 12000 );
+   //   freqi[i] = constrain( map( net.naturalFrequency[i], 0, -5, 200, 16000 ), freqMin, 12000 );
     } else {
-      freqi[i]=  constrain( map( net.naturalFrequency[i], 0, 5, 200, 16000 ), freqMin, 12000 );
+   //   freqi[i]=  constrain( map( net.naturalFrequency[i], 0, 5, 200, 16000 ), freqMin, 12000 );
     }
     //**************** TRANSFORM CIRCULAR PHASE INTO METRO PHASE ********* SET AMPLITUDE
     if (formerKeyMetro == '$' || trigFollowSampling == true   ) { //&& formerSartKey == 'x'//|| formerKeyMetro == 'J'

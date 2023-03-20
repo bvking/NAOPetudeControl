@@ -1,5 +1,4 @@
-//followSignalSampledOppositeWay.pde
-float [] newPosFollowed= new float [networkSize];
+
 
 void followSignalSampledOppositeWay(int ratioTimeFrame){
 
@@ -196,4 +195,3 @@ println ( " modeStartKeyToFollow " + modeStartKeyToFollow);
  // mapDataToMotor(); // do not work
   
 }
-

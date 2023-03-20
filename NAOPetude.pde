@@ -1,10 +1,38 @@
- PNetwork net; 
+ 
+//import PNetwork.java.*; 
+// MANAGE NETWORK of OSCILLATOR
+// import java.util.Arrays;
+import sync.*;
+PNetwork net;
+import java.util.Arrays;
+
 int networkSize = 6;
 int nbBalls=networkSize;
 
+
 float [] encodeur = new float [networkSize];
+float [] newPosFollowed= new float [networkSize]; // followOppositeWay
 
 
+int oldOscillatorChangePropagation, oscillatorChangePropagation; // splitIncoming
+boolean oscillatorChangingPropagation; // splitIncoming
+
+ 
+// INTERPOLATION
+int actualSec,lastSec, lastLastSec, measure;  // trig internal clock each seconde as a measure  (period of 1 seconde)
+
+int currTime;
+boolean bRecording = true;
+boolean mouseRecorded = true;
+float movementInterpolatedContinue;
+
+int Movement;
+
+float oldMovementInterpolated, movementInterpolated;
+float formerInterpolatedY;
+float interpolatedX, interpolatedY;
+
+//END INTERPOLaTION
 
 // MANAGE ARDUINO && TENNSY
 import processing.serial.*;
@@ -383,9 +411,7 @@ boolean running = true;
 
 int pair=0; // to manage wether I control oscillator odd or even.
 
-// MANAGE NETWORK of OSCILLATOR
-import java.util.Arrays;
-import sync.*;
+
 
 
 // variable of the setting of oscillator network
@@ -603,7 +629,7 @@ void setup() {
   string7=new B_String (width*0.1, width*0.3, width*0.7, width*0.9, height*0.8, 133);
   string8=new B_String (width*0.1, width*0.3, width*0.7, width*0.9, height*0.9, 278);
 
-  //  noLoop ();
+ 
 
   startStop = 0; // data used in Live
   frameRatio = 30;///30/5=> 108/5 BPM 21.6  or 114/5 = 22.8
@@ -618,19 +644,19 @@ void setup() {
 
   //********************  
   // lines = loadStrings("OVERCOOL/viergelentAlongRecBisVitesse8FRAMEcontinueBisElague.txt");//retire o garde pendulaire 5366:36:56:42
-  lines = loadStrings("OVERCOOL/viergelentAlongRecBisVitesse8FRAMEFaireVVraimentBis2.txt");// // to play to trig LIVE
-  lines = loadStrings("OVERCOOL/viergelentAlongRecBisVitesse8FRAMEFaireVVraimentBis5FINAL6.txt");// drole d'effet vers frame 16000 
-  lines = loadStrings("OVERCOOL/viergelentAlongRecBisVitesse8FRAMEFaireVVraimentBis5FINAL13.txt");//
-  lines = loadStrings("OVERCOOL/viergelentAlongRecBisVitesse8FRAMEFaireVVraimentBis5FINAL16.txt");//
+  //lines = loadStrings("OVERCOOL/viergelentAlongRecBisVitesse8FRAMEFaireVVraimentBis2.txt");// // to play to trig LIVE
+  //lines = loadStrings("OVERCOOL/viergelentAlongRecBisVitesse8FRAMEFaireVVraimentBis5FINAL6.txt");// drole d'effet vers frame 16000 
+  //lines = loadStrings("OVERCOOL/viergelentAlongRecBisVitesse8FRAMEFaireVVraimentBis5FINAL13.txt");//
+  //lines = loadStrings("OVERCOOL/viergelentAlongRecBisVitesse8FRAMEFaireVVraimentBis5FINAL16.txt");//
   
-  lines = loadStrings("OVERCOOL/viergelentAlongRecBisVitesse8FRAMEFaireVVraimentBis5FINAL33.txt");//  // 33 fonctione
+  //lines = loadStrings("OVERCOOL/viergelentAlongRecBisVitesse8FRAMEFaireVVraimentBis5FINAL33.txt");//  // 33 fonctione
 
 
   //********************  fichier vierge
  //  lines = loadStrings("vierge.txt");
    lines = loadStrings("viergechar.txt");
   // lines = loadStrings("madrushstart.txt");
-  readOneLine(); // play case frame by frame. Uncomment if you want play in live
+  //**** readOneLine(); // play case frame by frame. Uncomment if you want play in live
   textSize(200);
 
   //********Sending and Receiving data with two different serialport
@@ -639,12 +665,13 @@ void setup() {
   //*************** WITH TEENSY connected
  //  teensyport = new Serial(this, ports[0], 115200);// si port non connecte Venturey
 // teensyport = new Serial(this, ports[1], 115200);// si port non connecte Catalina ou connecté Venturey
-    teensyport = new Serial(this,ports[2],115200); //  si port connecté
+    teensyport = new Serial(this,ports[1],115200); //  si port connecté
   //*************** WITHOUT ENODEER connected
-    encoderReceiveUSBport101 = new Serial(this, Serial.list()[3], 1000000);
+ //   encoderReceiveUSBport101 = new Serial(this, Serial.list()[2], 1000000);
+    encoderReceiveUSBport101 =  new Serial(this,ports[2], 1000000);
 
   // Read bytes into a buffer until you get a linefeed (ASCII 10):
-     encoderReceiveUSBport101.bufferUntil('\n');
+    encoderReceiveUSBport101.bufferUntil('\n');
 
   //********************************************************* BEGIN GRAPHIC CHIMERA STATE SETUP
   float[][] Coupling = new float[networkSizeGraphic][networkSizeGraphic];
@@ -705,7 +732,7 @@ void setup() {
   net = new PNetwork(this, networkSize, coupling, noiseLevel);
   side = height*0.15*1/networkSize;
   displacement = width/2;
-
+/*
   minim   = new Minim(this);
 
   // this opens the file and puts it in the "play" state.                           
@@ -732,18 +759,14 @@ void setup() {
   volumei= new float[networkSize];
   bpmFrequency= new float[networkSize];
   //**************************
+  */
+  
+  
   /*  to manage later reflection on sphere
    colorMode(RGB, 1);
    //  fill(0.4);
    */
-  //***************************************** SET 3D CAM 
-  cam = new PeasyCam(this, 2000);
-  cameraZ = (h / 2.0) / tan(radians(fov) / 2.0);
-  zNear = cameraZ / 10.0;
-  zFar = cameraZ * 10.0;
-  println("CamZ: " + cameraZ);
-  rectMode(CENTER);
-  //***************************************** END 3D CAM   
+ 
   //***************************************** SET minim library to discriminate 3 differents frequencies in a mp3 
 
   //  minim = new Minim(this);
@@ -753,6 +776,7 @@ void setup() {
   //  beat = new BeatDetect(song.bufferSize(), song.sampleRate());
   //  beat.setSensitivity(400);//300 ou 100? 
 
+  /*
   kickSize = snareSize = hatSize = 16;
   // make a new beat listener, so that we won't miss any buffers for the analysis
   bl = new BeatListener(beat, song);  
@@ -761,15 +785,15 @@ void setup() {
   //***************************************** set position and coupling of oscillators
   mouseX= width/2;
   // in order to have coupling=0;
-  //   formerKeyMetro = '£'; // to begin with circular phase;
   formerKeyMetro = '$'; // to begin setting of phase with pendular phase in the menu $ ; 
- // formerKeyMetro = 's';
   circularMov=false;
   for (int i = 0; i < networkSize; i++) {
     //   net.phase[i] = (i*PI/2);// position 0 at the top
     net.phase[i] = PI/2;// position 0 at the top
     //   net.phase[i]=-PI+0.5*PI+PI/12; // position 0+PI/12
   }
+  
+ 
   upstairShifting = new boolean [networkSize];
   clockWay = new boolean [networkSize];
   oldClockWay = new boolean [networkSize];
@@ -782,33 +806,20 @@ void setup() {
 
     oldOscillatorMoving[i]=false;
     OscillatorMoving[i]=false;
-    // factorWay=new int [networkSize];
-    // PhaseDecay=new float [networkSize];
 
-    //   net.phase[i]+=   (TWO_PI/(networkSize-2))*(1*(networkSize-1-i)); // TWOPI/10--> 10 hit * 3%PI/3 with and oscillator11 not affected
-
-    //    net.phase[i] += ((TWO_PI/(networkSize/3))*(i+1)); // TRES BIEN  ==     net.phase[i] += (i+1)*TWO_PI/4; //4hit  ==   net.phase[i] +=  (i+1)*3.5*PI; 
-    //    net.phase[i] = net.phase[i]%TWO_PI; // TRES BIEN
-    // key='e'; keyReleased();
-    // arduinoPos();
-    //  printSummary(i);  
-    //    keyCode =BACKSPACE;
   }
 
   for (int i = 0; i < networkSize; i++) {
     //   ActualVirtualPosition[i]=80*i;
-
-
     // DataToDueCircularVirtualPosition[i]= DataToDueCircularVirtualPosition[i]+800;
     DataToDueCircularVirtualPosition[i]= (int) map ( DataToDueCircularVirtualPosition[i], -800, 800, 1600, 4800)+ ActualVirtualPosition[i];  // mapped for 6400 step/round +800
-
-    //  dataToLive[i]=(float)  map(DataToDueCircularVirtualPosition[i], 1600, 4800, 0f, 1f);
+ //  dataToLive[i]=(float)  map(DataToDueCircularVirtualPosition[i], 1600, 4800, 0f, 1f);
   }
   for (int i = 0; i < 300; i++) {
     // which+1 is the smallest (the oldest in the array)
     //  formerEvent[i]=0; //Time elapsed before trigging event
   }
-  for (int i = 2; i <  networkSize; i++) {
+  for (int i = 0; i <  networkSize; i++) {
     phaseToMotor= new int [networkSize];
     phaseMapped= new float [nbBall];
     phaseMappedFollow= new float [nbBall];
@@ -818,6 +829,21 @@ void setup() {
       phases[i][j] = -PI;
       
   }
+  */
+  
+  
+  
+  
+    //***************************************** SET 3D CAM 
+  cam = new PeasyCam(this, 2000);
+  cameraZ = (h / 2.0) / tan(radians(fov) / 2.0);
+  zNear = cameraZ / 10.0;
+  zFar = cameraZ * 10.0;
+  println("CamZ: " + cameraZ);
+  rectMode(CENTER);
+  //***************************************** END 3D CAM  
+  
+  
 //keyMode = " addSignalOneAndTwoBis ";  
 keyMode = " phasePattern ";                                                                                                                                                                                                                 
 formerKeyMetro = '@';
@@ -905,6 +931,10 @@ void mousePressed() {
 
 
 void draw() {
+  noLoop();
+  printArray(encodeur);
+ 
+ 
   
     background(0);
 //  printDataOnScreen();
@@ -1756,8 +1786,9 @@ for (int i = 0; i < networkSize; i++) {
     startStop= 1;  
     print ("MOVEMENT AND TIMER is already started, now START LIVE: "); 
     println (startStop );
-
+/*
     String dataMarkedToDue  ="<" 
+    
       + mapAcceleration[11]+","+  int  (1000/avgTimer.average()*60*1000)  +","+cohesionCounterHigh+","
       //+ onOFF+"," +nextScene+","
       //     + mapAcceleration[11]+","+ mapAcceleration[11]+","+mapAcceleration[11]+","+ mapAcceleration[11]+","+mapAcceleration[11]+"," 
@@ -1771,7 +1802,7 @@ for (int i = 0; i < networkSize; i++) {
 
     print ("dataStart: "); 
     println(frameCount + ": " +  " " + ( dataMarkedToDue ));
-
+*/
     formerKey = '#'; //reset formerkey to not trigging LIVE
     formerSartKey = formerKey;
   }
@@ -2695,7 +2726,7 @@ void arduinoPos() {
   String ACCELERATION = mapAcceleration[5]+","
     +mapAcceleration[4]+","+ mapAcceleration[3]+","+mapAcceleration[2]+","+ mapAcceleration[1]+","+mapAcceleration[0]+","; // mapAcceleration[9]+","+ mapAcceleration[8]+","+mapAcceleration[7]+","+ mapAcceleration[6]+","+
 
-  String SPEED = speedi[5]+","+speedi[4]+","+speedi[3]+","+speedi[2]+","+speedi[1]+","+speedi[0]+","; // speedi[11]+","+speedi[10]+","+speedi[9]+","+ speedi[8]+","+speedi[7]+","+ speedi[6]+","+
+ // String SPEED = speedi[5]+","+speedi[4]+","+speedi[3]+","+speedi[2]+","+speedi[1]+","+speedi[0]+","; // speedi[11]+","+speedi[10]+","+speedi[9]+","+ speedi[8]+","+speedi[7]+","+ speedi[6]+","+
   // DECOMPTE: You trig a 0 when oscillator reach to the position 0, and then you have an incrementation at each frame.
 
   if (rev[networkSize-1]%8==0 && decompte[networkSize-1]>=-0 && decompte[networkSize-1]<1) {// send a trig to change scene in Ableton live (if oscillator 11 makes 8 round an djust when it pass trought its position 0 -->trig next scene in Live)
@@ -2800,12 +2831,6 @@ void arduinoPos() {
 
 
 
-  // ================SPEED LIMIT
-  // println(frameCount + ": " +  "SPEED" + ( SPEED ));
-  if ( abs (speedi[networkSize-1]) > 950 || abs (speedi[0]) > 950) {
-    //   key = 'h'; keyReleased();
-    text("CAREFULL", width/2, height - 20);
-  }
 
   //    print ("pendular      ");   println (pendular);  
   if (formerKeyMetro!='s') {
@@ -7074,7 +7099,7 @@ void arduinoPosJO() { // envoyer les informations aux moteurs
   }
 
   teensyport.write(dataToControlMotor); // Send data to Teensy. only the movement
-  println(frameCount + ": " +  " dataToControlMotor " + ( dataToControlMotor ));
+ // println(frameCount + ": " +  " dataToControlMotor " + ( dataToControlMotor ));
 }
 
 void keyReleasedfollowSignal() {
@@ -7188,26 +7213,13 @@ void serialEvent(Serial encoderReceiveUSBport101) { // receive 2 datas splited w
   // split the string at the commas
   // and convert the sections into integers:
   int values[] = int(split(myString, ','));
-
-  if (values.length > 0) {// v0 is value of the encodeur from 0 to 4000
-  int v0; int v1; int v2; int v3; int v4; int v5;
-
-    v0 = (int) map (values[0], 0, 4000, 0, 400);
-    v1 = (int) map (values[0], 0, 4000, 0, 400);
-    v2 = (int) map (values[0], 0, 4000, 0, 400);
-    v3 = (int) map (values[0], 0, 4000, 0, 400);
-    v4 = (int) map (values[0], 0, 4000, 0, 400);
-    v5 = (int) map (values[0], 0, 4000, 0, 400);
-
-    for (int i = 0; i < networkSize; i=+1 ){
-    encodeur[i]= (int) map (values[i], 0, 4000, 0, 400); 
-    printArray(encodeur);
+ if (values.length > 0) {
+   for (int i = 0; i < networkSize; i=+1 ){
+    encodeur[i]= (int) map (values[i], 0, 4000, 0, 400);
+     printArray(encodeur);   
     }
+   //  printArray(encodeur);
     
-       
-    println (" v0 " + v0 ); println (" v1 " + v1 ); println (" v2 " + v2 ); println (" v3 " + v3 );
-    println (" v4 " + v4 ); println (" v5 " + v5 );
-    println ( " mouseY " + mouseY);  
 
 }
 }

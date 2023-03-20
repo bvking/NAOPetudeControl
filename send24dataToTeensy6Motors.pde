@@ -27,5 +27,5 @@ void send24DatasToTeensy6motors(int accelerationRatio, int driver0_On_Off, int c
      else dataTransformed = " dataComputeInTeensy from mode ";
      println(frameCount + ": " + dataTransformed +  keyMode + " " +   dataFromMode );
   //  encoderReceiveUSBport101.write(dataMarkedToTeensyNoJo);// Send data to Arduino.
-    teensyport.write(dataFromMode);
+   // teensyport.write(dataFromMode);
       }

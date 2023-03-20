@@ -1,4 +1,4 @@
-
+/*
 int actualSec,lastSec, lastLastSec, measure;  // trig internal clock each seconde as a measure  (period of 1 seconde)
 
 int currTime;
@@ -11,7 +11,7 @@ int Movement;
 float oldMovementInterpolated, movementInterpolated;
 float formerInterpolatedY;
 float interpolatedX, interpolatedY;
-
+*/
 
 class Sample {
   int t, x, y;

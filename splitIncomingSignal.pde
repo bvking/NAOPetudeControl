@@ -1,6 +1,3 @@
-int oldOscillatorChangePropagation, oscillatorChangePropagation;
-boolean oscillatorChangingPropagation;
-
 void  splitIncomingSignal() {  // change de sens de propagagtion.   ATTENTION dans ce reglage le signalToSplit de propgation est UP continue de 0 à TWO_PI
 
     lfoPhase[1] = (frameCount / 10.0 * cos (1000 / 500.0)*-1)%TWO_PI;  // continue 0 to TWO_PI;
