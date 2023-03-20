@@ -9,8 +9,10 @@ import java.util.Arrays;
 int networkSize = 6;
 int nbBalls=networkSize;
 
+int v0, v1, v2, v3, v4, v5;
 
-float [] encodeur = new float [networkSize];
+
+int [] encodeur = new int [networkSize];
 float [] newPosFollowed= new float [networkSize]; // followOppositeWay
 
 
@@ -180,9 +182,6 @@ float [] motorToVisualPhase = new float[networkSize ];
 
 
 //******************       INTERPOLATION AND  SamplingMovement
-int v1;// position motor from Teensy 
-int virtualV2; // position virtual to simulate v1
-int v3;
 int phase11;
 float addPhase;
 float addPhaseAllMode;
@@ -208,7 +207,6 @@ int timeFrameOffsetFollowing;
 // RECORD MOTOR 0 and SAMPLING MOVEMENT and PLAIY IT in LOOP
 
 int frameSampling; 
-int v2 =400;
 int z;
 
 int  counterV1;
@@ -931,8 +929,8 @@ void mousePressed() {
 
 
 void draw() {
-  noLoop();
-  printArray(encodeur);
+ // noLoop();
+ // printArray(encodeur);
  
  
   
@@ -1448,10 +1446,10 @@ for (int i = 0; i < networkSize; i++) {
 
      //****  newPosF[networkSize-1]=  map (mouseY, 0, height/2, 0, TWO_PI);
 
-      mouseX=mouseX+4;
-      mouseX=mouseX%400;
-      //     mouseY=mouseY+20;
-      mouseY=(int) map (encodeur[0], 0, 400, 0, 400);
+    //  mouseX=mouseX+4;
+    //  mouseX=mouseX%400;
+     
+     // mouseY=(int) map (v0, 0, 400, 0, 400)%400;
     
  
     //****  mouseY=(int) map (automation1, 0, 1, 0, 400);  //POSITION MOTOR
@@ -7213,15 +7211,27 @@ void serialEvent(Serial encoderReceiveUSBport101) { // receive 2 datas splited w
   // split the string at the commas
   // and convert the sections into integers:
   int values[] = int(split(myString, ','));
- if (values.length > 0) {
-   for (int i = 0; i < networkSize; i=+1 ){
-    encodeur[i]= (int) map (values[i], 0, 4000, 0, 400);
-     printArray(encodeur);   
-    }
-   //  printArray(encodeur);
-    
 
+   if (values.length > 0) {// v1 de 0 a 4000
+     
+    v0 = (int) map (values[0], 0, 4000, 0, 400);
+    v1 = (int) map (values[0], 0, 4000, 0, 400);
+    v2 = (int) map (values[0], 0, 4000, 0, 400);
+    v3 = (int) map (values[0], 0, 4000, 0, 400);
+    v4 = (int) map (values[0], 0, 4000, 0, 400);
+    v5 = (int) map (values[0], 0, 4000, 0, 400);
+ 
+     println (" v0 " + v0 + " v1 " + v1 + " v2 " + v2 + " v3 " + v3 + " v4 " + v4 +  " v5 " + v5);   
 }
+/*
+   for (int i = 0; i < networkSize; i=+1 ){
+    encodeur[i]= (int) map (values[0], 0, 4000, 0, 400);
+    // printArray(encodeur);   
+    }
+   showArray(encodeur); 
+}
+*/
+
 }
 
 void samplingMovement(float timeSec) {
@@ -7447,10 +7457,10 @@ void stopSamplingInternalClock(int endMeasure) {
 
 
 void followDistribueAddphasePattern(){
-   for (int i = 2; i <  networkSize-0; i+=1) {// networkSize-0
+   for (int i = 0; i <  networkSize-0; i+=1) {// networkSize-0
  //    print (net.oldPhase[i]); print (" 12448 ");   println (net.phase[i]); 
  //   net.oldPhase[i]=phaseMapped[i];
-    phaseMapped[i]= map (signal[2], 0, 1, 0, TWO_PI);; // use varaible phaseMapped (to play movement with time delay or phase delay) to well send it in Teensy
+    phaseMapped[i]= map (signal[2], 0, 1, 0, TWO_PI); // use varaible phaseMapped (to play movement with time delay or phase delay) to well send it in Teensy
  
     if (phaseMapped[i]<0){
    
@@ -7465,7 +7475,7 @@ void followDistribueAddphasePattern(){
     net.oldPhase[i]=net.phase[i];
     net.phase[i]= map (DataToDueCircularVirtualPosition[i], 0, numberOfStep, 0, TWO_PI);
   }
-  for (int i = 2; i < (networkSize-0); i+=1){
+  for (int i = 0; i < (networkSize-0); i+=1){
     print (" degrees "); print (i);  print (" "); println (degrees (net.phase[i]));
  }
    
@@ -7497,7 +7507,7 @@ void followDistribueAddphasePattern(){
  //   if (formerKeyMetro == '*' ) {
      phasePattern();
      
-    for (int i = 2; i < networkSize-0; i+=1) { 
+    for (int i = 0; i < networkSize-0; i+=1) { 
       print ("  BEF phaseMapped[i]  ");    println ( phaseMapped[i]  ); 
     phaseMappedFollow[i]= net.phase[i];
     phaseMapped[i] =  phaseMapped[i]+phaseMappedFollow[i];  // add offset given by pendularPattern
@@ -7526,7 +7536,7 @@ void followDistribueAddphasePattern(){
  }
  
  
-  sendToTeensyTurnOnDriver();
+  //sendToTeensyTurnOnDriver();
   }  
     } 
 

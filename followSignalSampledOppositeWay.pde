@@ -67,6 +67,11 @@ if (formerDecayTime>decayTime){
        drawBallOppositeWay( i, phases[i-0][frameCountBis % nbMaxDelais] ); 
     //  println ( " phases[i][frameCountBis % nbMaxDelais " + i + " " + phases[i][frameCountBis % nbMaxDelais] ) ; 
  }
+
+  for (int i = 0; i < networkSize; i+=1) { // 1 follow phase 0
+       
+  newPosFollowed[i]=phases[i][frameCountBis % nbMaxDelais]; // signals to follow
+ }
  
  
   if (formerFormerKey == '#' || modeStartKeyToFollow == " followSignalSampledOppositeWay(frameRatio) ") {
@@ -75,7 +80,7 @@ println ( " modeStartKeyToFollow " + modeStartKeyToFollow);
 
       for (int i = 0; i < networkSize-0; i+=1) { 
         
-       newPosFollowed[i]=phases[i-0][frameCountBis % nbMaxDelais]; // signals to follow
+     //  newPosFollowed[i]=phases[i-0][frameCountBis % nbMaxDelais]; // signals to follow
        newPosFollowed[i]=newPosFollowed[i]%TWO_PI;  // signals to follow
 
        phaseMapped[i] = newPosFollowed[i]+phaseMappedFollow[i]; // new signal is a composition 
