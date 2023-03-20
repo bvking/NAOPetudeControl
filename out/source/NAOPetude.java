@@ -758,7 +758,7 @@ int framecount=30040;//4440 //5040  0à°)-_
   net = new PNetwork(this, networkSize, coupling, noiseLevel);
   side = height*0.15f*1/networkSize;
   displacement = width/2;
-/*
+
   minim   = new Minim(this);
 
   // this opens the file and puts it in the "play" state.                           
@@ -785,7 +785,7 @@ int framecount=30040;//4440 //5040  0à°)-_
   volumei= new float[networkSize];
   bpmFrequency= new float[networkSize];
   //**************************
-  */
+   
   
   
   /*  to manage later reflection on sphere
@@ -802,7 +802,7 @@ int framecount=30040;//4440 //5040  0à°)-_
   //  beat = new BeatDetect(song.bufferSize(), song.sampleRate());
   //  beat.setSensitivity(400);//300 ou 100? 
 
-  /*
+  
   kickSize = snareSize = hatSize = 16;
   // make a new beat listener, so that we won't miss any buffers for the analysis
   bl = new BeatListener(beat, song);  
@@ -855,7 +855,7 @@ int framecount=30040;//4440 //5040  0à°)-_
       phases[i][j] = -PI;
       
   }
-  */
+  
   
   
   
@@ -1474,7 +1474,9 @@ for (int i = 0; i < networkSize; i++) {
 
      //****  newPosF[networkSize-1]=  map (mouseY, 0, height/2, 0, TWO_PI);
 
-    //  mouseX=mouseX+4;
+      mouseX=mouseX+1;
+      mouseY=mouseY+1;
+      
     //  mouseX=mouseX%400;
      
      // mouseY=(int) map (v0, 0, 400, 0, 400)%400;
@@ -1492,22 +1494,14 @@ for (int i = 0; i < networkSize; i++) {
      //  stopSamplingMeasure(3);
     
          activeSamplingInternalClock(1); //do not work
-         stopSamplingInternalClock(3);  //do not work
+         stopSamplingInternalClock(2);  //do not work
          samplingMovementPro(); 
+
        //  samplingMovement(2); 
         
   //       print (" v1 ");   print (  v1);  print (" v1 ");   println (  v1); 
     //     sendToTeensy();
  }
- 
- 
- 
- 
- 
- 
- 
- 
- 
  
  
  //**************   END MODE SETTING   *************************
@@ -16635,7 +16629,7 @@ float[] volumei;
      else dataTransformed = " dataComputeInTeensy from mode ";
      println(frameCount + ": " + dataTransformed +  keyMode + " " +   dataFromMode );
   //  encoderReceiveUSBport101.write(dataMarkedToTeensyNoJo);// Send data to Arduino.
-   // teensyport.write(dataFromMode);
+    teensyport.write(dataFromMode);
       }
  public void  splitIncomingSignal() {  // change de sens de propagagtion.   ATTENTION dans ce reglage le signalToSplit de propgation est UP continue de 0 à TWO_PI
 
