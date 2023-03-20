@@ -10,6 +10,7 @@ int networkSize = 6;
 int nbBalls=networkSize;
 
 int v0, v1, v2, v3, v4, v5;
+int incrementeX;
 
 
 int [] encodeur = new int [networkSize];
@@ -930,6 +931,8 @@ void mousePressed() {
 
 void draw() {
  // noLoop();
+  println (" v0 " + v0 + " v1 " + v1 + " v2 " + v2 + " v3 " + v3 + " v4 " + v4 +  " v5 " + v5);  
+ //println (" v0 " + v0 + " v1 " + v1 + " v2 " + v2 + " v3 " + v3 + " v4 " + v4 +  " v5 " + v5); 
  // printArray(encodeur);
  
  
@@ -1446,9 +1449,35 @@ for (int i = 0; i < networkSize; i++) {
 
      //****  newPosF[networkSize-1]=  map (mouseY, 0, height/2, 0, TWO_PI);
 
-      mouseX=mouseX+1;
-      mouseY=mouseY+1;
+      // mouseX=mouseX+27;
+      incrementeX=incrementeX+27;
+      incrementeX=incrementeX%1600;
       
+
+       
+      if (incrementeX>=800 && incrementeX<=1600){ 
+       mouseX =(int) map  (incrementeX, 800, 1600, 800, 0);
+       }
+      if (incrementeX<800 ){ 
+       mouseX =(int) map  (incrementeX, 0, 800, 0, 800);
+       }
+
+    
+
+       mouseY=(int) map (v0, 0, 1600, 0, 1600)%1600;
+      if (mouseY>=800 && mouseY<=1600){ 
+       mouseY =(int) map  (mouseY, 800, 1600, 800, 0);
+       }
+
+          if (mouseY <800 ){ 
+       mouseY  =(int) map  (mouseY , 0, 800, 0, 800);
+       }
+
+
+
+       // mouseX=mouseY;
+       
+
     //  mouseX=mouseX%400;
      
      // mouseY=(int) map (v0, 0, 400, 0, 400)%400;
@@ -1466,7 +1495,7 @@ for (int i = 0; i < networkSize; i++) {
      //  stopSamplingMeasure(3);
     
          activeSamplingInternalClock(1); //do not work
-         stopSamplingInternalClock(2);  //do not work
+         stopSamplingInternalClock(3);  //do not work
          samplingMovementPro(); 
 
        //  samplingMovement(2); 
@@ -1773,7 +1802,7 @@ for (int i = 0; i < networkSize; i++) {
   } 
 
   // option to control sound in Live when the animation is stopped then started again and when oscillator 11 touches the left  
-  if (formerSartKey == '!' &&  TrigmodPos[11]>=0 && TrigmodPos[11]<1) { 
+  if (formerSartKey == '!' &&  TrigmodPos[networkSize]>=0 && TrigmodPos[networkSize]<1) { 
     println ("TRIG LIVE WITH oscillator 11 on LEFT" ); //
     startStop= 1;  
     print ("MOVEMENT AND TIMER is already started, now START LIVE: "); 
@@ -7208,15 +7237,17 @@ void serialEvent(Serial encoderReceiveUSBport101) { // receive 2 datas splited w
 
    if (values.length > 0) {// v1 de 0 a 4000
      
-    v0 = (int) map (values[0], 0, 4000, 0, 400);
-    v1 = (int) map (values[0], 0, 4000, 0, 400);
-    v2 = (int) map (values[0], 0, 4000, 0, 400);
-    v3 = (int) map (values[0], 0, 4000, 0, 400);
-    v4 = (int) map (values[0], 0, 4000, 0, 400);
-    v5 = (int) map (values[0], 0, 4000, 0, 400);
+    v0 = (int) map (values[0], 0, 4000, 0, 1600)%1600;
+    v1 = (int) map (values[0], 0, 4000, 0, 1600)%1600;
+    v2 = (int) map (values[0], 0, 4000, 0, 1600)%1600;
+    v3 = (int) map (values[0], 0, 4000, 0, 1600)%1600;
+    v4 = (int) map (values[0], 0, 4000, 0, 1600)%1600;
+    v5 = (int) map (values[0], 0, 4000, 0, 1600)%1600;
  
-     println (" v0 " + v0 + " v1 " + v1 + " v2 " + v2 + " v3 " + v3 + " v4 " + v4 +  " v5 " + v5);   
+      
 }
+ //println (" v0 " + v0 + " v1 " + v1 + " v2 " + v2 + " v3 " + v3 + " v4 " + v4 +  " v5 " + v5);  
+ //println (" v0 " + v0 + " v1 " + v1 + " v2 " + v2 + " v3 " + v3 + " v4 " + v4 +  " v5 " + v5);  
 /*
    for (int i = 0; i < networkSize; i=+1 ){
     encodeur[i]= (int) map (values[0], 0, 4000, 0, 400);

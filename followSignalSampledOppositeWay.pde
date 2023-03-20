@@ -60,7 +60,8 @@ if (formerDecayTime>decayTime){
     for (int i = 1; i < networkSize; i+=1) { // 1 follow phase 0
        
   //   follow( i-1, i, 20 * i, 0);  // Modifier les deux derniers paramètres : délais et phase
-     followOppositeWay( i-1, i+0, delayTimeFollowPhase11*1*frameRatio/ratioTimeFrame, (phaseShiftingFollowPhase11));  // ici, le temps que les points attendent pour se suivre est de 5 frames, et il faut un espace entre eux de QUARTER_PI/6
+  //   followOppositeWay( i-1, i+0, delayTimeFollowPhase11*1*frameRatio/ratioTimeFrame, (phaseShiftingFollowPhase11));  // ici, le temps que les points attendent pour se suivre est de 5 frames, et il faut un espace entre eux de QUARTER_PI/6
+     followOppositeWay( i-1, i+0, delayTimeFollowPhase11*1, (phaseShiftingFollowPhase11));  // ici, le temps que les points attendent pour se suivre est de 5 frames, et il faut un espace entre eux de QUARTER_PI/6
 
   //*** phaseMapped[i]=phases[i-0][frameCountBis % nbMaxDelais]; // use varaible phaseMapped (to play movement with time delay or phase delay) to well send it in Teensy
 
@@ -196,7 +197,7 @@ println ( " modeStartKeyToFollow " + modeStartKeyToFollow);
       }
     }
 
- send24DatasToTeensy6motors(10, 3, -3, -1);  // avant dernier >-1 alors compute data
+ send24DatasToTeensy6motors(8, 3, -3, -1);  // avant dernier >-1 alors compute data
  // mapDataToMotor(); // do not work
   
 }

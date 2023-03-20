@@ -38,6 +38,7 @@ int networkSize = 6;
 int nbBalls=networkSize;
 
 int v0, v1, v2, v3, v4, v5;
+int incrementeX;
 
 
 int [] encodeur = new int [networkSize];
@@ -958,6 +959,8 @@ boolean[] moveKeys = new boolean[99];
 
  public void draw() {
  // noLoop();
+  println (" v0 " + v0 + " v1 " + v1 + " v2 " + v2 + " v3 " + v3 + " v4 " + v4 +  " v5 " + v5);  
+ //println (" v0 " + v0 + " v1 " + v1 + " v2 " + v2 + " v3 " + v3 + " v4 " + v4 +  " v5 " + v5); 
  // printArray(encodeur);
  
  
@@ -1474,9 +1477,35 @@ for (int i = 0; i < networkSize; i++) {
 
      //****  newPosF[networkSize-1]=  map (mouseY, 0, height/2, 0, TWO_PI);
 
-      mouseX=mouseX+1;
-      mouseY=mouseY+1;
+      // mouseX=mouseX+27;
+      incrementeX=incrementeX+27;
+      incrementeX=incrementeX%1600;
       
+
+       
+      if (incrementeX>=800 && incrementeX<=1600){ 
+       mouseX =(int) map  (incrementeX, 800, 1600, 800, 0);
+       }
+      if (incrementeX<800 ){ 
+       mouseX =(int) map  (incrementeX, 0, 800, 0, 800);
+       }
+
+    
+
+       mouseY=(int) map (v0, 0, 1600, 0, 1600)%1600;
+      if (mouseY>=800 && mouseY<=1600){ 
+       mouseY =(int) map  (mouseY, 800, 1600, 800, 0);
+       }
+
+          if (mouseY <800 ){ 
+       mouseY  =(int) map  (mouseY , 0, 800, 0, 800);
+       }
+
+
+
+       // mouseX=mouseY;
+       
+
     //  mouseX=mouseX%400;
      
      // mouseY=(int) map (v0, 0, 400, 0, 400)%400;
@@ -1494,7 +1523,7 @@ for (int i = 0; i < networkSize; i++) {
      //  stopSamplingMeasure(3);
     
          activeSamplingInternalClock(1); //do not work
-         stopSamplingInternalClock(2);  //do not work
+         stopSamplingInternalClock(3);  //do not work
          samplingMovementPro(); 
 
        //  samplingMovement(2); 
@@ -1801,7 +1830,7 @@ for (int i = 0; i < networkSize; i++) {
   } 
 
   // option to control sound in Live when the animation is stopped then started again and when oscillator 11 touches the left  
-  if (formerSartKey == '!' &&  TrigmodPos[11]>=0 && TrigmodPos[11]<1) { 
+  if (formerSartKey == '!' &&  TrigmodPos[networkSize]>=0 && TrigmodPos[networkSize]<1) { 
     println ("TRIG LIVE WITH oscillator 11 on LEFT" ); //
     startStop= 1;  
     print ("MOVEMENT AND TIMER is already started, now START LIVE: "); 
@@ -7236,15 +7265,17 @@ shiftFollowMov();
 
    if (values.length > 0) {// v1 de 0 a 4000
      
-    v0 = (int) map (values[0], 0, 4000, 0, 400);
-    v1 = (int) map (values[0], 0, 4000, 0, 400);
-    v2 = (int) map (values[0], 0, 4000, 0, 400);
-    v3 = (int) map (values[0], 0, 4000, 0, 400);
-    v4 = (int) map (values[0], 0, 4000, 0, 400);
-    v5 = (int) map (values[0], 0, 4000, 0, 400);
+    v0 = (int) map (values[0], 0, 4000, 0, 1600)%1600;
+    v1 = (int) map (values[0], 0, 4000, 0, 1600)%1600;
+    v2 = (int) map (values[0], 0, 4000, 0, 1600)%1600;
+    v3 = (int) map (values[0], 0, 4000, 0, 1600)%1600;
+    v4 = (int) map (values[0], 0, 4000, 0, 1600)%1600;
+    v5 = (int) map (values[0], 0, 4000, 0, 1600)%1600;
  
-     println (" v0 " + v0 + " v1 " + v1 + " v2 " + v2 + " v3 " + v3 + " v4 " + v4 +  " v5 " + v5);   
+      
 }
+ //println (" v0 " + v0 + " v1 " + v1 + " v2 " + v2 + " v3 " + v3 + " v4 " + v4 +  " v5 " + v5);  
+ //println (" v0 " + v0 + " v1 " + v1 + " v2 " + v2 + " v3 " + v3 + " v4 " + v4 +  " v5 " + v5);  
 /*
    for (int i = 0; i < networkSize; i=+1 ){
     encodeur[i]= (int) map (values[0], 0, 4000, 0, 400);
@@ -12162,7 +12193,8 @@ if (formerDecayTime>decayTime){
     for (int i = 1; i < networkSize; i+=1) { // 1 follow phase 0
        
   //   follow( i-1, i, 20 * i, 0);  // Modifier les deux derniers paramètres : délais et phase
-     followOppositeWay( i-1, i+0, delayTimeFollowPhase11*1*frameRatio/ratioTimeFrame, (phaseShiftingFollowPhase11));  // ici, le temps que les points attendent pour se suivre est de 5 frames, et il faut un espace entre eux de QUARTER_PI/6
+  //   followOppositeWay( i-1, i+0, delayTimeFollowPhase11*1*frameRatio/ratioTimeFrame, (phaseShiftingFollowPhase11));  // ici, le temps que les points attendent pour se suivre est de 5 frames, et il faut un espace entre eux de QUARTER_PI/6
+     followOppositeWay( i-1, i+0, delayTimeFollowPhase11*1, (phaseShiftingFollowPhase11));  // ici, le temps que les points attendent pour se suivre est de 5 frames, et il faut un espace entre eux de QUARTER_PI/6
 
   //*** phaseMapped[i]=phases[i-0][frameCountBis % nbMaxDelais]; // use varaible phaseMapped (to play movement with time delay or phase delay) to well send it in Teensy
 
@@ -12298,7 +12330,7 @@ println ( " modeStartKeyToFollow " + modeStartKeyToFollow);
       }
     }
 
- send24DatasToTeensy6motors(10, 3, -3, -1);  // avant dernier >-1 alors compute data
+ send24DatasToTeensy6motors(8, 3, -3, -1);  // avant dernier >-1 alors compute data
  // mapDataToMotor(); // do not work
   
 }
@@ -16606,7 +16638,7 @@ float[] volumei;
        dataFromMode ="<"
 
       + DataToDueCircularVirtualPosition[5]+ ","+ DataToDueCircularVirtualPosition[4]+ ","+ DataToDueCircularVirtualPosition[3]+","+ DataToDueCircularVirtualPosition[2]+ ","
-      + DataToDueCircularVirtualPosition[1]+ ","+ DataToDueCircularVirtualPosition[0]+ ","
+      + DataToDueCircularVirtualPosition[1]+ ","+  0 + ","      // DataToDueCircularVirtualPosition[0]
        +0+","+0+","+0+","+0+","
 
       +  accelerationRatio +","+ driver0_On_Off +","+ computeData +","+ eraseProcessingData + ","
