@@ -1440,7 +1440,7 @@ for (int i = 0; i < networkSize; i++) {
      println ( " samplingModeInternal  ");
     
      beginSample=millis();
-     text ( modeStartKeyToFollow + " mouseY " +  mouseY  + " mouseX " +  mouseX  +  measure , width/4, - height - 100);  
+     text ( modeStartKeyToFollow + " mouseY " +  mouseY  + " mouseX " +  mouseX  +  measure , -width/4, - height + 100);  
    //      text ( measure + " mouseY ", width/4, -height-400);  
 
     //  mouseY=(float) map (mouseY, 0, 400, 0, TWO_PI);  // position from Ableton LFOdecay
@@ -1454,7 +1454,7 @@ for (int i = 0; i < networkSize; i++) {
       incrementeX=incrementeX%800;
       
 
-       
+       /*
       if (incrementeX>=400 && incrementeX<=800){ 
        mouseX =(int) map  (incrementeX, 400, 800, 400, 0);
      //  newPosF[networkSize-1]=  map (mouseX, 400, 0, PI, TWO_PI);
@@ -1463,19 +1463,31 @@ for (int i = 0; i < networkSize; i++) {
        mouseX =(int) map  (incrementeX, 0, 400, 0, 400);
      //  newPosF[networkSize-1]=  map (mouseX, 0, 400, 0, PI);
        }
-
+*/
        
-
+/*
         mouseY=(int) map (v0, 0, 800, 0, 800)%800;
+
       if (mouseY>=400 && mouseY<=800){ 
-       mouseY =(int) map  (mouseY, 400, 800, 400, 0);
+       mouseY =(int) map  (mouseY, 400, 800, 400, 0)*-1;
        newPosF[networkSize-1]=  map (mouseY, 400, 0, PI, TWO_PI);
        }
 
           if (mouseY <400 ){ 
-       mouseY  =(int) map  (mouseY , 0, 400, 0, 400);
+       mouseY  =(int) map  (mouseY , 0, 400, 0, 400)*-1;
        newPosF[networkSize-1]=  map (mouseY, 0, 400, 0, PI);
        }
+*/
+
+       newPosF[networkSize-1]=  map (v0, 0, 800, 0, TWO_PI);
+      float rayon=displacement;
+      float polarToCartesionX= displacement*cos(newPosF[networkSize-1]);
+      float polarToCartesionY= displacement*sin(newPosF[networkSize-1]);
+
+      mouseX= (int) polarToCartesionX;
+      mouseY= (int) polarToCartesionY;
+
+      println ( " polarToCartesionX " + polarToCartesionX + " polarToCartesionY " + polarToCartesionY  );
 
 
 

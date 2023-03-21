@@ -30,15 +30,13 @@ if (formerDecayTime>decayTime){
        drawBall( 1, movementInterpolated);
        phases[0][frameCountBis % nbMaxDelais]=movementInterpolated;
     //MAP movementInterpolated
-    
+    /*
     if (phases[0][frameCountBis % nbMaxDelais]<=0){
    
      DataToDueCircularVirtualPosition[0]= int (map (phases[0][frameCountBis % nbMaxDelais], 0, -TWO_PI, numberOfStep, 0)); 
  
      phases[0][frameCountBis % nbMaxDelais]= map (DataToDueCircularVirtualPosition[0], numberOfStep, 0, 0, -TWO_PI);
-   //   newPosF[i]= phaseMapped[i];
 
-       }
        
    else {
     
@@ -47,7 +45,8 @@ if (formerDecayTime>decayTime){
       phases[0][frameCountBis % nbMaxDelais]= map (DataToDueCircularVirtualPosition[0], 0, numberOfStep, 0, TWO_PI);
    
   }
-   drawBallOppositeWay(  2, phases[0][frameCountBis % nbMaxDelais] );  
+  */
+   drawBallOppositeWay(  0, phases[0][frameCountBis % nbMaxDelais] );  
   //   newPosFollowed[i]
 
      // newPosFollowed[0]= phases[0][frameCountBis % nbMaxDelais]; // %TWO_PI

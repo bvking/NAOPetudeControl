@@ -99,23 +99,46 @@ class Sampler {
     float t0 = s0.t;
     float t1 = s1.t;
     float dt = (now - t0) / (t1 - t0);
-    float x = lerp( s0.x, s1.x, dt );
-     formerInterpolatedY=interpolatedY;
-     interpolatedY= constrain ( lerp( s0.y, s1.y, dt ), 0, 800);
-   //   formerY=interpolatedY;
-   //  interpolatedY= constrain (interpolatedY, 0, 800);
-    float y = lerp( s0.y, s1.y, dt );
-    circle( x, y, 10 );
-      println( " good data y " + y);
-     
-       if (formerInterpolatedY<=interpolatedY){
+    float x =constrain (lerp( s0.x, s1.x, dt ),-300, 300);
+   //  formerInterpolatedY=interpolatedY;
+   //  interpolatedY = lerp( s0.y, s1.y, dt );
+    float y =constrain (lerp( s0.y, s1.y, dt ),-300, 300);
+    circle( x, y, 20 );
+
+    text (" x " + x + " y " + y , 0, 0);
+
+
+    
+      print( " good data y " + y);
+
+   //  float polarToCartesionY= displacement*sin(newPosF[networkSize-1]);
+   // float angle =sin(newPosF[networkSize-1]) = y/ displacement;
+      formerInterpolatedY=interpolatedY;
+
+      print( " good data y/ displacement " + (y/ displacement) );
+
+      interpolatedY= map (y/displacement, -1, 1, 0, TWO_PI);
+
+      print( " good data y/ displacement " + (interpolatedY));
+
+     // movementInterpolated= map (y, -300, 300, 0, TWO_PI);
+
+     //  movementInterpolated= map (y/ displacement, -1, 1, 0, TWO_PI);
+    
+      
+        if (formerInterpolatedY<=interpolatedY){
     //  movementInterpolatedContinue=movementInterpolated+oldMovementInterpolated;
-       movementInterpolated= map (interpolatedY, 800, 0, 0, TWO_PI);
+       movementInterpolated= map (interpolatedY,  0, TWO_PI,  0, -TWO_PI);
+
+       print ( "   you are  go up?  " , 400, 400 );
        }
-       else
-       movementInterpolated=map (interpolatedY, 0, 800, 0, TWO_PI);
+       else {
+       movementInterpolated=map (interpolatedY,  0, TWO_PI, 0, TWO_PI);
+
+       }
+       
   }
- } 
+}
 
 Sampler sampler;
 

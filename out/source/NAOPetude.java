@@ -1468,7 +1468,7 @@ for (int i = 0; i < networkSize; i++) {
      println ( " samplingModeInternal  ");
     
      beginSample=millis();
-     text ( modeStartKeyToFollow + " mouseY " +  mouseY  + " mouseX " +  mouseX  +  measure , width/4, - height - 100);  
+     text ( modeStartKeyToFollow + " mouseY " +  mouseY  + " mouseX " +  mouseX  +  measure , -width/4, - height + 100);  
    //      text ( measure + " mouseY ", width/4, -height-400);  
 
     //  mouseY=(float) map (mouseY, 0, 400, 0, TWO_PI);  // position from Ableton LFOdecay
@@ -1482,7 +1482,7 @@ for (int i = 0; i < networkSize; i++) {
       incrementeX=incrementeX%800;
       
 
-       
+       /*
       if (incrementeX>=400 && incrementeX<=800){ 
        mouseX =(int) map  (incrementeX, 400, 800, 400, 0);
      //  newPosF[networkSize-1]=  map (mouseX, 400, 0, PI, TWO_PI);
@@ -1491,19 +1491,31 @@ for (int i = 0; i < networkSize; i++) {
        mouseX =(int) map  (incrementeX, 0, 400, 0, 400);
      //  newPosF[networkSize-1]=  map (mouseX, 0, 400, 0, PI);
        }
-
+*/
        
-
+/*
         mouseY=(int) map (v0, 0, 800, 0, 800)%800;
+
       if (mouseY>=400 && mouseY<=800){ 
-       mouseY =(int) map  (mouseY, 400, 800, 400, 0);
+       mouseY =(int) map  (mouseY, 400, 800, 400, 0)*-1;
        newPosF[networkSize-1]=  map (mouseY, 400, 0, PI, TWO_PI);
        }
 
           if (mouseY <400 ){ 
-       mouseY  =(int) map  (mouseY , 0, 400, 0, 400);
+       mouseY  =(int) map  (mouseY , 0, 400, 0, 400)*-1;
        newPosF[networkSize-1]=  map (mouseY, 0, 400, 0, PI);
        }
+*/
+
+       newPosF[networkSize-1]=  map (v0, 0, 800, 0, TWO_PI);
+      float rayon=displacement;
+      float polarToCartesionX= displacement*cos(newPosF[networkSize-1]);
+      float polarToCartesionY= displacement*sin(newPosF[networkSize-1]);
+
+      mouseX= (int) polarToCartesionX;
+      mouseY= (int) polarToCartesionY;
+
+      println ( " polarToCartesionX " + polarToCartesionX + " polarToCartesionY " + polarToCartesionY  );
 
 
 
@@ -12056,15 +12068,13 @@ if (formerDecayTime>decayTime){
        drawBall( 1, movementInterpolated);
        phases[0][frameCountBis % nbMaxDelais]=movementInterpolated;
     //MAP movementInterpolated
-    
+    /*
     if (phases[0][frameCountBis % nbMaxDelais]<=0){
    
-     DataToDueCircularVirtualPosition[0]= PApplet.parseInt (map (phases[0][frameCountBis % nbMaxDelais], 0, -TWO_PI, numberOfStep, 0)); 
+     DataToDueCircularVirtualPosition[0]= int (map (phases[0][frameCountBis % nbMaxDelais], 0, -TWO_PI, numberOfStep, 0)); 
  
      phases[0][frameCountBis % nbMaxDelais]= map (DataToDueCircularVirtualPosition[0], numberOfStep, 0, 0, -TWO_PI);
-   //   newPosF[i]= phaseMapped[i];
 
-       }
        
    else {
     
@@ -12073,7 +12083,8 @@ if (formerDecayTime>decayTime){
       phases[0][frameCountBis % nbMaxDelais]= map (DataToDueCircularVirtualPosition[0], 0, numberOfStep, 0, TWO_PI);
    
   }
-   drawBallOppositeWay(  2, phases[0][frameCountBis % nbMaxDelais] );  
+  */
+   drawBallOppositeWay(  0, phases[0][frameCountBis % nbMaxDelais] );  
   //   newPosFollowed[i]
 
      // newPosFollowed[0]= phases[0][frameCountBis % nbMaxDelais]; // %TWO_PI
@@ -14793,23 +14804,46 @@ class Sampler {
     float t0 = s0.t;
     float t1 = s1.t;
     float dt = (now - t0) / (t1 - t0);
-    float x = lerp( s0.x, s1.x, dt );
-     formerInterpolatedY=interpolatedY;
-     interpolatedY= constrain ( lerp( s0.y, s1.y, dt ), 0, 800);
-   //   formerY=interpolatedY;
-   //  interpolatedY= constrain (interpolatedY, 0, 800);
-    float y = lerp( s0.y, s1.y, dt );
-    circle( x, y, 10 );
-      println( " good data y " + y);
-     
-       if (formerInterpolatedY<=interpolatedY){
+    float x =constrain (lerp( s0.x, s1.x, dt ),-300, 300);
+   //  formerInterpolatedY=interpolatedY;
+   //  interpolatedY = lerp( s0.y, s1.y, dt );
+    float y =constrain (lerp( s0.y, s1.y, dt ),-300, 300);
+    circle( x, y, 20 );
+
+    text (" x " + x + " y " + y , 0, 0);
+
+
+    
+      print( " good data y " + y);
+
+   //  float polarToCartesionY= displacement*sin(newPosF[networkSize-1]);
+   // float angle =sin(newPosF[networkSize-1]) = y/ displacement;
+      formerInterpolatedY=interpolatedY;
+
+      print( " good data y/ displacement " + (y/ displacement) );
+
+      interpolatedY= map (y/displacement, -1, 1, 0, TWO_PI);
+
+      print( " good data y/ displacement " + (interpolatedY));
+
+     // movementInterpolated= map (y, -300, 300, 0, TWO_PI);
+
+     //  movementInterpolated= map (y/ displacement, -1, 1, 0, TWO_PI);
+    
+      
+        if (formerInterpolatedY<=interpolatedY){
     //  movementInterpolatedContinue=movementInterpolated+oldMovementInterpolated;
-       movementInterpolated= map (interpolatedY, 800, 0, 0, TWO_PI);
+       movementInterpolated= map (interpolatedY,  0, TWO_PI,  0, -TWO_PI);
+
+       print ( "   you are  go up?  " , 400, 400 );
        }
-       else
-       movementInterpolated=map (interpolatedY, 0, 800, 0, TWO_PI);
+       else {
+       movementInterpolated=map (interpolatedY,  0, TWO_PI, 0, TWO_PI);
+
+       }
+       
   }
- } 
+}
 
 Sampler sampler;
 
