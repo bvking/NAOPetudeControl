@@ -101,22 +101,22 @@ class Sampler {
     float t1 = s1.t;
     float dt = (now - t0) / (t1 - t0);
 
-  float x =constrain (lerp( s0.x, s1.x, dt ),-300, 300);
+  //***float x =constrain (lerp( s0.x, s1.x, dt ),-300, 300);
    //  formerInterpolatedY=interpolatedY;
    //  interpolatedY = lerp( s0.y, s1.y, dt );
-  float y =constrain (lerp( s0.y, s1.y, dt ),-300, 300);
+  //** float y =constrain (lerp( s0.y, s1.y, dt ),-300, 300);
 
   //** POLAR VERSION
-   // float x =constrain (mlerp( s0.x, s1.x, dt, TWO_PI ),-300, 300);
+    float x =constrain (mlerp( s0.x, s1.x, dt, TWO_PI ),0, TWO_PI);
    //  formerInterpolatedY=interpolatedY;
    //  interpolatedY = lerp( s0.y, s1.y, dt );
-  //  float y =constrain (mlerp( s0.y, s1.y, dt, TWO_PI ),-300, 300);
+    float y =constrain (mlerp( s0.y, s1.y, dt, TWO_PI ),0, TWO_PI);
     circle( x, y, 20 );
      
     textSize (50);
   
     movementInterpolated = y ;
-    text (" x " + x + " y " + y + " mov " + movementInterpolated , 100, 3000);
+    text (" x " + x + " y " + y + " mov " + movementInterpolated , 100, 300);
 
 
   /*  
