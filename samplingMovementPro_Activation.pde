@@ -1,8 +1,11 @@
 void samplingMovementPro() {
    // currTime = millis() * 0.001;  // seconds since app started
+    float polarToCartesionX= displacement*cos(newPosF[networkSize-1]);
+    float polarToCartesionY= displacement*sin(newPosF[networkSize-1]);
    if( bRecording ) {
-    circle( mouseX, mouseY, 10 );
-    sampler.addSample( mouseX, mouseY );
+    circle( polarToCartesionX,polarToCartesionY, 10 );
+  //  sampler.addSample( newPosF[networkSize-1], newPosF[networkSize-1] ); // polar Version
+    sampler.addSample( polarToCartesionX, polarToCartesionY ); // cartesian version
 
   print (" 679 SEC  mouse Y REC " );  print (mouseY);  print (" v1 REC " );  print (v1);
   print (" 679 SEC  mouse Y REC " );  print (mouseY);  print (" v1 REC " );  println (v1);

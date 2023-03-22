@@ -19,8 +19,7 @@ if (formerDecayTime>decayTime){
      //here in a previous function we could change the ball followed if the space of phase between phases[0] and phase 9 is more than 360° for example
 
     samplingMovementPro();
-    println ( "  movementInterpolated in FOLLOW opposite WAY", movementInterpolated,
-               " oldmovementInterpolated ", oldMovementInterpolated );
+    text ( "  movementInterpolated in FOLLOW opposite WAY" +  movementInterpolated +  " oldmovementInterpolated " + oldMovementInterpolated , 400, 900 );
    // if (oldMovementInterpolated>movementInterpolated){
    //   movementInterpolated= map (movementInterpolated, 0, TWO_PI, TWO_PI, 0);
    //    }

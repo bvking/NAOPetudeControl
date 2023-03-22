@@ -1487,7 +1487,9 @@ for (int i = 0; i < networkSize; i++) {
       mouseX= (int) polarToCartesionX;
       mouseY= (int) polarToCartesionY;
 
-      println ( " polarToCartesionX " + polarToCartesionX + " polarToCartesionY " + polarToCartesionY  );
+
+
+      println ( " polarToCartesionX " + polarToCartesionX + " polarToCartesionY " + polarToCartesionY + " newPosF[networkSize-1] " + newPosF[networkSize-1] );
 
 
 

@@ -14,8 +14,9 @@ float interpolatedX, interpolatedY;
 */
 
 class Sample {
-  int t, x, y;
-  Sample( int t, int x, int y ) {
+  int t;
+  float x, y;
+  Sample( int t, float x, float y ) {
     this.t = t;  this.x = x;  this.y = y;
   }
 }
@@ -37,7 +38,7 @@ class Sampler {
     samplesModified = new ArrayList<Sample>();
     playbackFrame = 0;
   }
-  void addSample( int x, int y ) {  // add sample when bRecording
+  void addSample( float x, float y ) {  // add sample when bRecording
     int now = millis();
     if( samples.size() == 0 ) startTime = now;
     samples.add( new Sample( now - startTime, x, y ) );
@@ -51,8 +52,8 @@ class Sampler {
     playbackFrame = 0;
     println( samples.size(), "samples over", fullTime(), "milliseconds" );
     if(samples.size() > 0){
-      int deltax = samples.get(0).x - samples.get(samples.size()-1).x;
-      int deltay = samples.get(0).y - samples.get(samples.size()-1).y;
+      float deltax = samples.get(0).x - samples.get(samples.size()-1).x;
+      float deltay = samples.get(0).y - samples.get(samples.size()-1).y;
       float sumdist = 0;
       
       for(int i = 0; i < samples.size() - 1; i++) {
@@ -99,44 +100,71 @@ class Sampler {
     float t0 = s0.t;
     float t1 = s1.t;
     float dt = (now - t0) / (t1 - t0);
-    float x =constrain (lerp( s0.x, s1.x, dt ),-300, 300);
+
+  float x =constrain (lerp( s0.x, s1.x, dt ),-300, 300);
    //  formerInterpolatedY=interpolatedY;
    //  interpolatedY = lerp( s0.y, s1.y, dt );
-    float y =constrain (lerp( s0.y, s1.y, dt ),-300, 300);
+  float y =constrain (lerp( s0.y, s1.y, dt ),-300, 300);
+
+  //** POLAR VERSION
+   // float x =constrain (mlerp( s0.x, s1.x, dt, TWO_PI ),-300, 300);
+   //  formerInterpolatedY=interpolatedY;
+   //  interpolatedY = lerp( s0.y, s1.y, dt );
+  //  float y =constrain (mlerp( s0.y, s1.y, dt, TWO_PI ),-300, 300);
     circle( x, y, 20 );
+     
+    textSize (50);
+  
+    movementInterpolated = y ;
+    text (" x " + x + " y " + y + " mov " + movementInterpolated , 100, 3000);
 
-    text (" x " + x + " y " + y , 0, 0);
 
-
-    
+  /*  
       print( " good data y " + y);
-
-   //  float polarToCartesionY= displacement*sin(newPosF[networkSize-1]);
-   // float angle =sin(newPosF[networkSize-1]) = y/ displacement;
       formerInterpolatedY=interpolatedY;
+      interpolatedY=y+300;
 
-      print( " good data y/ displacement " + (y/ displacement) );
+      oldMovementInterpolated = movementInterpolated;
+    text( " movementInterpolated " + movementInterpolated + " formerInterpolatedY " +formerInterpolatedY + " interpolatedY "+ interpolatedY, 400, 400 );
+      
+      if (interpolatedY > 300 && interpolatedY<= 600 && formerInterpolatedY<interpolatedY){
+       movementInterpolated= map (interpolatedY, 300, 600,  PI, PI+PI/2);
+       text( "   you are  going up first 1/4?  " , 400, 500 );
+       }
 
-      interpolatedY= map (y/displacement, -1, 1, 0, TWO_PI);
+   // 600 to 300 2 * 1/4
+      if (interpolatedY > 300 && interpolatedY<= 600 && formerInterpolatedY>interpolatedY){
+       movementInterpolated= map (interpolatedY, 600, 300,  PI+PI/2, TWO_PI);
+       text( "   you are  going up second 2/4?  " , 400, 600 );
+       }
 
-      print( " good data y/ displacement " + (interpolatedY));
+       if (interpolatedY <= 300 && interpolatedY>= 0 && formerInterpolatedY>interpolatedY){
+       movementInterpolated= map (interpolatedY, 300, 0,  0, PI/2);
+       text( "   you are  going up third 3/4?  " , 400, 700 );
+       }
 
-     // movementInterpolated= map (y, -300, 300, 0, TWO_PI);
+        if (interpolatedY >=0 && interpolatedY<= 300 && formerInterpolatedY<interpolatedY){
+       movementInterpolated= map (interpolatedY, 0, 300,  PI/2, 0);
+       text( "   you are  going up forth 4/4?  " , 400, 800 );
+       }
+*/
+
+  
+     // movementInterpolated= map (y, -300, 300, 0, TWO_PI);   
 
      //  movementInterpolated= map (y/ displacement, -1, 1, 0, TWO_PI);
     
-      
+      /*
         if (formerInterpolatedY<=interpolatedY){
-    //  movementInterpolatedContinue=movementInterpolated+oldMovementInterpolated;
        movementInterpolated= map (interpolatedY,  0, TWO_PI,  0, -TWO_PI);
 
-       print ( "   you are  go up?  " , 400, 400 );
+       text( "   you are  go up?  " , 400, 400 );
        }
        else {
        movementInterpolated=map (interpolatedY,  0, TWO_PI, 0, TWO_PI);
-
+          text( "   you are  go down?  " , 400, 400 );
        }
-       
+      */  
   }
 }
 
