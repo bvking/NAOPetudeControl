@@ -11,7 +11,15 @@ int Movement;
 float oldMovementInterpolated, movementInterpolated;
 float formerInterpolatedY;
 float interpolatedX, interpolatedY;
+
+int numberOfPointInterpolated= 2; 
+float []  interpolatedAngle = new float [numberOfPointInterpolated];
 */
+
+        
+
+
+//PVector v0, v1;
 
 class Sample {
   int t;
@@ -47,34 +55,102 @@ class Sampler {
     return ( samples.size() > 1 ) ? 
     samples.get( samples.size()-1 ).t : 0;
   }
+
   void beginPlaying() {
     startTime = millis();
     playbackFrame = 0;
     println( samples.size(), "samples over", fullTime(), "milliseconds" );
-    if(samples.size() > 0){
-      float deltax = samples.get(0).x - samples.get(samples.size()-1).x;
-      float deltay = samples.get(0).y - samples.get(samples.size()-1).y;
-      float sumdist = 0;
+    if ( samples.size()>0 ){
+
       
-      for(int i = 0; i < samples.size() - 1; i++) {
-        sumdist += sqrt((samples.get(i).x - samples.get(i +1 ).x)*(samples.get(i).x - samples.get(i +1 ).x) + (samples.get(i).y - samples.get(i +1 ).y)*(samples.get(i).y - samples.get(i +1 ).y));
+   
+
+  
+       float firstAngle = samples.get(0).y ;
+       float lastAngle =  samples.get(samples.size()-1).y ;
+      
+
+      for (int i = 0; i < int (numberOfPointInterpolated); i++) {
+    
+       interpolatedAngle[i]  = lerp(firstAngle, lastAngle, i/float (numberOfPointInterpolated));       
+       println (" interp " + i + " " + interpolatedAngle[i] + " " );
+       fill( 255, 127*i, 127*i );
+       circle ( 100* cos ( interpolatedAngle[i])+400, 100*sin ( interpolatedAngle[i])+200, 100);
+       circle ( 100* cos ( interpolatedAngle[i])+400, 100*sin ( interpolatedAngle[i])+200, 100);
+      
+        }
+
+
+
+           for(int i = samples.size() - 2; i < samples.size() - 0; i++) {
+      
+            println ( " i size-0  " + i + " i-samples.size()+3 " +  (i- samples.size()+3));
+     
+         }
+
+
+        for(int i = samples.size() - 3; i < samples.size() - 1; i++) {
+
+          println ( " i size-1 " + i + " i-samples.size()+3 " +  (i- samples.size()+3));
+        
+      //  samples.add( new Sample(  i, interpolatedAngle[i -samples.size() +3], interpolatedAngle[i -samples.size() +3] ) );
+
+           }
+
+         for (int i = 0; i < int (numberOfPointInterpolated); i++) {
+
+         //  println ( " i " + i + "  samples.size() " + samples.size()-1 +  " samples.size()-1 - numberOfPointInterpolated + i " + (samples.size()-1 -  numberOfPointInterpolated + i )); // .. 55 54
+        
+            samples.add( new Sample(  samples.size() -1 - numberOfPointInterpolated + i, interpolatedAngle[i ], interpolatedAngle[i] ) );
+
+             println( " interpolated and situa " + (samples.size()-1 -  numberOfPointInterpolated + i)+ " " + samples.get(samples.size()-1 -  numberOfPointInterpolated + i).x);
+          //   print( "   sampled other " + i + " " + samplesModified.get(i).x);
+
+           }
+      
+     //  samples.add( new Sample(  samples.size() - 3, interpolatedAngle[samples.size() - 3], interpolatedAngle[samples.size() - 3] ) );
+     //  samples.add( new Sample(  samples.size() - 2, interpolatedAngle[samples.size() - 2], interpolatedAngle[samples.size() - 2] ) );
+      
+         for (int i = 0; i < int (numberOfPointInterpolated); i++) {
+      println ( " (samples.size()-1 -  numberOfPointInterpolated + i) " + (samples.size()-1 -  numberOfPointInterpolated + i) );
+      //      samples.add( new Sample(  i, interpolatedAngle[i], interpolatedAngle[i] ) );
+      //****** for(int i = samples.size() - 3; i < samples.size() - 1; i++) {
+     // samples.add( new Sample(  i, interpolatedAngle[samples.size() - i-2], interpolatedAngle[samples.size() - i-2] ) );
+     //   samplesModified.add( new Sample( (samples.size()- i-2), interpolatedAngle[(samples.size()- i-2)], interpolatedAngle[(samples.size()- i-2)] ) );
+
+
+         //     samples.add( new Sample(  i, interpolatedAngle[i-samples.size()+4], interpolatedAngle[i-samples.size()+4] ) );
+          //    samplesModified.add( new Sample( samples.size() - i-2, interpolatedAngle[samples.size() - i-2], interpolatedAngle[samples.size() - i-2] ) );
+    
+      //  samplesModified.add( new Sample(samples.get(i).t, samples.get(i).x ,  samples.get(i).y ) ) ;
+
+        //  samplesModified.add( new Sample(samples.get(i+1).t, samples.get(i+1).x ,  samples.get(i+1).y ) ) ;
+       // samplesModified.add( new Sample(interpolatedAngle[i].t, interpolatedAngle[i].x ,  interpolatedAngle[i].z) ) ;
+       //  println ( "  samplesModified. ; " i + " " +  samplesModified.get(i).x )   ;
+    
+         }
+       }
+       
+   
+      noLoop();
+     // samplesModified.add( new Sample(samples.get(0).t, samples.get(0).x , samples.get(0).y ) );
+         for(int i = 0; i < samples.size() - 1; i++) {
+      samplesModified.add( new Sample(samples.get(i+1).t, samples.get(i+1).x ,  samples.get(i+1).y ) ) ;
       }
-      
-      samplesModified.add( new Sample(samples.get(0).t, samples.get(0).x , samples.get(0).y ) );
-      float dist = 0;
       for(int i = 0; i < samples.size() - 1; i++) {
-        dist += sqrt((samples.get(i).x - samples.get(i +1 ).x)*(samples.get(i).x - samples.get(i +1 ).x) + (samples.get(i).y - samples.get(i +1 ).y)*(samples.get(i).y - samples.get(i +1 ).y));
-        samplesModified.add( new Sample(samples.get(i+1).t, (int) (samples.get(i +1).x + (dist * deltax) / sumdist), (int) (samples.get(i+1).y +( dist * deltay )/ sumdist)) );
+        
+     //   dist += sqrt((samples.get(i).x - samples.get(i +1 ).x)*(samples.get(i).x - samples.get(i +1 ).x) + (samples.get(i).y - samples.get(i +1 ).y)*(samples.get(i).y - samples.get(i +1 ).y));
+      //  samplesModified.add( new Sample(samples.get(i+1).t, (int) (samples.get(i +1).x + (dist * deltax) / sumdist), (int) (samples.get(i+1).y +( dist * deltay )/ sumdist)) );
         print(samples.get(i).x);
         print(",");
         print(samples.get(i).y);
         print(",");
-        print( " good data x " + samplesModified.get(i).x);
+        print( " good data x " + i + " " + samplesModified.get(i).x);
         print(",");
-        print( " good data y " + samplesModified.get(i).y);
+        print( " good data y " + i + " " + samplesModified.get(i).y);
         println("");      
       }
-    }
+    
   }
  
  
@@ -83,7 +159,7 @@ class Sampler {
     
     //**RECORD
     beginShape(LINES);
-    for( int i=1; i<samples.size(); i++) {
+    for( int i=1; i<samples.size()-1; i++) {
       vertex( samplesModified.get(i-1).x, samplesModified.get(i-1).y ); // replace vertex with Pvector
       vertex( samplesModified.get(i).x, samplesModified.get(i).y );
     }
@@ -108,8 +184,6 @@ class Sampler {
 
   //** POLAR VERSION
     float x =constrain (mlerp( s0.x, s1.x, dt, TWO_PI ),0, TWO_PI);
-   //  formerInterpolatedY=interpolatedY;
-   //  interpolatedY = lerp( s0.y, s1.y, dt );
     float y =constrain (mlerp( s0.y, s1.y, dt, TWO_PI ),0, TWO_PI);
     circle( x, y, 20 );
      

@@ -9,6 +9,9 @@ import java.util.Arrays;
 int networkSize = 6;
 int nbBalls=networkSize;
 
+int numberOfPointInterpolated= 2; 
+float []  interpolatedAngle = new float [numberOfPointInterpolated];
+
 int v0, v1, v2, v3, v4, v5;
 int incrementeX;
 
@@ -931,6 +934,7 @@ void mousePressed() {
 
 void draw() {
  // noLoop();
+
   println (" v0 " + v0 + " v1 " + v1 + " v2 " + v2 + " v3 " + v3 + " v4 " + v4 +  " v5 " + v5);  
  //println (" v0 " + v0 + " v1 " + v1 + " v2 " + v2 + " v3 " + v3 + " v4 " + v4 +  " v5 " + v5); 
  // printArray(encodeur);
