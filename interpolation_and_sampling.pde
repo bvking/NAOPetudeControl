@@ -67,7 +67,7 @@ class Sampler {
 
   
        float firstAngle = samples.get(0).y ;
-       float lastAngle =  samples.get(samples.size()-1).y ;
+       float lastAngle =  samples.get(samples.size()-2).y ;
       
 
       for (int i = 0; i < int (numberOfPointInterpolated); i++) {
@@ -103,8 +103,10 @@ class Sampler {
         
             samples.add( new Sample(  samples.size() -1 - numberOfPointInterpolated + i, interpolatedAngle[i ], interpolatedAngle[i] ) );
 
-             println( " interpolated and situa " + (samples.size()-1 -  numberOfPointInterpolated + i)+ " " + samples.get(samples.size()-1 -  numberOfPointInterpolated + i).x);
-          //   print( "   sampled other " + i + " " + samplesModified.get(i).x);
+             println( " interpolated and situa A " + (samples.size()-1 -  numberOfPointInterpolated + i)+ " " + samples.get(samples.size()-1 -  numberOfPointInterpolated + i).x);
+             println( " interpolated and situa i " + (i)+ " " + samples.get(i).x);
+             println( " interpolated and situa A " + (samples.size()-1 -  numberOfPointInterpolated + i)+ " " + samples.get(i).x);
+
 
            }
       
@@ -120,7 +122,7 @@ class Sampler {
 
 
          //     samples.add( new Sample(  i, interpolatedAngle[i-samples.size()+4], interpolatedAngle[i-samples.size()+4] ) );
-          //    samplesModified.add( new Sample( samples.size() - i-2, interpolatedAngle[samples.size() - i-2], interpolatedAngle[samples.size() - i-2] ) );
+        //    samplesModified.add( new Sample( samples.size()-1 -  numberOfPointInterpolated + i, interpolatedAngle[samples.size()-1 -  numberOfPointInterpolated + i], interpolatedAngle[samples.size()-1 -  numberOfPointInterpolated + i] ) );
     
       //  samplesModified.add( new Sample(samples.get(i).t, samples.get(i).x ,  samples.get(i).y ) ) ;
 
