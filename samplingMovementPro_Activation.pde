@@ -21,6 +21,9 @@ void samplingMovementPro() {
         sampler.draw();
         
         text ( " do the sample " , 100, 100);
+
+       
+
   }
 }
 

@@ -12069,7 +12069,7 @@ if (formerDecayTime>decayTime){
    //    }
       for (int i = 0; i < 1; i+=1) {  // number of sample is 55
    println ( "  samplesModified.get(i).y " + i +  " " + interpolatedY);
-     }
+     }  
        drawBall( 1, movementInterpolated);
        phases[0][frameCountBis % nbMaxDelais]=movementInterpolated;
     //MAP movementInterpolated
@@ -14731,6 +14731,8 @@ float []  interpolatedAngle = new float [numberOfPointInterpolated];
 
 //PVector v0, v1;
 
+float []  sampledModifiedChecking = new float [1000000000];
+
 class Sample {
   int t;
   float x, y;
@@ -14787,7 +14789,7 @@ class Sampler {
        interpolatedAngle[i]  = lerp(firstAngle, lastAngle, i/PApplet.parseFloat (numberOfPointInterpolated));       
        println (" interp " + i + " " + interpolatedAngle[i] + " " );
        fill( 255, 127*i, 127*i );
-    //   circle ( 100* cos ( interpolatedAngle[i])+400, 100*sin ( interpolatedAngle[i])+400, 200);
+       circle ( 200* cos ( interpolatedAngle[i]), 200*sin ( interpolatedAngle[i]), 200);
     //   circle ( 100* cos ( interpolatedAngle[i])+400, 100*sin ( interpolatedAngle[i])+400, 200);
       // circle ( 100* cos ( newPosF[i])+400, 100*sin ( newPosF[i])+400, 200);
       // circle ( 100* cos ( newPosF[i])+400, 100*sin ( newPosF[i])+400, 200);
@@ -14812,10 +14814,9 @@ class Sampler {
            }
 
          for (int i = 0; i < PApplet.parseInt (numberOfPointInterpolated); i++) {
-
-         //  println ( " i " + i + "  samples.size() " + samples.size()-1 +  " samples.size()-1 - numberOfPointInterpolated + i " + (samples.size()-1 -  numberOfPointInterpolated + i )); // .. 55 54
-        
-            samples.add( new Sample(  samples.size() -1 - numberOfPointInterpolated + i, interpolatedAngle[i ], interpolatedAngle[i] ) );
+           // add interpo to the end
+   
+           // samples.add( new Sample(  samples.size() -1 - numberOfPointInterpolated + i, interpolatedAngle[i ], interpolatedAngle[i] ) );
 
              println( " interpolated and situa A bon " + (samples.size()-1 -  numberOfPointInterpolated + i)+ " " + samples.get(samples.size()-1 -  numberOfPointInterpolated + i).x);
              println( " interpolated and situa i " + (i)+ " " + samples.get(i).x);
@@ -14850,8 +14851,9 @@ class Sampler {
    
      // samplesModified.add( new Sample(samples.get(0).t, samples.get(0).x , samples.get(0).y ) );
          for(int i = 0; i < samples.size() - 1; i++) {
-      samplesModified.add( new Sample(samples.get(i+1).t, samples.get(i+1).x ,  samples.get(i+1).y ) ) ;
-      if (i>=samples.size()-1 -  numberOfPointInterpolated + i){
+//      samplesModified.add( new Sample(samples.get(i+0).t, samples.get(i+1).x ,  samples.get(i+1).y ) ) ;
+        samplesModified.add( new Sample(samples.get(i+1).t, samples.get(i+1).x ,  samples.get(i+1).y ) ) ;
+      if (i>=samples.size()-1 -  numberOfPointInterpolated ){
         println (   " interpolated modif and situa A bon " +  i+ " " + samplesModified.get(i).x);
      
       }
@@ -14867,7 +14869,11 @@ class Sampler {
         print( " good data x " + i + " " + samplesModified.get(i).x);
         print(",");
         print( " good data y " + i + " " + samplesModified.get(i).y);
-        println("");      
+        println("");  
+
+         sampledModifiedChecking[i] =    samplesModified.get(i).y;  
+         // movementInterpolated =   samplesModified.get(i).y;  
+
       }
     
   
@@ -14882,6 +14888,8 @@ class Sampler {
     for( int i=1; i<samples.size()-1; i++) {
       vertex( samplesModified.get(i-1).x, samplesModified.get(i-1).y ); // replace vertex with Pvector
       vertex( samplesModified.get(i).x, samplesModified.get(i).y );
+     //  movementInterpolated = samplesModified.get(i).y;
+
     }
     endShape();
     //**ENDRECORD
@@ -14905,12 +14913,19 @@ class Sampler {
   //** POLAR VERSION
     float x =constrain (mlerp( s0.x, s1.x, dt, TWO_PI ),0, TWO_PI);
     float y =constrain (mlerp( s0.y, s1.y, dt, TWO_PI ),0, TWO_PI);
-    circle( x, y, 20 );
+    //  circle( (int) s0.x, (int) s0.x, 20 );
+    circle( cos (x)*100, sin(y)*100, 20 );
+
+    fill (100, 100, 100);
+    circle ( 200* cos ( interpolatedAngle[1]), 200*sin ( interpolatedAngle[1]), 200);
+    circle ( 200* cos ( interpolatedAngle[0]), 200*sin ( interpolatedAngle[0]), 200);
+
+
      
     textSize (50);
   
     movementInterpolated = y ;
-    text (" x " + x + " y " + y + " mov " + movementInterpolated , 100, 300);
+    text (" x " + x + " y " + y + " mov " + movementInterpolated , 100, 500);
     
    //  noLoop();
 
@@ -15574,13 +15589,14 @@ float[] volumei;
 
     if ( modeStartKeyToFollow  == " followSignalSampledOppositeWay(frameRatio) " || modeStartKeyToFollow  == " samplingModeInternal " 
       || modeStartKeyToFollow  == " followSignalSampled " ) {
-      println ( " display modeStartKeyToFollow " + modeStartKeyToFollow + " " + newPosF[i] );
+        println ( " display modeStartKeyToFollow " + modeStartKeyToFollow + " " + newPosF[i]  + " check " +  sampledModifiedChecking[i] );
+
       text ( PApplet.parseChar (formerKeyMetro) , 100,100);
       fill (127, 127 , 0);    
       x = displacement*cos(newPosF[i]);
       y = displacement*sin(newPosF[i]);   
    //    circle ( 100* cos ( interpolatedAngle[0])+400, 100*sin ( interpolatedAngle[0])+400, 200);
-       circle ( 100* cos ( interpolatedAngle[1])+400, 100*sin ( interpolatedAngle[1])+400, 200);
+   //    circle ( 100* cos ( interpolatedAngle[1])+400, 100*sin ( interpolatedAngle[1])+400, 200);
       sphere(side*3);
       sphereDetail( 4*5); 
       } 
@@ -15589,7 +15605,6 @@ float[] volumei;
     popMatrix();
   
   }  
-
   net.step(); 
   netG.step(); //Does it make any meaning?
   
@@ -16702,6 +16717,9 @@ float[] volumei;
         sampler.draw();
         
         text ( " do the sample " , 100, 100);
+
+       
+
   }
 }
 

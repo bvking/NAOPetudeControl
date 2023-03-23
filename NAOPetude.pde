@@ -1824,7 +1824,7 @@ for (int i = 0; i < networkSize; i++) {
   } 
 
   // option to control sound in Live when the animation is stopped then started again and when oscillator 11 touches the left  
-  if (formerSartKey == '!' &&  TrigmodPos[networkSize]>=0 && TrigmodPos[networkSize]<1) { 
+  if (formerSartKey == '!' &&  TrigmodPos[networkSize-1]>=0 && TrigmodPos[networkSize-1]<1) { 
     println ("TRIG LIVE WITH oscillator 11 on LEFT" ); //
     startStop= 1;  
     print ("MOVEMENT AND TIMER is already started, now START LIVE: "); 
