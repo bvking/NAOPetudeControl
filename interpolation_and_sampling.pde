@@ -60,14 +60,16 @@ class Sampler {
     startTime = millis();
     playbackFrame = 0;
     println( samples.size(), "samples over", fullTime(), "milliseconds" );
-    if ( samples.size()>0 ){
+    if ( samples.size()>=0 ){
 
       
    
 
   
        float firstAngle = samples.get(0).y ;
-       float lastAngle =  samples.get(samples.size()-2).y ;
+       float lastAngle =  samples.get(samples.size()-1).y ;
+
+        println (" firstAngle" + firstAngle + " " + lastAngle + " " );
       
 
       for (int i = 0; i < int (numberOfPointInterpolated); i++) {
@@ -75,8 +77,10 @@ class Sampler {
        interpolatedAngle[i]  = lerp(firstAngle, lastAngle, i/float (numberOfPointInterpolated));       
        println (" interp " + i + " " + interpolatedAngle[i] + " " );
        fill( 255, 127*i, 127*i );
-       circle ( 100* cos ( interpolatedAngle[i])+400, 100*sin ( interpolatedAngle[i])+200, 100);
-       circle ( 100* cos ( interpolatedAngle[i])+400, 100*sin ( interpolatedAngle[i])+200, 100);
+    //   circle ( 100* cos ( interpolatedAngle[i])+400, 100*sin ( interpolatedAngle[i])+400, 200);
+    //   circle ( 100* cos ( interpolatedAngle[i])+400, 100*sin ( interpolatedAngle[i])+400, 200);
+      // circle ( 100* cos ( newPosF[i])+400, 100*sin ( newPosF[i])+400, 200);
+      // circle ( 100* cos ( newPosF[i])+400, 100*sin ( newPosF[i])+400, 200);
       
         }
 
@@ -103,7 +107,7 @@ class Sampler {
         
             samples.add( new Sample(  samples.size() -1 - numberOfPointInterpolated + i, interpolatedAngle[i ], interpolatedAngle[i] ) );
 
-             println( " interpolated and situa A " + (samples.size()-1 -  numberOfPointInterpolated + i)+ " " + samples.get(samples.size()-1 -  numberOfPointInterpolated + i).x);
+             println( " interpolated and situa A bon " + (samples.size()-1 -  numberOfPointInterpolated + i)+ " " + samples.get(samples.size()-1 -  numberOfPointInterpolated + i).x);
              println( " interpolated and situa i " + (i)+ " " + samples.get(i).x);
              println( " interpolated and situa A " + (samples.size()-1 -  numberOfPointInterpolated + i)+ " " + samples.get(i).x);
 
@@ -134,11 +138,14 @@ class Sampler {
        }
        
    
-      noLoop();
      // samplesModified.add( new Sample(samples.get(0).t, samples.get(0).x , samples.get(0).y ) );
          for(int i = 0; i < samples.size() - 1; i++) {
       samplesModified.add( new Sample(samples.get(i+1).t, samples.get(i+1).x ,  samples.get(i+1).y ) ) ;
+      if (i>=samples.size()-1 -  numberOfPointInterpolated + i){
+        println (   " interpolated modif and situa A bon " +  i+ " " + samplesModified.get(i).x);
+     
       }
+       }
       for(int i = 0; i < samples.size() - 1; i++) {
         
      //   dist += sqrt((samples.get(i).x - samples.get(i +1 ).x)*(samples.get(i).x - samples.get(i +1 ).x) + (samples.get(i).y - samples.get(i +1 ).y)*(samples.get(i).y - samples.get(i +1 ).y));
@@ -153,6 +160,7 @@ class Sampler {
         println("");      
       }
     
+  
   }
  
  
@@ -193,7 +201,8 @@ class Sampler {
   
     movementInterpolated = y ;
     text (" x " + x + " y " + y + " mov " + movementInterpolated , 100, 300);
-
+    
+   //  noLoop();
 
   /*  
       print( " good data y " + y);

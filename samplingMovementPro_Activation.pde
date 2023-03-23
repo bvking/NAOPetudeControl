@@ -19,6 +19,8 @@ void samplingMovementPro() {
  else {
     if( sampler.fullTime() > 0 )
         sampler.draw();
+        
+        text ( " do the sample " , 100, 100);
   }
 }
 

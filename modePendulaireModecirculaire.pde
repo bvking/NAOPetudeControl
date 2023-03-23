@@ -450,11 +450,13 @@ void  modePendulaireModeCirculaire() {
 
     if ( modeStartKeyToFollow  == " followSignalSampledOppositeWay(frameRatio) " || modeStartKeyToFollow  == " samplingModeInternal " 
       || modeStartKeyToFollow  == " followSignalSampled " ) {
-    println ( " display modeStartKeyToFollow " + modeStartKeyToFollow + " " + newPosF[i] );
-        text ( char (formerKeyMetro) , 100,100);
+      println ( " display modeStartKeyToFollow " + modeStartKeyToFollow + " " + newPosF[i] );
+      text ( char (formerKeyMetro) , 100,100);
       fill (127, 127 , 0);    
       x = displacement*cos(newPosF[i]);
       y = displacement*sin(newPosF[i]);   
+   //    circle ( 100* cos ( interpolatedAngle[0])+400, 100*sin ( interpolatedAngle[0])+400, 200);
+       circle ( 100* cos ( interpolatedAngle[1])+400, 100*sin ( interpolatedAngle[1])+400, 200);
       sphere(side*3);
       sphereDetail( 4*5); 
       } 
