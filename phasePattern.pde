@@ -21,23 +21,27 @@ void phasePattern() { // trigged with $ or *
                                                                                                                                                                                                                                                                                                                                                                                                                                
 
   //********** ********** ********** ********** ********** ********** ********** INCREASE FREQUENCIES in $ mode PENDULAR PATTERN
-  if (keyCode == RIGHT) {  
-    /*
-      println( " right INCREASE timeOffset    from F0 (the behind one  the fastest) F1 very slow =0.021 ")  ; // Incremente together without changing phases   
-     if ( formerSartKey != 'w'){
-     d+=250;
-     d=d%1750;
-     println ("d= timeOffsetRatio: "); 
-     println (d);
+  if (keyCode == LEFT) {  
+    if ( keyMode == " phasePattern "){
      oscillatorBlocked++;
-     print ("  oscillatorBlocked ");     
-     println (oscillatorBlocked); 
      if (oscillatorBlocked > (networkSize-1)) { 
-     oscillatorBlocked=2;    
+     oscillatorBlocked=0;    
      }
-     keyCode = SHIFT; // to trig only once
+     key='#'; // to trig only once
+     text (" blocked "  + oscillatorBlocked, width/2, height/4);
+    
      }
-     */
+  }
+    if (keyCode == RIGHT) {  
+     if ( keyMode == " phasePattern "){
+     oscillatorBlocked=oscillatorBlocked-1;
+     if (oscillatorBlocked <= 0) { 
+     oscillatorBlocked=networkSize-1;    
+     }
+     key='#'; // to trig only once
+     text (" blocked "  + oscillatorBlocked, width/2, height/4);
+    
+     }
   }
 
   if (keyCode == RIGHT) {  
@@ -85,7 +89,6 @@ void phasePattern() { // trigged with $ or *
       printSummary(i);
     }
   }
-
 
   if (key == '1') { 
     println("Set Frequencies to 1+ harmonic distance with maxim different between them "); // boost l'effet du case é 
@@ -661,7 +664,7 @@ void phasePattern() { // trigged with $ or *
       //    net.phase[i] -= (QUARTER_PI/(networkSize-0))*(i+1); // TRES BIEN
 
       net.phase[i] = net.phase[i] + ((TWO_PI/(networkSize/1))*(i+1)); // TRES BIEN  ==     net.phase[i] += (i+1)*TWO_PI/4; //4hit  ==   net.phase[i] +=  (i+1)*3.5*PI; 
-      net.phase[i] = net.phase[i] % TWO_PI; // TRES BIEN
+    //  net.phase[i] = net.phase[i] % TWO_PI; // TRES BIEN
 
       printSummary(i);
       key ='#'; keyReleased();
@@ -685,7 +688,7 @@ void phasePattern() { // trigged with $ or *
         net.phase[i] = net.phase[i] + (i+1)*TWO_PI/3; //3hit  <=>   net.phase[i] += (i+1)*TWO_PI/1.5; 
      
 
-      net.phase[i]=  net.phase[i]%TWO_PI;
+    //  net.phase[i]=  net.phase[i]%TWO_PI;
         key ='#';// keyReleased();
     }
   }
@@ -711,16 +714,13 @@ void phasePattern() { // trigged with $ or *
 
 
       //    net.phase[i] +=  -(i+2)%PI/6; // mieux
-      //   net.phase[networkSize-1-i] -= (i*TWO_PI/3)%PI/11; // fonctionne seulement anti clockwise
-      //        net.phase[i] -= (i*TWO_PI/3)%PI/11; // fonctionne seulement anti clockwise
+    
       net.phase[i] += (i*TWO_PI/5)%PI/10; // 
 
       //    net.phase[i] -=  +(i+1)%PI/6; 
 
-      // net.phase[i]=  net.phase[i]%(TWO_PI/2) ; // bien en circulaire?
-      net.phase[i]=  net.phase[i]%(TWO_PI/1) ; // bien en pendulaire?
-      // net.shiftPhases(-2); 
-      // net.oldPhase[i]=  net.phase[i];
+     // net.phase[i]=  net.phase[i]%(TWO_PI/1) ; // bien en pendulaire?
+ 
       printSummary(i);
     }
   }
@@ -735,7 +735,7 @@ void phasePattern() { // trigged with $ or *
       print (net.phase[networkSize-1-i]); 
       print ("  ");
       //   net.phase[networkSize-1-i] += (i*TWO_PI/3)%PI/11;    //PAS TOUCHER
-      net.phase[i] -= (i*TWO_PI/5)%PI/10;
+      net.phase[i] -= (i*TWO_PI/5)%PI/5;
       //   net.phase[networkSize-1-i] += (i*TWO_PI/3)%PI/10;    //PAS TOUCHER
       //    net.phase[networkSize-1-i] += (i*TWO_PI/3)%TWO_PI/10;    //PAS TOUCHER // ne va pas avec P
       //     net.phase[networkSize-1-i] += (i*TWO_PI/3)%TWO_PI/11;    //PAS TOUCHER
@@ -760,7 +760,7 @@ void phasePattern() { // trigged with $ or *
 
       //  net.phase[i] -=(9-i)*0.05;
       //   net.phase[i] -=(networkSize-1-i)*0.05; // oscillator 11 do not move
-    //  net.phase[i] -= (networkSize- oscillatorBlocked-i)*0.05;
+      net.phase[i] -= (networkSize- oscillatorBlocked-i)*0.05;
     //  net.phase[i]=  net.phase[i]%TWO_PI;
 
       printSummary(i);
@@ -770,7 +770,7 @@ void phasePattern() { // trigged with $ or *
     for (int i = 0; i < networkSize; i++) {      
       //   net.phase[i] -=(networkSize-1-i)*0.1;
       //   net.phase[i]=  net.phase[i]%TWO_PI;
-      //***    net.phase[i] -= (networkSize- oscillatorBlocked-i)*0.05;
+         net.phase[i] -= (networkSize- oscillatorBlocked-i)*0.01;
       //***    net.phase[i]=  net.phase[i]%TWO_PI;
       printSummary(i);
     }
@@ -779,9 +779,9 @@ void phasePattern() { // trigged with $ or *
     println(" d$: INCREASE (clock way) the gap between phases of 5% from the oscillator " + oscillatorBlocked + " called with the same number as memoryi " + memoryi );
     for (int i = 0; i < networkSize; i++) {
 
-      net.phase[i] +=(oscillatorBlocked-i)*0.1; // oscillator 10 do not nove
+      net.phase[i] +=(oscillatorBlocked-i)*0.05; // oscillator 10 do not nove
     //        net.phase[i] +=(5-i)*0.1; // oscillator 10 do not nove
-   //    net.phase[i] +=(networkSize-oscillatorBlocked)*0.05;
+   //   net.phase[i] +=(networkSize-oscillatorBlocked)*0.05;
     //%%  net.phase[i] = net.phase[i]-(i)*0.05; //oscillatorBlocked;      //     net.phase[i] += (oscillatorBlocked+i)*0.05; reciproque de f ne fonctionne pas
       net.phase[i] =  net.phase[i]%TWO_PI;
       key='#';
@@ -793,7 +793,7 @@ void phasePattern() { // trigged with $ or *
     println(" D$: Increase the gap between phases by f0  ");    
     for (int i = 0; i < networkSize; i++) {
 
-      net.phase[i]+= (networkSize-1-i)*0.1;
+      net.phase[i] +=(oscillatorBlocked-i)*0.1;
       net.phase[i] =  net.phase[i]%TWO_PI;
       printSummary(i);
     }
@@ -833,7 +833,7 @@ void phasePattern() { // trigged with $ or *
       //  net.phase[i] += (oscillatorBlocked+i)*0.05;  // l'oscillateur ne se bloque pas
       net.phase[i] -= (networkSize- oscillatorBlocked-i)*0.05;
 
-      net.phase[i]=  net.phase[i]%TWO_PI;
+   //   net.phase[i]=  net.phase[i]%TWO_PI;
       key='#';
       printSummary(i);
     }
@@ -842,7 +842,7 @@ void phasePattern() { // trigged with $ or *
     for (int i = 0; i < networkSize; i++) {
 
       net.phase[i] +=(i+1)*0.1;
-      net.phase[i]=  net.phase[i]%TWO_PI;
+   //   net.phase[i]=  net.phase[i]%TWO_PI;
       key='#';
       printSummary(i);
     }
@@ -862,7 +862,7 @@ void phasePattern() { // trigged with $ or *
     for (int i = 0; i < networkSize; i++) {
       //       net.phase[i] -=i*0.01;
       net.phase[i] -=i*0.1;
-      net.phase[i]=  net.phase[i]%TWO_PI;
+    //  net.phase[i]=  net.phase[i]%TWO_PI;
       printSummary(i);
     }
   }
@@ -927,18 +927,21 @@ void phasePattern() { // trigged with $ or *
       net.phase[i]+=   (TWO_PI/(networkSize-2))*(1*(networkSize-1-i))%PI/3; // TWOPI/10--> 10 hit * 3%PI/3 with and oscillator11 not affected
 
       //     net.phase[networkSize-1-i] += (i*TWO_PI/10)%PI/3;  // 10*3 hit//same effect as above 
-      net.phase[i]=  net.phase[i]%TWO_PI;
+    //  net.phase[i]=  net.phase[i]%TWO_PI;
       key='#';
       printSummary(i);
     }
-  } else if (key == 'M') { 
+  }
+  
+  
+   else if (key == 'M') { 
     println("INCREASE phases with 0.5   "); //
     for (int i = 0; i < networkSize; i++) {
       //       net.phase[i] += QUARTER_PI/2 * net.phase[1*(networkSize-1-i)] ;//
       net.phase[i] += QUARTER_PI/2 * net.phase[i] ;//
 
       //      net.phase[i] = net.phase[i] - QUARTER_PI  i;
-      net.phase[i]=  net.phase[i]%TWO_PI;
+   //   net.phase[i]=  net.phase[i]%TWO_PI;
       key='#';
       printSummary(i);
     }

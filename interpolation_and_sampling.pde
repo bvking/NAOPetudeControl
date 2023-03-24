@@ -62,7 +62,7 @@ class Sampler {
     startTime = millis();
     playbackFrame = 0;
     println( samples.size(), "samples over", fullTime(), "milliseconds" );
-    if ( samples.size()>=0 ){
+    if ( samples.size()>0 ){
 
       
    
@@ -106,7 +106,7 @@ class Sampler {
          for (int i = 0; i < int (numberOfPointInterpolated); i++) {
            // add interpo to the end
    
-           // samples.add( new Sample(  samples.size() -1 - numberOfPointInterpolated + i, interpolatedAngle[i ], interpolatedAngle[i] ) );
+            samples.add( new Sample(  samples.size() -1 - numberOfPointInterpolated + i, interpolatedAngle[i ], interpolatedAngle[i] ) );
 
              println( " interpolated and situa A bon " + (samples.size()-1 -  numberOfPointInterpolated + i)+ " " + samples.get(samples.size()-1 -  numberOfPointInterpolated + i).x);
              println( " interpolated and situa i " + (i)+ " " + samples.get(i).x);
@@ -143,9 +143,8 @@ class Sampler {
          for(int i = 0; i < samples.size() - 1; i++) {
 //      samplesModified.add( new Sample(samples.get(i+0).t, samples.get(i+1).x ,  samples.get(i+1).y ) ) ;
         samplesModified.add( new Sample(samples.get(i+1).t, samples.get(i+1).x ,  samples.get(i+1).y ) ) ;
-      if (i>=samples.size()-1 -  numberOfPointInterpolated ){
+      if (i==samples.size()-1 -  numberOfPointInterpolated ){
         println (   " interpolated modif and situa A bon " +  i+ " " + samplesModified.get(i).x);
-     
       }
        }
       for(int i = 0; i < samples.size() - 1; i++) {
@@ -217,7 +216,7 @@ class Sampler {
     movementInterpolated = y ;
     text (" x " + x + " y " + y + " mov " + movementInterpolated , 100, 500);
     
-   //  noLoop();
+   
 
   /*  
       print( " good data y " + y);

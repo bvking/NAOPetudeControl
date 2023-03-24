@@ -670,10 +670,10 @@ void setup() {
     teensyport = new Serial(this,ports[1],115200); //  si port connecté
   //*************** WITHOUT ENODEER connected
  //   encoderReceiveUSBport101 = new Serial(this, Serial.list()[2], 1000000);
-    encoderReceiveUSBport101 =  new Serial(this,ports[2], 1000000);
+ //   encoderReceiveUSBport101 =  new Serial(this,ports[2], 1000000);
 
   // Read bytes into a buffer until you get a linefeed (ASCII 10):
-    encoderReceiveUSBport101.bufferUntil('\n');
+  //  encoderReceiveUSBport101.bufferUntil('\n');
 
   //********************************************************* BEGIN GRAPHIC CHIMERA STATE SETUP
   float[][] Coupling = new float[networkSizeGraphic][networkSizeGraphic];
@@ -7217,9 +7217,8 @@ void followDistribueAddphasePattern(){
 
      
 void followDirectLfo(){    
-  println (" PatternFollowLfo() ");
-     
-    lfoPattern();
+   println (" PatternFollowLfo() ");   
+   lfoPattern();
   //  LFO[0]= lfoPhase[2];
  
     splitTimeLfo();
@@ -7282,7 +7281,7 @@ void followDirectLfo(){
     if (doA==true ){ // offset with pendularPattern  || doQ==true
      phasePattern(); // change offset between ball with pendularPattern
      lfoPattern();
-   for (int i = 2; i < networkSize-0; i+=1) { 
+   for (int i = 0; i < networkSize-0; i+=1) { 
    
   //  newPosF[i]= net.phase[i];
  //**   newPosF[i]= lfoPhase[1];
@@ -7334,7 +7333,7 @@ void followDirectLfo(){
   
       countRevsContinue();
       
-    for (int i = 2; i < networkSize; i++) {
+    for (int i = 0; i < networkSize; i++) {
      
      oldPosF[i]=newPosF[i];
 
