@@ -1,4 +1,4 @@
-void phasePatternOriginal() { // trigged with $ or *
+void phasePattern() { // trigged with $ or *
   //************************************ DONT TOUCH
 
 //  if  (   formerKeyMetro != 'c') {  // VERY IMPORTANT with CASE c

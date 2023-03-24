@@ -1,4 +1,4 @@
-void arduinoPosAutre() { 
+void arduinoPos() { 
   
   if (formerKeyMetro == '>') {  // formerKeyMetro == '<' || 
     for (int i = 0; i < networkSize; i++) {

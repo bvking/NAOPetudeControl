@@ -11,6 +11,8 @@ int nbBalls=networkSize;
 
 int numberOfPointInterpolated= 2; 
 float []  interpolatedAngle = new float [numberOfPointInterpolated];
+float []  netPhaseBase  = new float [networkSize];
+float []  netOldPhaseBase  = new float [networkSize];
 
 int v0, v1, v2, v3, v4, v5;
 int incrementeX;
@@ -2120,7 +2122,7 @@ void printSummary(int i) {
    */
 }
 
-void arduinoPos() { 
+void arduinoPosOld() { 
   
   
   
@@ -2781,24 +2783,6 @@ void arduinoPos() {
   oscSend();
  
 //  printDataOnScreen();
-
-  int TeensyJo=3; // trig Joe in Teensy
-  int erasePosition=-1; //no
-  String dataMarkedToTeensyJo  ="<" // BPM9   
-
-  //  +   DataToDueCircularVirtualPosition[11]+ ","+DataToDueCircularVirtualPosition[10]+","+(DataToDueCircularVirtualPosition[9])+","+DataToDueCircularVirtualPosition[8]+","+DataToDueCircularVirtualPosition[7]+","
-   // +   DataToDueCircularVirtualPosition[6]+","+
-    
-    + DataToDueCircularVirtualPosition[5]+","+DataToDueCircularVirtualPosition[4]+","+DataToDueCircularVirtualPosition[3]+","+DataToDueCircularVirtualPosition[2]+","
-    + DataToDueCircularVirtualPosition[1]+","+DataToDueCircularVirtualPosition[0]+","
-
-    +  (speedDelta) +","+ 3 +","+TeensyJo+","+ erasePosition+"," 
-    
-
-    +cohesionCounterLow +","+ cohesionCounterHigh +","+ int (map (LevelCohesionToSend, 0, 1, 0, 100))+">"; //    cohesionCounterHigh // +orderCohesion+ ">";LevelCohesionToSend ","+ int (map ( LowLevelCohesionToSend, 0, 1, 0, 100))+ 
-
-  // Trig a counter from 0 when cohesionCounterLow is Low +","+ Trig 1  when orderCohesion is High +","+ Map cohesion level
-
 
   if (rev[networkSize-1]%8==0 && decompte[networkSize-1]>=-0 && decompte[networkSize-1]<1) {// send a trig to change scene in Ableton live (if oscillator 11 makes 8 round an djust when it pass trought its position 0 -->trig next scene in Live)
     nextScene= 1;//
