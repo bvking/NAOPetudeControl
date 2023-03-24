@@ -31,18 +31,11 @@ public class NAOPetude extends PApplet {
 // MANAGE NETWORK of OSCILLATOR
 // import java.util.Arrays;
 
-
-
-
 PNetwork net;
 
 
 int networkSize = 6;
 int nbBalls=networkSize;
-
-
-float [] netPhaseBase = new float [networkSize];
-float [] netOldPhaseBase = new float [networkSize];
 
 int numberOfPointInterpolated= 2; 
 float []  interpolatedAngle = new float [numberOfPointInterpolated];
@@ -2157,6 +2150,9 @@ for (int i = 0; i < networkSize; i++) {
 
  public void arduinoPos() { 
   
+  
+  
+
   if (formerKeyMetro == '>') {  // formerKeyMetro == '<' || 
     for (int i = 0; i < networkSize; i++) {
       // rev[i]=rev[0];
@@ -2285,13 +2281,6 @@ for (int i = 0; i < networkSize; i++) {
      for (int i = 0; i < networkSize; i++) {  
         //    net.phase[i] = newPosF[i];
         //   net.phase[i] = newPosXaddSignal[i];
-      }
-     }
-
-         if (  keyMode == " phasePattern " ) {
-     for (int i = 0; i < networkSize; i++) {  
-        //    net.phase[i] = newPosF[i];
-        //   net.phase[i] = newPosXaddSignal[i];
     }
    }
    
@@ -2303,48 +2292,6 @@ for (int i = 0; i < networkSize; i++) {
  //   key= 'j'; keyPressed (); // to start Live 
  
   }
-
-
-      if (  keyMode == " phasePattern " ) {
-     for (int i = 0; i < networkSize; i++) {  
-        //    net.phase[i] = newPosF[i];
-        //   net.phase[i] = newPosXaddSignal[i];
-    }
-   }
-
-      if (  keyMode == " phasePattern " ) {
-    for (int i = 0; i < networkSize; i++) {
-        VirtualPosition[i]= ActualVirtualPosition[i];   // when you change mode of movement, you add last position  DataToDueCircularVirtualPosition[i] +
-      // =============== MAP PHASE To ADAPT IT TO the stepper motor    // =============== TRIG 0 when oscillator pass THROUG 0:  No effect on positions datas given to teensyport
-
-      if (netPhaseBase[i] >  0 ) {  
-        CircularOldVirtualPosition[i]=CircularVirtualPosition[i]; 
-        CircularVirtualPosition[i]= PApplet.parseInt (map (netPhaseBase[i], 0, TWO_PI, 0, numberOfStep));
-        Pos[i]= PApplet.parseInt (map (netPhaseBase[i], 0, TWO_PI, 0, 127)); // to Oscsend
-        
-     if ((CircularVirtualPosition[i]>3199 && CircularOldVirtualPosition[i]<3200 && CircularOldVirtualPosition[i]>201  )
-          || (CircularVirtualPosition[i]<3201 && CircularOldVirtualPosition[i]>3200 && CircularVirtualPosition[i]>201  )  ) {
-
-       TrigmodPos[i]=0;     
-       print (i);  print(" CIRCULAR PASS CLOCKWISE THROUG 0: "); println (  TrigmodPos[i]=0); print (" virt ");  println (  VirtualPosition[i]); print (" Cirvirt "); print(  CircularVirtualPosition[i]); print (" CirOldvirt "); println (  CircularOldVirtualPosition[i]);
-        } else  TrigmodPos[i]=1;
-      } else {
-        CircularOldVirtualPosition[i]=CircularVirtualPosition[i]; 
-        CircularVirtualPosition[i]= PApplet.parseInt (map (netPhaseBase[i], 0, -TWO_PI, numberOfStep, 0));  
-        Pos[i]= PApplet.parseInt (map (netPhaseBase[i], 0, -TWO_PI, 127, 0));  // to Oscsend  
-
-    if ((CircularVirtualPosition[i]<3201 && CircularOldVirtualPosition[i]>3200 )   ) {
-       TrigmodPos[i]=0; print (i); print(" CIRCULAR PASS CLOCKWISE THROUG 0: ");  println (  TrigmodPos[i]=0); print (" virt ");  println (  VirtualPosition[i]); print (" Cirvirt "); print(  CircularVirtualPosition[i]); print (" CirOldvirt "); println (  CircularOldVirtualPosition[i]);
-
-        } else  TrigmodPos[i]=1;
-      } 
-      DataToDueCircularVirtualPosition[i]=CircularVirtualPosition[i];
-      VirtualPosition[i]= CircularVirtualPosition[i]+ActualVirtualPosition[i]; 
-      ActualVirtualPositionFromOtherMode[i]=VirtualPosition[i];
-    }
- }
-
-      if (  keyMode != " phasePattern " ) {
     for (int i = 0; i < networkSize; i++) {
         VirtualPosition[i]= ActualVirtualPosition[i];   // when you change mode of movement, you add last position  DataToDueCircularVirtualPosition[i] +
       // =============== MAP PHASE To ADAPT IT TO the stepper motor    // =============== TRIG 0 when oscillator pass THROUG 0:  No effect on positions datas given to teensyport
@@ -2354,11 +2301,16 @@ for (int i = 0; i < networkSize; i++) {
         CircularVirtualPosition[i]= PApplet.parseInt (map (net.phase[i], 0, TWO_PI, 0, numberOfStep));
         Pos[i]= PApplet.parseInt (map (net.phase[i], 0, TWO_PI, 0, 127)); // to Oscsend
         
+        
+
      if ((CircularVirtualPosition[i]>3199 && CircularOldVirtualPosition[i]<3200 && CircularOldVirtualPosition[i]>201  )
           || (CircularVirtualPosition[i]<3201 && CircularOldVirtualPosition[i]>3200 && CircularVirtualPosition[i]>201  )  ) {
 
        TrigmodPos[i]=0;     
-       print (i);  print(" CIRCULAR PASS CLOCKWISE THROUG 0: "); println (  TrigmodPos[i]=0); print (" virt ");  println (  VirtualPosition[i]); print (" Cirvirt "); print(  CircularVirtualPosition[i]); print (" CirOldvirt "); println (  CircularOldVirtualPosition[i]);
+       print (i); 
+       print(" CIRCULAR PASS CLOCKWISE THROUG 0: ");
+       println (  TrigmodPos[i]=0); 
+       print (" virt ");  println (  VirtualPosition[i]); print (" Cirvirt "); print(  CircularVirtualPosition[i]); print (" CirOldvirt "); println (  CircularOldVirtualPosition[i]);
         } else  TrigmodPos[i]=1;
       } else {
         CircularOldVirtualPosition[i]=CircularVirtualPosition[i]; 
@@ -2366,17 +2318,19 @@ for (int i = 0; i < networkSize; i++) {
         Pos[i]= PApplet.parseInt (map (net.phase[i], 0, -TWO_PI, 127, 0));  // to Oscsend  
 
     if ((CircularVirtualPosition[i]<3201 && CircularOldVirtualPosition[i]>3200 )   ) {
-       TrigmodPos[i]=0; print (i); print(" CIRCULAR PASS CLOCKWISE THROUG 0: ");  println (  TrigmodPos[i]=0); print (" virt ");  println (  VirtualPosition[i]); print (" Cirvirt "); print(  CircularVirtualPosition[i]); print (" CirOldvirt "); println (  CircularOldVirtualPosition[i]);
+       TrigmodPos[i]=0;     
+       print (i); 
+       print(" CIRCULAR PASS CLOCKWISE THROUG 0: ");
+       println (  TrigmodPos[i]=0); 
+       print (" virt ");  println (  VirtualPosition[i]); print (" Cirvirt "); print(  CircularVirtualPosition[i]); print (" CirOldvirt "); println (  CircularOldVirtualPosition[i]);
 
         } else  TrigmodPos[i]=1;
       } 
       DataToDueCircularVirtualPosition[i]=CircularVirtualPosition[i];
       VirtualPosition[i]= CircularVirtualPosition[i]+ActualVirtualPosition[i]; 
       ActualVirtualPositionFromOtherMode[i]=VirtualPosition[i];
-      }
     }
-
-    for (int i = 0; i < networkSize; i++) {   
+    for (int i = 2; i < networkSize; i++) {   
       print(" Pos "); 
       print (i); 
       print(" "); 
@@ -2510,7 +2464,6 @@ for (int i = 0; i < networkSize; i++) {
         || ( PendularLeftVirtualPosition[i]<PendularOldLeftVirtualPosition[i] && modOldPos[i]>720  && modPos[i]<=modOldPos[i] &&  modOldOldPos[i]>=modPos[i] &&  modOldOldPos[i]>=600 &&  modOldOldPos[i]<=800)  // discrimination speed 8
         )) {
 
-
         println ("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"); 
         print ("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"); 
         print ("VirtualPosition: ") ; 
@@ -2532,7 +2485,6 @@ for (int i = 0; i < networkSize; i++) {
       }
     }
   }
-  
     //*********** COMPUTE ACCELERATION
   
            if (  keyMode == " null " || keyMode == " addSignalOneAndTwo " ) {
@@ -2583,6 +2535,220 @@ for (int i = 0; i < networkSize; i++) {
 
   String ACCELERATION = mapAcceleration[5]+","
     +mapAcceleration[4]+","+ mapAcceleration[3]+","+mapAcceleration[2]+","+ mapAcceleration[1]+","+mapAcceleration[0]+","; // mapAcceleration[9]+","+ mapAcceleration[8]+","+mapAcceleration[7]+","+ mapAcceleration[6]+","+
+
+ // String SPEED = speedi[5]+","+speedi[4]+","+speedi[3]+","+speedi[2]+","+speedi[1]+","+speedi[0]+","; // speedi[11]+","+speedi[10]+","+speedi[9]+","+ speedi[8]+","+speedi[7]+","+ speedi[6]+","+
+  // DECOMPTE: You trig a 0 when oscillator reach to the position 0, and then you have an incrementation at each frame.
+
+  if (rev[networkSize-1]%8==0 && decompte[networkSize-1]>=-0 && decompte[networkSize-1]<1) {// send a trig to change scene in Ableton live (if oscillator 11 makes 8 round an djust when it pass trought its position 0 -->trig next scene in Live)
+    nextScene= 1;//
+    println ("nextScenenextScenenextScenenextScenenextScene");
+    println ("nextScenenextScenenextScenenextScenenextScene");
+    println (nextScene);
+  } else {
+    nextScene= 0;
+  }     
+  //*******************
+
+  if (formerKeyMetro == '$') {
+
+    for (int i = 0; i < networkSize; i++) {
+
+      // DataToDueCircularVirtualPosition[i]= DataToDueCircularVirtualPosition[i]+800;
+      DataToDueCircularVirtualPosition[i]= (int) map ( DataToDueCircularVirtualPosition[i], -800, 800, 1600, 4800)+ ActualVirtualPosition[i];  // mapped for 6400 step/round +800
+      //  dataToLive[i]=(float)  map(DataToDueCircularVirtualPosition[i], 1600, 4800, 0f, 1f);
+    }
+
+    // DataToDueCircularVirtualPosition[2] =(int) map (DataToDueCircularVirtualPosition[2], 0, 6400, 0, int (6400/1));
+  }  
+  if (formerKeyMetro == '*') {
+
+    for (int i = 0; i < networkSize-0; i++) {
+      DataToDueCircularVirtualPosition[i]= DataToDueCircularVirtualPosition[i];
+      //   dataToLive[i]=(float) map(DataToDueCircularVirtualPosition[i], 0, 6400, 0f, 1f);
+      DataToDueCircularVirtualPosition[i]= DataToDueCircularVirtualPosition[i]+ ActualVirtualPosition[i];
+    } 
+    //  DataToDueCircularVirtualPosition[2]=(int) map (DataToDueCircularVirtualPosition[2], 0, 6400, 0, int (6400/1));
+  }
+
+  if (formerKeyMetro == 'J') {
+
+    for (int i = 0; i < networkSize-0; i++) {
+    //  net.oldPhase[i]=net.phase[i];
+      DataToDueCircularVirtualPosition[i]= DataToDueCircularVirtualPosition[i];
+      //   dataToLive[i]=(float) map(DataToDueCircularVirtualPosition[i], 0, 6400, 0f, 1f);
+      DataToDueCircularVirtualPosition[i]= DataToDueCircularVirtualPosition[i]+ ActualVirtualPosition[i];
+    } 
+    //  DataToDueCircularVirtualPosition[2]=(int) map (DataToDueCircularVirtualPosition[2], 0, 6400, 0, int (6400/1));
+  }
+  //24 data Jo solution
+
+  // OSCsend  
+
+  /*
+    if (dataToLive[10]*10>5){
+   dataToLive[10]=1;
+   } 
+   else  if (dataToLive[10]*10<=5){
+   dataToLive[10]=0;
+   }
+   */
+  oscSend();
+ 
+//  printDataOnScreen();
+
+  int TeensyJo=3; // trig Joe in Teensy
+  int erasePosition=-1; //no
+  String dataMarkedToTeensyJo  ="<" // BPM9   
+
+  //  +   DataToDueCircularVirtualPosition[11]+ ","+DataToDueCircularVirtualPosition[10]+","+(DataToDueCircularVirtualPosition[9])+","+DataToDueCircularVirtualPosition[8]+","+DataToDueCircularVirtualPosition[7]+","
+   // +   DataToDueCircularVirtualPosition[6]+","+
+    
+    + DataToDueCircularVirtualPosition[5]+","+DataToDueCircularVirtualPosition[4]+","+DataToDueCircularVirtualPosition[3]+","+DataToDueCircularVirtualPosition[2]+","
+    + DataToDueCircularVirtualPosition[1]+","+DataToDueCircularVirtualPosition[0]+","
+
+    +  (speedDelta) +","+ 3 +","+TeensyJo+","+ erasePosition+"," 
+    
+
+    +cohesionCounterLow +","+ cohesionCounterHigh +","+ PApplet.parseInt (map (LevelCohesionToSend, 0, 1, 0, 100))+">"; //    cohesionCounterHigh // +orderCohesion+ ">";LevelCohesionToSend ","+ int (map ( LowLevelCohesionToSend, 0, 1, 0, 100))+ 
+
+  // Trig a counter from 0 when cohesionCounterLow is Low +","+ Trig 1  when orderCohesion is High +","+ Map cohesion level
+
+
+  if (rev[networkSize-1]%8==0 && decompte[networkSize-1]>=-0 && decompte[networkSize-1]<1) {// send a trig to change scene in Ableton live (if oscillator 11 makes 8 round an djust when it pass trought its position 0 -->trig next scene in Live)
+    nextScene= 1;//
+    println ("nextScenenextScenenextScenenextScenenextScene");
+    println ("nextScenenextScenenextScenenextScenenextScene");
+    println (nextScene);
+  } else {
+    nextScene= 0;
+  }     
+  //*******************
+  if ((formerKey == 'o'|| formerKey == 'ç' ) && frameCount%1 == 0 ) {//&& circularMov== false
+
+    //  println(frameCount + ": " +  " dataMarkedToTeensyJoSpecial" + ( dataMarkedToTeensyJo ));
+    println(frameCount + ": " +  " JoDebug "  + ( JoDebug ));
+    // teensyport.write(dataMarkedToTeensyJo); // Send data to Teensy. only the movement
+
+    //  encoderReceiveUSBport101.write(dataMarkedToDueBis ); // Send data to Arduino. 
+    //      encoderReceiveUSBport101.write(dataMarkedToDue36data);// teensy simulation
+  }
+
+  if ((formerKey != 'o' ) && frameCount%1 == 0 ) {//&& circularMov== false
+
+    //   println(frameCount + ": " +  " dataMarkedToTeensyJo" + ( dataMarkedToTeensyJo ));
+    //     teensyport.write(dataMarkedToTeensyJo); // Send data to Teensy. only the movement
+  }
+
+
+
+
+  //    print ("pendular      ");   println (pendular);  
+  if (formerKeyMetro!='s') {
+    if (formerKeyMetro!='J') {
+      if (formerKeyMetro!='<') {
+           if (formerKeyMetro!='B') {
+              if (formerKeyMetro!='>') {
+                 if (formerKeyMetro!='@') {
+                     if (formerKeyMetro!='c') {
+                       if (keyMode!= " addSignalOneAndTwo ") {
+                         if (keyMode!= " methodAbleton ") {
+                           if (keyMode!= " addSignalOneAndTwoBis ") {
+                             if (keyMode!= " addSignalOneAndTwoTer ") {
+                            
+                                 if (keyMode!= " followDistribueAddLfoPattern ") {
+                                   if (keyMode!= " samplingModeInternal ") {
+                                    if (keyMode!= " addSignalOneAndTwoQuater ") {
+
+
+        println(frameCount + ": " +  " dataMarkedToTeensyJoInMainLoop" + ( dataMarkedToTeensyJo ));
+        //   encoderReceiveUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
+       // teensyport.write(dataMarkedToTeensyJo); // Send data to Teensy. only the movement
+         
+         }
+          }
+           }
+        }
+        }
+        }
+         }
+        }
+         }
+      }
+     }
+    }
+   }
+  }
+  /*
+  if (formerKeyMetro=='<') {
+    int driverOnOff=3;
+    int dataToTeensyNoJo=-3; // trig noJoe in Teensy
+    String dataMarkedToTeensyNoJo  ="<" // BPM9   
+
+      +   DataToDueCircularVirtualPosition[11]+ ","+DataToDueCircularVirtualPosition[10]+","+(DataToDueCircularVirtualPosition[9])+","+DataToDueCircularVirtualPosition[8]+","+DataToDueCircularVirtualPosition[7]+","
+      +   DataToDueCircularVirtualPosition[6]+","+( DataToDueCircularVirtualPosition[5])+","+DataToDueCircularVirtualPosition[4]+","+DataToDueCircularVirtualPosition[3]+","+DataToDueCircularVirtualPosition[2]+","//DataToDueCircularVirtualPosition[2]
+
+      +  (speedDelta) +","+ driverOnOff +","+decompte[9]+","+decompte[8]+","+decompte[7]+","+decompte[6]+","+decompte[5]+","+decompte[4]+","+decompte[3]+","+decompte[2]+"," // to manage 12 note +decompte[1]+","+decompte[0]+ ","
+
+      +  decompte[1]+"," +cohesionCounterLow +","+ cohesionCounterHigh +","+ int (map (LevelCohesionToSend, 0, 1, 0, 100))+">";    
+
+    println(frameCount + ": " +  " dataMarkedToTeensyNoJo" + ( dataMarkedToTeensyNoJo ));
+    //   encoderReceiveUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
+    teensyport.write(dataMarkedToTeensyNoJo); // Send data to Teensy. only the movement
+  }
+  */
+
+
+  
+    //*********** COMPUTE ACCELERATION
+  
+           if (  keyMode == " null " || keyMode == " addSignalOneAndTwo " ) {
+     for (int i = 0; i < networkSize; i++) {  
+       //     net.phase[i] = newPosF[i];  // to compute acceelration
+      //**     net.phase[i] = newPosXaddSignal[i];
+      oldPhaseAcceleration[i] = phaseAcceleration[i];
+      phaseAcceleration[i] = net.phase[i];
+   
+        oldVelocityBis[i] = velocityBis[i];
+     //**   velocityBis[i] = (net.phase[i] - net.oldPhase[i]) / 1;
+        velocityBis[i] = (phaseAcceleration[i] - oldPhaseAcceleration[i]) / 1;
+   //   VelocityI[i]=velocity[i];
+      // Update acceleration
+        accelerationBis[i] = (velocityBis[i] - oldVelocityBis[i]) / 1;
+        
+        mapAcceleration[i]= constrain ((PApplet.parseInt (map (abs(accelerationBis[i] *100), -100, 100, 0, 127))), 0, 127); 
+      
+  //      print(" velocityBis "); print (i);  print (" ");  print(velocityBis[i]); print (" "); 
+        
+ //       print(" acc  "); print (i);  print (" "); print(accelerationBis[i]); print(" "); 
+        
+ //       print(" mapAcc  "); print (i);  print (" "); print(mapAcceleration[i]); println(" "); 
+        
+       }
+      }  
+      
+     //*********** END COMPUTE ACCELERATION 
+  
+
+//  countRevs();  
+  bpmAsPulsationFunction();
+  printMidiNoteVelocity();
+  //SUBZERO
+
+
+  if (key=='l') {
+    formerSartKey='l'; //trig  automatiseWithNote();
+    formerKeyL();
+  }
+  if (key=='L') { //
+    formerSartKey='L'; // trig setbpm automatically to 108
+  }  
+
+  if (formerSartKey=='l') {// || formerSartKey=='!'
+
+  }
+
+ // String ACCELERATION = mapAcceleration[5]+","
+ //   +mapAcceleration[4]+","+ mapAcceleration[3]+","+mapAcceleration[2]+","+ mapAcceleration[1]+","+mapAcceleration[0]+","; // mapAcceleration[9]+","+ mapAcceleration[8]+","+mapAcceleration[7]+","+ mapAcceleration[6]+","+
 
  // String SPEED = speedi[5]+","+speedi[4]+","+speedi[3]+","+speedi[2]+","+speedi[1]+","+speedi[0]+","; // speedi[11]+","+speedi[10]+","+speedi[9]+","+ speedi[8]+","+speedi[7]+","+ speedi[6]+","+
   // DECOMPTE: You trig a 0 when oscillator reach to the position 0, and then you have an incrementation at each frame.
@@ -15738,12 +15904,9 @@ float[] volumei;
 
 
     if (formerKeyMetro == '£' || formerKeyMetro == '*' ) { //&& formerKeyMetro != 'à' && formerKeyMetro != '$'
-     if (keyMode != " phasePattern " ) { //&& formerKeyMetro != 'à' && formerKeyMetro != '$'
-     text ( " mapped to GENERAL CIRCULAR way 2$ ", width/2, height/2);
+ text ( " mapped to GENERAL CIRCULAR way 2$ ", 400, 900);
       x = displacement*cos(net.phase[i]);
       y = displacement*sin(net.phase[i]);
-    }
-  
     }
 
     if (formerKeyMetro == 'J') { //USELLL play sample recorded with s
@@ -15821,42 +15984,24 @@ float[] volumei;
                                if (keyMode != " followDistribueAddLfoPattern " ) {
                                  if (keyMode != " followDistribueAddLfoPatternControl " ) {
                                     if (keyMode != " null " ) {
-                                         if (keyMode != " phasePattern " ) {
            
                        text (  " lllllll ", -width/4, -height/4 ) ;           
                        
-         println (" net.phase[i] " + net.phase[i] + " " + i + " " + formerKeyMetro ); 
+         println (" (net.phase[i]formerKeyMetro  ", i, " ",  formerKeyMetro ); 
       x = displacement*cos(net.phase[i]);
       y = displacement*sin(net.phase[i]);
   
     sphere(side*3);
     sphereDetail( 4*5);
-                           }
-                    }
-                 }
-                }
+   //  }
+     }
+     }
      }
      }
     }
        }
       }
-    }
-       if (formerKeyMetro == '*' || formerKeyMetro == '@' || formerKeyMetro == '$'  ) { //&& formerKeyMetro != 'à' && formerKeyMetro != '$'
-     if (keyMode == " phasePattern " ) { 
-    println (" netPhasebase " + netPhaseBase[i] + " " + i  + " "  + formerKeyMetro ); 
-    text (  " IIIIII ", -width/4, -height/4 ) ;       
-      x = displacement*cos(netPhaseBase[i]);
-      y = displacement*sin(netPhaseBase[i]);
-    sphere(side*3);
-    sphereDetail( 4*5);
-      }
-     }
-
-    
-
-
-
-
+    } 
     
        if (formerKeyMetro == 'B' ) { //drive ball with lfo
      fill( 255, 255, 0 ); // Spheres are all modulated with the same color. depending of acceleration
@@ -16017,12 +16162,11 @@ float[] volumei;
   }  
   net.step(); 
   netG.step(); //Does it make any meaning?
-} 
-     
+  
+    } 
+   }  
  public void phasePatternOriginal() { // trigged with $ or *
   //************************************ DONT TOUCH
-
-
 
 //  if  (   formerKeyMetro != 'c') {  // VERY IMPORTANT with CASE c
  if  (   keyMode != " truc "  ) {
@@ -16030,7 +16174,6 @@ float[] volumei;
 
 
   for (int i = 0; i < (networkSize); i++) { 
-    netOldPhaseBase[i]=netPhaseBase[i]; 
     {
       OldFrequency[i]=  net.naturalFrequency[i];  //************************************ SET LAST FREQUENCIES as OLD FREQUENCIES
     }
@@ -16301,9 +16444,9 @@ float[] volumei;
     float delaPhase    = map ((PApplet.parseFloat (mouseY)/width*1), 0, 1, 0, QUARTER_PI );                
     for (int i = 0; i < (networkSize-0); i++) {          
       {
-        netPhaseBase[i]= averagePhase;  
-        //    netPhaseBase[i]= netPhaseBase[i]%PI/2; 
-        netPhaseBase[i]= netPhaseBase[i]%TWO_PI;
+        net.phase[i]= averagePhase;  
+        //    net.phase[i]= net.phase[i]%PI/2; 
+        net.phase[i]= net.phase[i]%TWO_PI;
       } 
       printSummary(i);
     }
@@ -16328,12 +16471,15 @@ float[] volumei;
 
         for (int i = 1; i < (networkSize-0); i++) {  
 
+      net.phase[i-1]= net.oldPhase[i];
       netPhaseBase[i-1]= net.oldPhase[i];
       net.naturalFrequency[i-1]= net.naturalFrequency[i];
+  //    net.phase[i]= net.phase[i+1];// net.oldPhase[i] keep phase at    
   //    netPhaseBase[i]= netPhaseBase[i+1];// net.oldPhase[i] keep phase at    
   //    net.naturalFrequency[i]= net.naturalFrequency[i+1];
     }
 
+     net.phase[networkSize-1]=  net.oldPhase[0];
      netPhaseBase[networkSize-1]=  net.oldPhase[0];
     net.naturalFrequency[networkSize-1]= OldFrequency[0];
    
@@ -16353,6 +16499,7 @@ float[] volumei;
     }
 
     for (int i = 1; i < (networkSize-1); i++) {
+      net.phase[i+1]= net.oldPhase[i];// net.oldPhase[i] keep phase at 0
       netPhaseBase[i+1]= net.oldPhase[i];// net.oldPhase[i] keep phase at 0
       net.naturalFrequency[i+1]= OldFrequency[i];
       netPhaseBase[i]= net.oldPhase[i-1];// // useless
@@ -16360,9 +16507,9 @@ float[] volumei;
 
       printSummary(i);
     }
-    netPhaseBase[0]=  net.oldPhase[networkSize-1];
+    netPhaseBase[0]=  netOldPhaseBase[networkSize-1];
     net.naturalFrequency[0]= OldFrequency[networkSize-1];
-    netPhaseBase[networkSize-1]=  net.oldPhase[networkSize-1-1]; // useless
+    netPhaseBase[networkSize-1]=  netOldPhaseBase[networkSize-1-1]; // useless
     net.naturalFrequency[networkSize-1]= OldFrequency[networkSize-1-1];// // useless
   } 
 
@@ -16387,7 +16534,7 @@ float[] volumei;
     }
     for (int i = 0; i < (networkSize-1); i++) {
 
-      netPhaseBase[i]=  net.oldPhase[i+1];
+      netPhaseBase[i]=  netOldPhaseBase[i+1];
       net.naturalFrequency[i+1]= net.naturalFrequency[i];
       //**   net.naturalFrequency[2]= OldFrequency[networkSize-1];
       //  VirtualPosition[i]=VirtualPosition[i+1];
@@ -16401,7 +16548,7 @@ float[] volumei;
     //   ActualVirtualPosition[2]= ActualVirtualPosition[networkSize-1];
     //   net.naturalFrequency[2]= net.naturalFrequency[networkSize-1];
 
-    netPhaseBase[0]=  net.oldPhase[networkSize-1];
+    netPhaseBase[0]=  netOldPhaseBase[networkSize-1];
     net.naturalFrequency[0]= OldFrequency[networkSize-1];
     //  VirtualPosition[2]=VirtualPosition[networkSize-1];
     ActualVirtualPosition[0]=VirtualPosition[0];
@@ -16414,7 +16561,7 @@ float[] volumei;
     println ("J$  Shift frequencies -> one by one by keeping last position switched and divide /2");// based on i
     for (int i = 0; i < (networkSize-0); i++) {    
 
-      netPhaseBase[i]+= QUARTER_PI/(10);
+      net.phase[i]+= QUARTER_PI/(10);
       printSummary(i);
     }
   }  
@@ -16423,9 +16570,9 @@ float[] volumei;
     println ("I$ Shift frequencies -> one by one by keeping last position switched and divide /2");// based on i
     for (int i = 0; i < (networkSize-0); i++) {    
 
-      //     netPhaseBase[i]-= QUARTER_PI/(10);
-          netPhaseBase[i]-=HALF_PI;
-       // netPhaseBase[i]=netPhaseBase[i]-QUARTER_PI;
+      //     net.phase[i]-= QUARTER_PI/(10);
+          net.phase[i]-=HALF_PI;
+       // net.phase[i]=net.phase[i]-QUARTER_PI;
      // ActualVirtualPosition[i]+=0;  
 
       /*
@@ -16450,8 +16597,8 @@ float[] volumei;
   if (key == 'L') { 
     println ("L$  Shift frequencies -> one by one by keeping last position switched and divide /2");// based on i
     for (int i = 0; i < (networkSize-0); i++) {    
-      //   netPhaseBase[i]+= PI/(20+i);
-      //    netPhaseBase[i]+= PI/(i+1)/10; // good
+      //   net.phase[i]+= PI/(20+i);
+      //    net.phase[i]+= PI/(i+1)/10; // good
       //  automatiseWithNote();
       printSummary(i);
     }
@@ -16464,8 +16611,8 @@ float[] volumei;
 
     // autoNote1();
     for (int i = 0; i < (networkSize-0); i++) { 
-      //   netPhaseBase[i]+= PI/(20+(networkSize-1-i));
-      //   netPhaseBase[i]+= PI/(networkSize-0-i)/10; // good
+      //   net.phase[i]+= PI/(20+(networkSize-1-i));
+      //   net.phase[i]+= PI/(networkSize-0-i)/10; // good
       //   automatiseWithNote();
     }
   }     
@@ -16479,36 +16626,36 @@ float[] volumei;
   if (key == 'X') { //trigx
     println (" Shift phase and frequencies  as a upstairx, based on x RECORD interphase when x Keyreleased"); // based on i$ || key == 'L'
     //   interPhase[memoryi]= metroPhase[memoryi];
-    interPhase[memoryi]= netPhaseBase[memoryi];
+    interPhase[memoryi]= net.phase[memoryi];
 
-    interPhaseCircular[memoryi]= netPhaseBase[memoryi];
+    interPhaseCircular[memoryi]= net.phase[memoryi];
     interFrequency[memoryi]= net.naturalFrequency[memoryi]; 
     formerKey='X'; // to trig directly, before the next frame
   } 
   if (key == 'x') { //trigx
     println (" Shift phase and frequencies  as a DOWNSTAIRx, based on w RECORD interphase when w Keyreleased"); // based on i$ || key == 'L'
     //   interPhase[memoryi]= metroPhase[memoryi];
-    interPhase[memoryi]= netPhaseBase[memoryi];
+    interPhase[memoryi]= net.phase[memoryi];
 
-    interPhaseCircular[memoryi]= netPhaseBase[memoryi];
+    interPhaseCircular[memoryi]= net.phase[memoryi];
     interFrequency[memoryi]= net.naturalFrequency[memoryi]; 
     formerKey='x'; // to trig directly, before the next frame
   } 
   if (key == 'W') { //trigW
     println (" Shift phase and frequencies  as a upstairW, based on x RECORD interphase when x Keyreleased"); // based on i$ || key == 'L'
     //   interPhase[memoryi]= metroPhase[memoryi];
-    interPhase[memoryi]=  (netPhaseBase[memoryi]);
+    interPhase[memoryi]=  (net.phase[memoryi]);
 
-    interPhaseCircular[memoryi]=  (netPhaseBase[memoryi]);
+    interPhaseCircular[memoryi]=  (net.phase[memoryi]);
     interFrequency[memoryi]= net.naturalFrequency[memoryi]; 
     formerKey='W'; // to trig directly, before the next frame
   } 
   if (key == 'w' ) { //trigw   || key== 'O'
     println (" Shift phase and frequencies  as a DOWNSTAIRw, based on w RECORD interphase when w Keyreleased"); // based on i$ || key == 'L'
     //   interPhase[memoryi]= metroPhase[memoryi];
-    interPhase[memoryi]=  (netPhaseBase[memoryi]);
+    interPhase[memoryi]=  (net.phase[memoryi]);
 
-    interPhaseCircular[memoryi]= abs (netPhaseBase[memoryi]);
+    interPhaseCircular[memoryi]= abs (net.phase[memoryi]);
     interFrequency[memoryi]= net.naturalFrequency[memoryi]; 
     formerKey='w'; // to trig directly, before the next frame
   } 
@@ -16550,11 +16697,11 @@ float[] volumei;
       print (i); 
       println ( (networkSize-1)-i);
 
-      netPhaseBase[i]=net.oldPhase[(networkSize+1)-i];
+      netPhaseBase[i]=netOldPhaseBase[(networkSize+1)-i];
       net.naturalFrequency[i]=OldFrequency[(networkSize+1)-i];
     }   
 
-    netPhaseBase[0]=net.oldPhase[(networkSize-1)];
+    netPhaseBase[0]=netOldPhaseBase[(networkSize-1)];
      net.naturalFrequency[0]=OldFrequency[(networkSize-1)];
     
   }
@@ -16673,8 +16820,8 @@ float[] volumei;
         if (key == 'a') { // a$
    print("a");  println ("Incremente Same offset of phases 12hit");    
    for (int i = 0; i < networkSize; i++) { 
-   netPhaseBase[i] += (TWO_PI/(networkSize/1))*(i+1); // TRES BIEN 
-   netPhaseBase[i]=  netPhaseBase[i]%TWO_PI; //
+   net.phase[i] += (TWO_PI/(networkSize/1))*(i+1); // TRES BIEN 
+   net.phase[i]=  net.phase[i]%TWO_PI; //
    printSummary(i);
    }
    } 
@@ -16685,10 +16832,10 @@ float[] volumei;
   if (key == 'e') { 
     println ("Incremente positions  12/3 hit");  //e$
     for (int i = 0; i < networkSize; i++) {    
-      //    netPhaseBase[i] -= (QUARTER_PI/(networkSize-0))*(i+1); // TRES BIEN
+      //    net.phase[i] -= (QUARTER_PI/(networkSize-0))*(i+1); // TRES BIEN
 
-      netPhaseBase[i] = netPhaseBase[i] + ((TWO_PI/(networkSize/1))*(i+1)); // TRES BIEN  ==     netPhaseBase[i] += (i+1)*TWO_PI/4; //4hit  ==   netPhaseBase[i] +=  (i+1)*3.5*PI; 
-    //  netPhaseBase[i] = netPhaseBase[i] % TWO_PI; // TRES BIEN
+      net.phase[i] = net.phase[i] + ((TWO_PI/(networkSize/1))*(i+1)); // TRES BIEN  ==     net.phase[i] += (i+1)*TWO_PI/4; //4hit  ==   net.phase[i] +=  (i+1)*3.5*PI; 
+    //  net.phase[i] = net.phase[i] % TWO_PI; // TRES BIEN
 
       printSummary(i);
       key ='#'; keyReleased();
@@ -16704,15 +16851,15 @@ float[] volumei;
     print ("keyNow"); 
     println (PApplet.parseChar(key));
     for (int i = 0; i < networkSize; i++) {
-      //  net.oldPhase[i] += (i+1)*4%TWO_PI; 
+      //  netOldPhaseBase[i] += (i+1)*4%TWO_PI; 
       //   netPhaseBase[i] +=  (i+1)*3*PI;  // one on two move an offset of PI
       
-     // netPhaseBase[i] += (i+1)*TWO_PI/3; //3hit  <=>   netPhaseBase[i] += (i+1)*TWO_PI/1.5; 
+     // net.phase[i] += (i+1)*TWO_PI/3; //3hit  <=>   net.phase[i] += (i+1)*TWO_PI/1.5; 
      
-        netPhaseBase[i] = netPhaseBase[i] + (i+1)*TWO_PI/3; //3hit  <=>   netPhaseBase[i] += (i+1)*TWO_PI/1.5; 
+        net.phase[i] = net.phase[i] + (i+1)*TWO_PI/3; //3hit  <=>   net.phase[i] += (i+1)*TWO_PI/1.5; 
      
 
-    //  netPhaseBase[i]=  netPhaseBase[i]%TWO_PI;
+    //  net.phase[i]=  net.phase[i]%TWO_PI;
         key ='#';// keyReleased();
     }
   }
@@ -16724,8 +16871,8 @@ float[] volumei;
    
    for (int i = 0; i < networkSize; i++) {
    
-   netPhaseBase[networkSize-1-i] -= (i*TWO_PI/10)%PI/3;    //PAS TOUCHER 
-   netPhaseBase[i]=  netPhaseBase[i]%TWO_PI;
+   net.phase[networkSize-1-i] -= (i*TWO_PI/10)%PI/3;    //PAS TOUCHER 
+   net.phase[i]=  net.phase[i]%TWO_PI;
    }     
    }
    */
@@ -16734,16 +16881,16 @@ float[] volumei;
 
 
     for (int i = 0; i < networkSize; i++) {
-      //   netPhaseBase[i] += (i+1) *(TWO_PI/12); // 12 hit
+      //   net.phase[i] += (i+1) *(TWO_PI/12); // 12 hit
 
 
-      //    netPhaseBase[i] +=  -(i+2)%PI/6; // mieux
+      //    net.phase[i] +=  -(i+2)%PI/6; // mieux
     
-      netPhaseBase[i] += (i*TWO_PI/5)%PI/10; // 
+      net.phase[i] += (i*TWO_PI/5)%PI/10; // 
 
-      //    netPhaseBase[i] -=  +(i+1)%PI/6; 
+      //    net.phase[i] -=  +(i+1)%PI/6; 
 
-     // netPhaseBase[i]=  netPhaseBase[i]%(TWO_PI/1) ; // bien en pendulaire?
+     // net.phase[i]=  net.phase[i]%(TWO_PI/1) ; // bien en pendulaire?
  
       printSummary(i);
     }
@@ -16753,28 +16900,28 @@ float[] volumei;
   if (key == 'R') {
     println ("Add PI/6 PENDULAR $ without move 11, 8, 5"); // R$
     for (int i = 0; i < networkSize; i++) {
-      //   netPhaseBase[i] += (i+1) *(TWO_PI/12); // 12 hit
+      //   net.phase[i] += (i+1) *(TWO_PI/12); // 12 hit
       // if (  net.naturalFrequency[networkSize-1]>=0 ) {
       print (" Avant ");    
-      print (netPhaseBase[networkSize-1-i]); 
+      print (net.phase[networkSize-1-i]); 
       print ("  ");
-      //   netPhaseBase[networkSize-1-i] += (i*TWO_PI/3)%PI/11;    //PAS TOUCHER
-      netPhaseBase[i] -= (i*TWO_PI/5)%PI/5;
-      //   netPhaseBase[networkSize-1-i] += (i*TWO_PI/3)%PI/10;    //PAS TOUCHER
-      //    netPhaseBase[networkSize-1-i] += (i*TWO_PI/3)%TWO_PI/10;    //PAS TOUCHER // ne va pas avec P
-      //     netPhaseBase[networkSize-1-i] += (i*TWO_PI/3)%TWO_PI/11;    //PAS TOUCHER
+      //   net.phase[networkSize-1-i] += (i*TWO_PI/3)%PI/11;    //PAS TOUCHER
+      net.phase[i] -= (i*TWO_PI/5)%PI/5;
+      //   net.phase[networkSize-1-i] += (i*TWO_PI/3)%PI/10;    //PAS TOUCHER
+      //    net.phase[networkSize-1-i] += (i*TWO_PI/3)%TWO_PI/10;    //PAS TOUCHER // ne va pas avec P
+      //     net.phase[networkSize-1-i] += (i*TWO_PI/3)%TWO_PI/11;    //PAS TOUCHER
 
 
-      //   netPhaseBase[i] += (1*TWO_PI/(11-i+1))%PI/6;
-      //   netPhaseBase[i]  += ((PI/(networkSize/6))*(i+1))%PI/3; // OK
-      //   netPhaseBase[i]  +=  netPhaseBase[i] +(PI/((networkSize-i/12))*(i+1))%PI/12; // OK
+      //   net.phase[i] += (1*TWO_PI/(11-i+1))%PI/6;
+      //   net.phase[i]  += ((PI/(networkSize/6))*(i+1))%PI/3; // OK
+      //   net.phase[i]  +=  net.phase[i] +(PI/((networkSize-i/12))*(i+1))%PI/12; // OK
 
 
       print (" ApresR ");  
-      print (netPhaseBase[networkSize-1-i]); 
+      print (net.phase[networkSize-1-i]); 
       print ("  "); 
       netPhaseBase[i]=  netPhaseBase[i]%TWO_PI;
-      //   net.oldPhase[i]=  netPhaseBase[i];
+      //   netOldPhaseBase[i]=  netPhaseBase[i];
       printSummary(i);
     }
     // }
@@ -16782,20 +16929,20 @@ float[] volumei;
     println(" s$s: Reduce the gap between phases by f0 "); //S$
     for (int i = 0; i < networkSize-0; i++) {
 
-      //  netPhaseBase[i] -=(9-i)*0.05;
-      //   netPhaseBase[i] -=(networkSize-1-i)*0.05; // oscillator 11 do not move
-      netPhaseBase[i] -= (networkSize- oscillatorBlocked-i)*0.05f;
-    //  netPhaseBase[i]=  netPhaseBase[i]%TWO_PI;
+      //  net.phase[i] -=(9-i)*0.05;
+      //   net.phase[i] -=(networkSize-1-i)*0.05; // oscillator 11 do not move
+      net.phase[i] -= (networkSize- oscillatorBlocked-i)*0.05f;
+    //  net.phase[i]=  net.phase[i]%TWO_PI;
 
       printSummary(i);
     }
   } else if (key == 'S') { 
     println(" S$: Reduce the gap between phases by f0  ");    
     for (int i = 0; i < networkSize; i++) {      
-      //   netPhaseBase[i] -=(networkSize-1-i)*0.1;
-      //   netPhaseBase[i]=  netPhaseBase[i]%TWO_PI;
-         netPhaseBase[i] -= (networkSize- oscillatorBlocked-i)*0.01f;
-      //***    netPhaseBase[i]=  netPhaseBase[i]%TWO_PI;
+      //   net.phase[i] -=(networkSize-1-i)*0.1;
+      //   net.phase[i]=  net.phase[i]%TWO_PI;
+         net.phase[i] -= (networkSize- oscillatorBlocked-i)*0.01f;
+      //***    net.phase[i]=  net.phase[i]%TWO_PI;
       printSummary(i);
     }
   }
@@ -16803,11 +16950,11 @@ float[] volumei;
     println(" d$: INCREASE (clock way) the gap between phases of 5% from the oscillator " + oscillatorBlocked + " called with the same number as memoryi " + memoryi );
     for (int i = 0; i < networkSize; i++) {
 
-      netPhaseBase[i] +=(oscillatorBlocked-i)*0.05f; // oscillator 10 do not nove
-    //        netPhaseBase[i] +=(5-i)*0.1; // oscillator 10 do not nove
-   //   netPhaseBase[i] +=(networkSize-oscillatorBlocked)*0.05;
-    //%%  netPhaseBase[i] = netPhaseBase[i]-(i)*0.05; //oscillatorBlocked;      //     netPhaseBase[i] += (oscillatorBlocked+i)*0.05; reciproque de f ne fonctionne pas
-      netPhaseBase[i] =  netPhaseBase[i]%TWO_PI;
+      net.phase[i] +=(oscillatorBlocked-i)*0.05f; // oscillator 10 do not nove
+    //        net.phase[i] +=(5-i)*0.1; // oscillator 10 do not nove
+   //   net.phase[i] +=(networkSize-oscillatorBlocked)*0.05;
+    //%%  net.phase[i] = net.phase[i]-(i)*0.05; //oscillatorBlocked;      //     net.phase[i] += (oscillatorBlocked+i)*0.05; reciproque de f ne fonctionne pas
+      net.phase[i] =  net.phase[i]%TWO_PI;
       key='#';
       printSummary(i);
     }
@@ -16817,8 +16964,8 @@ float[] volumei;
     println(" D$: Increase the gap between phases by f0  ");    
     for (int i = 0; i < networkSize; i++) {
 
-      netPhaseBase[i] +=(oscillatorBlocked-i)*0.1f;
-      netPhaseBase[i] =  netPhaseBase[i]%TWO_PI;
+      net.phase[i] +=(oscillatorBlocked-i)*0.1f;
+      net.phase[i] =  net.phase[i]%TWO_PI;
       printSummary(i);
     }
   }
@@ -16833,7 +16980,7 @@ float[] volumei;
    
    abstractPhase[networkSize-2-i] += net.oldPhase[networkSize-1]+(i*TWO_PI/3)%PI/12;
    
-   netPhaseBase[i]=  abstractPhase[networkSize-2-i]%TWO_PI;
+   net.phase[i]=  abstractPhase[networkSize-2-i]%TWO_PI;
    
    //    printSummary(i);
    
@@ -16852,12 +16999,12 @@ float[] volumei;
     println(" F: Increase the gap between phases by f9 ");    
     for (int i = 0; i < networkSize; i++) {
 
-      //  netPhaseBase[i] +=(i+1)*0.05;
-      //    netPhaseBase[i] +=(i+1)*0.005;
-      //  netPhaseBase[i] += (oscillatorBlocked+i)*0.05;  // l'oscillateur ne se bloque pas
-      netPhaseBase[i] -= (networkSize- oscillatorBlocked-i)*0.05f;
+      //  net.phase[i] +=(i+1)*0.05;
+      //    net.phase[i] +=(i+1)*0.005;
+      //  net.phase[i] += (oscillatorBlocked+i)*0.05;  // l'oscillateur ne se bloque pas
+      net.phase[i] -= (networkSize- oscillatorBlocked-i)*0.05f;
 
-   //   netPhaseBase[i]=  netPhaseBase[i]%TWO_PI;
+   //   net.phase[i]=  net.phase[i]%TWO_PI;
       key='#';
       printSummary(i);
     }
@@ -16865,28 +17012,28 @@ float[] volumei;
     println(" F: Increase the gap between phases by f9 ");    
     for (int i = 0; i < networkSize; i++) {
 
-      netPhaseBase[i] +=(i+1)*0.1f;
-   //   netPhaseBase[i]=  netPhaseBase[i]%TWO_PI;
+      net.phase[i] +=(i+1)*0.1f;
+   //   net.phase[i]=  net.phase[i]%TWO_PI;
       key='#';
       printSummary(i);
     }
   } else if (key == 'g') { 
     println(" Decrease the gap between phases of 5% from the oscillator " + oscillatorBlocked + " called with the same number as memoryi " + memoryi   );  
     for (int i = 0; i < networkSize; i++) {
-      //       netPhaseBase[i] -=i*0.01;
-      //         netPhaseBase[i] -=i*0.05;
+      //       net.phase[i] -=i*0.01;
+      //         net.phase[i] -=i*0.05;
 
-      netPhaseBase[i] -=      (oscillatorBlocked+i)*0.05f;
-      netPhaseBase[i]=  netPhaseBase[i]%TWO_PI;
+      net.phase[i] -=      (oscillatorBlocked+i)*0.05f;
+      net.phase[i]=  net.phase[i]%TWO_PI;
       key='#';
       printSummary(i);
     }
   } else if (key == 'G') { 
     println(" G: Decrease the gap between phases by f9 ");  
     for (int i = 0; i < networkSize; i++) {
-      //       netPhaseBase[i] -=i*0.01;
-      netPhaseBase[i] -=i*0.1f;
-    //  netPhaseBase[i]=  netPhaseBase[i]%TWO_PI;
+      //       net.phase[i] -=i*0.01;
+      net.phase[i] -=i*0.1f;
+    //  net.phase[i]=  net.phase[i]%TWO_PI;
       printSummary(i);
     }
   }
@@ -16898,20 +17045,20 @@ float[] volumei;
 
     for (int i = 0; i < networkSize; i++) {
 
-    //  netPhaseBase[i]+=   (TWO_PI/(networkSize-2))*(1*(networkSize-1-i)); // TWOPI/10--> 10 hit and oscillator11 not affected thanks to -1 in second part of equation
-    //  netPhaseBase[i]+=   (TWO_PI/(networkSize-2))*(1*(networkSize-3-i)); // TWOPI/10--> 10 hit and oscillator9 not affected thanks to -3 in second part of equation 
-    //** netPhaseBase[i]+=   (TWO_PI/(networkSize-2))*(1*(networkSize-1-i)); // TWOPI/10--> 10 hit * 3%PI/3 with and oscillator11 not affected
+    //  net.phase[i]+=   (TWO_PI/(networkSize-2))*(1*(networkSize-1-i)); // TWOPI/10--> 10 hit and oscillator11 not affected thanks to -1 in second part of equation
+    //  net.phase[i]+=   (TWO_PI/(networkSize-2))*(1*(networkSize-3-i)); // TWOPI/10--> 10 hit and oscillator9 not affected thanks to -3 in second part of equation 
+    //** net.phase[i]+=   (TWO_PI/(networkSize-2))*(1*(networkSize-1-i)); // TWOPI/10--> 10 hit * 3%PI/3 with and oscillator11 not affected
 
-     netPhaseBase[i]+=   (PI/(networkSize-2))*(1*(networkSize-1-i)); // TWOPI/10--> 10 hit * 3%PI/3 with and oscillator11 not affected
+     net.phase[i]+=   (PI/(networkSize-2))*(1*(networkSize-1-i)); // TWOPI/10--> 10 hit * 3%PI/3 with and oscillator11 not affected
 
 
-      //     netPhaseBase[networkSize-1-i] += (i*TWO_PI/10)%PI/3;  // 10*3 hit//same effect as above 
-    //  netPhaseBase[i]=  netPhaseBase[i]%(TWO_PI/1); // try without dataMarkedToTeensyJo
+      //     net.phase[networkSize-1-i] += (i*TWO_PI/10)%PI/3;  // 10*3 hit//same effect as above 
+    //  net.phase[i]=  net.phase[i]%(TWO_PI/1); // try without dataMarkedToTeensyJo
 
     //  for (int i = 0; i < networkSize; i++) {
       
-      if (netPhaseBase[i] >=  0) { // number of revLfoolution is even and rotation is clock wise   
-        DataToDueCircularVirtualPosition[i]= PApplet.parseInt (map (netPhaseBase[i], 0, TWO_PI, 0, numberOfStep)); //
+      if (net.phase[i] >=  0) { // number of revLfoolution is even and rotation is clock wise   
+        DataToDueCircularVirtualPosition[i]= PApplet.parseInt (map (net.phase[i], 0, TWO_PI, 0, numberOfStep)); //
         }
       
      }
@@ -16946,12 +17093,12 @@ float[] volumei;
     println("INCREASE phases with special modulo P$   "); //P$ 
     for (int i = 0; i < networkSize; i++) {
 
-      //     netPhaseBase[i]+=   (TWO_PI/(networkSize-2))*(1*(networkSize-1-i)); // TWOPI/10--> 10 hit and oscillator11 not affected thanks to -1 in second part of equation
-      //  netPhaseBase[i]+=   (TWO_PI/(networkSize-2))*(1*(networkSize-3-i)); // TWOPI/10--> 10 hit and oscillator9 not affected thanks to -3 in second part of equation 
-      netPhaseBase[i]+=   (TWO_PI/(networkSize-2))*(1*(networkSize-1-i))%PI/3; // TWOPI/10--> 10 hit * 3%PI/3 with and oscillator11 not affected
+      //     net.phase[i]+=   (TWO_PI/(networkSize-2))*(1*(networkSize-1-i)); // TWOPI/10--> 10 hit and oscillator11 not affected thanks to -1 in second part of equation
+      //  net.phase[i]+=   (TWO_PI/(networkSize-2))*(1*(networkSize-3-i)); // TWOPI/10--> 10 hit and oscillator9 not affected thanks to -3 in second part of equation 
+      net.phase[i]+=   (TWO_PI/(networkSize-2))*(1*(networkSize-1-i))%PI/3; // TWOPI/10--> 10 hit * 3%PI/3 with and oscillator11 not affected
 
-      //     netPhaseBase[networkSize-1-i] += (i*TWO_PI/10)%PI/3;  // 10*3 hit//same effect as above 
-    //  netPhaseBase[i]=  netPhaseBase[i]%TWO_PI;
+      //     net.phase[networkSize-1-i] += (i*TWO_PI/10)%PI/3;  // 10*3 hit//same effect as above 
+    //  net.phase[i]=  net.phase[i]%TWO_PI;
       key='#';
       printSummary(i);
     }
@@ -16961,11 +17108,11 @@ float[] volumei;
    else if (key == 'M') { 
     println("INCREASE phases with 0.5   "); //
     for (int i = 0; i < networkSize; i++) {
-      //       netPhaseBase[i] += QUARTER_PI/2 * netPhaseBase[1*(networkSize-1-i)] ;//
-      netPhaseBase[i] += QUARTER_PI/2 * netPhaseBase[i] ;//
+      //       net.phase[i] += QUARTER_PI/2 * net.phase[1*(networkSize-1-i)] ;//
+      net.phase[i] += QUARTER_PI/2 * net.phase[i] ;//
 
-      //      netPhaseBase[i] = netPhaseBase[i] - QUARTER_PI  i;
-   //   netPhaseBase[i]=  netPhaseBase[i]%TWO_PI;
+      //      net.phase[i] = net.phase[i] - QUARTER_PI  i;
+   //   net.phase[i]=  net.phase[i]%TWO_PI;
       key='#';
       printSummary(i);
     }
@@ -16973,33 +17120,33 @@ float[] volumei;
     println("DECREASE  phases with special modulo    "); // UTILISE SI ELLES ONT deja un ecart equidistant
     for (int i = 0; i < networkSize; i++) {  
 
-      netPhaseBase[i]-= ((TWO_PI/(networkSize-2))*(1*(networkSize-1-i)))%PI/6; // 
-      netPhaseBase[i]=  netPhaseBase[i]%TWO_PI;
+      net.phase[i]-= ((TWO_PI/(networkSize-2))*(1*(networkSize-1-i)))%PI/6; // 
+      net.phase[i]=  net.phase[i]%TWO_PI;
       key='#';
       printSummary(i);
     }
   } else if (key == 'm') {
     println("DECREASE phases with 0.5   "); // UTILISE SI ELLES ONT deja un ecart equidistant
     for (int i = 0; i < networkSize; i++) {  
-      //   netPhaseBase[i] -= PI/32 * net.oldPhase[i] ;//
+      //   netPhaseBase[i] -= PI/32 * netOldPhaseBase[i] ;//
       //   netPhaseBase[i] -= PI/8 * netPhaseBase[i] ;//OK
       
-          netPhaseBase[i] -=netPhaseBase[i]- PI/8;
+          net.phase[i] -=net.phase[i]- PI/8;
    
   /*   
-      if  (netPhaseBase[i]<PI/2) { 
-        netPhaseBase[i] = PI/10*netPhaseBase[i];// effet torune à l'envers? 
+      if  (net.phase[i]<PI/2) { 
+        net.phase[i] = PI/10*net.phase[i];// effet torune à l'envers? 
 
-        //      netPhaseBase[i] =-  (netPhaseBase[i]-QUARTER_PI/2 )+ PI/2;// effet torune à l'envers?
-        netPhaseBase[i]=  netPhaseBase[i]%-PI/2- PI/2;// COME BACK TO MIDDLE
-      } else if (netPhaseBase[i]>PI/2) { 
-        netPhaseBase[i] = PI/10*netPhaseBase[i];// effet torune à l'envers? 
+        //      net.phase[i] =-  (net.phase[i]-QUARTER_PI/2 )+ PI/2;// effet torune à l'envers?
+        net.phase[i]=  net.phase[i]%-PI/2- PI/2;// COME BACK TO MIDDLE
+      } else if (net.phase[i]>PI/2) { 
+        net.phase[i] = PI/10*net.phase[i];// effet torune à l'envers? 
 
-        //      netPhaseBase[i] =-  (netPhaseBase[i]-QUARTER_PI/2 )+ PI/2;// effet torune à l'envers?
-        netPhaseBase[i]=  netPhaseBase[i]%-PI/2+ PI/2;// COME BACK TO MIDDLE
+        //      net.phase[i] =-  (net.phase[i]-QUARTER_PI/2 )+ PI/2;// effet torune à l'envers?
+        net.phase[i]=  net.phase[i]%-PI/2+ PI/2;// COME BACK TO MIDDLE
       }
    */   
-      //      netPhaseBase[i] -= averagePhase* net.oldPhase[i] ;// 
+      //      netPhaseBase[i] -= averagePhase* netOldPhaseBase[i] ;// 
       //  netPhaseBase[i] -= PI/8 * netPhaseBase[i]* averagePhase ;//
       printSummary(i);
       key='#';
@@ -17012,25 +17159,25 @@ float[] volumei;
   { 
     println(" Align oscillator vertically to the top  ");
     for (int i = 0; i < networkSize; i++) {
-      netPhaseBase[i]= 0-PI/2; 
-      //      netPhaseBase[i]= 0; 
+      net.phase[i]= 0-PI/2; 
+      //      net.phase[i]= 0; 
       printSummary(i);
     }
   } else if (key == 'ç') {
     if (circularMov==true) {
 
       for (int i = 0; i < networkSize; i++) {
-        netPhaseBase[i]= 0;
+        net.phase[i]= 0;
       }
     }
     if (circularMov==false) {
       println(" Align oscillator vertically to the down  ");
       formerKey = 'o';
       for (int i = 0; i < networkSize; i++) {
-        //   netPhaseBase[i]=-PI+0.5*PI+PI/12; // position 0+PI/2  
-        netPhaseBase[i]= 0+PI/2  ; // position 0+PI/2  
+        //   net.phase[i]=-PI+0.5*PI+PI/12; // position 0+PI/2  
+        net.phase[i]= 0+PI/2  ; // position 0+PI/2  
 
-        //     netPhaseBase[i]=netPhaseBase[i]+PI/3;    // position 0+PI/2   add 90° turning in CW
+        //     net.phase[i]=net.phase[i]+PI/3;    // position 0+PI/2   add 90° turning in CW
         printSummary(i);
       }
     }
@@ -17111,7 +17258,7 @@ float[] volumei;
 }
 
 
- public void phasePattern() { // trigged with $ or *
+ public void phasePatternOriginal() { // trigged with $ or *
   //************************************ DONT TOUCH
 
 //  if  (   formerKeyMetro != 'c') {  // VERY IMPORTANT with CASE c
@@ -17417,13 +17564,13 @@ float[] volumei;
 
         for (int i = 1; i < (networkSize-0); i++) {  
 
-      netPhaseBase[i-1]= net.oldPhase[i];
+      netPhaseBase[i-1]= netOldPhaseBase[i];
       net.naturalFrequency[i-1]= net.naturalFrequency[i];
-  //    netPhaseBase[i]= netPhaseBase[i+1];// net.oldPhase[i] keep phase at    
+  //    netPhaseBase[i]= netPhaseBase[i+1];// netOldPhaseBase[i] keep phase at    
   //    net.naturalFrequency[i]= net.naturalFrequency[i+1];
     }
 
-     netPhaseBase[networkSize-1]=  net.oldPhase[0];
+     netPhaseBase[networkSize-1]=  netOldPhaseBase[0];
     net.naturalFrequency[networkSize-1]= OldFrequency[0];
    
   }
@@ -17442,16 +17589,16 @@ float[] volumei;
     }
 
     for (int i = 1; i < (networkSize-1); i++) {
-      netPhaseBase[i+1]= net.oldPhase[i];// net.oldPhase[i] keep phase at 0
+      netPhaseBase[i+1]= netOldPhaseBase[i];// netOldPhaseBase[i] keep phase at 0
       net.naturalFrequency[i+1]= OldFrequency[i];
-      netPhaseBase[i]= net.oldPhase[i-1];// // useless
+      netPhaseBase[i]= netOldPhaseBase[i-1];// // useless
       net.naturalFrequency[i]= OldFrequency[i-1]; // useless
 
       printSummary(i);
     }
-    netPhaseBase[0]=  net.oldPhase[networkSize-1];
+    netPhaseBase[0]=  netOldPhaseBase[networkSize-1];
     net.naturalFrequency[0]= OldFrequency[networkSize-1];
-    netPhaseBase[networkSize-1]=  net.oldPhase[networkSize-1-1]; // useless
+    netPhaseBase[networkSize-1]=  netOldPhaseBase[networkSize-1-1]; // useless
     net.naturalFrequency[networkSize-1]= OldFrequency[networkSize-1-1];// // useless
   } 
 
@@ -17476,7 +17623,7 @@ float[] volumei;
     }
     for (int i = 0; i < (networkSize-1); i++) {
 
-      netPhaseBase[i]=  net.oldPhase[i+1];
+      netPhaseBase[i]=  netOldPhaseBase[i+1];
       net.naturalFrequency[i+1]= net.naturalFrequency[i];
       //**   net.naturalFrequency[2]= OldFrequency[networkSize-1];
       //  VirtualPosition[i]=VirtualPosition[i+1];
@@ -17490,11 +17637,11 @@ float[] volumei;
     //   ActualVirtualPosition[2]= ActualVirtualPosition[networkSize-1];
     //   net.naturalFrequency[2]= net.naturalFrequency[networkSize-1];
 
-    netPhaseBase[0]=  net.oldPhase[networkSize-1];
+    netPhaseBase[0]=  netOldPhaseBase[networkSize-1];
     net.naturalFrequency[0]= OldFrequency[networkSize-1];
     //  VirtualPosition[2]=VirtualPosition[networkSize-1];
     ActualVirtualPosition[0]=VirtualPosition[0];
-    // netPhaseBase[networkSize-1]=  net.oldPhase[networkSize-1-1]; // useless
+    // netPhaseBase[networkSize-1]=  netOldPhaseBase[networkSize-1-1]; // useless
 
     // net.naturalFrequency[networkSize-1]= OldFrequency[networkSize-1-1];// // useless
   } 
@@ -17639,11 +17786,11 @@ float[] volumei;
       print (i); 
       println ( (networkSize-1)-i);
 
-      netPhaseBase[i]=net.oldPhase[(networkSize+1)-i];
+      netPhaseBase[i]=netOldPhaseBase[(networkSize+1)-i];
       net.naturalFrequency[i]=OldFrequency[(networkSize+1)-i];
     }   
 
-    netPhaseBase[0]=net.oldPhase[(networkSize-1)];
+    netPhaseBase[0]=netOldPhaseBase[(networkSize-1)];
      net.naturalFrequency[0]=OldFrequency[(networkSize-1)];
     
   }
@@ -17793,7 +17940,7 @@ float[] volumei;
     print ("keyNow"); 
     println (PApplet.parseChar(key));
     for (int i = 0; i < networkSize; i++) {
-      //  net.oldPhase[i] += (i+1)*4%TWO_PI; 
+      //  netOldPhaseBase[i] += (i+1)*4%TWO_PI; 
       //   netPhaseBase[i] +=  (i+1)*3*PI;  // one on two move an offset of PI
       
      // netPhaseBase[i] += (i+1)*TWO_PI/3; //3hit  <=>   netPhaseBase[i] += (i+1)*TWO_PI/1.5; 
@@ -17863,7 +18010,7 @@ float[] volumei;
       print (netPhaseBase[networkSize-1-i]); 
       print ("  "); 
       netPhaseBase[i]=  netPhaseBase[i]%TWO_PI;
-      //   net.oldPhase[i]=  netPhaseBase[i];
+      //   netOldPhaseBase[i]=  netPhaseBase[i];
       printSummary(i);
     }
     // }
@@ -17920,7 +18067,7 @@ float[] volumei;
    print ("f: "); 
    println (f);
    
-   abstractPhase[networkSize-2-i] += net.oldPhase[networkSize-1]+(i*TWO_PI/3)%PI/12;
+   abstractPhase[networkSize-2-i] += netOldPhaseBase[networkSize-1]+(i*TWO_PI/3)%PI/12;
    
    netPhaseBase[i]=  abstractPhase[networkSize-2-i]%TWO_PI;
    
@@ -18070,7 +18217,7 @@ float[] volumei;
   } else if (key == 'm') {
     println("DECREASE phases with 0.5   "); // UTILISE SI ELLES ONT deja un ecart equidistant
     for (int i = 0; i < networkSize; i++) {  
-      //   netPhaseBase[i] -= PI/32 * net.oldPhase[i] ;//
+      //   netPhaseBase[i] -= PI/32 * netOldPhaseBase[i] ;//
       //   netPhaseBase[i] -= PI/8 * netPhaseBase[i] ;//OK
       
           netPhaseBase[i] -=netPhaseBase[i]- PI/8;
@@ -18088,7 +18235,7 @@ float[] volumei;
         netPhaseBase[i]=  netPhaseBase[i]%-PI/2+ PI/2;// COME BACK TO MIDDLE
       }
    */   
-      //      netPhaseBase[i] -= averagePhase* net.oldPhase[i] ;// 
+      //      netPhaseBase[i] -= averagePhase* netOldPhaseBase[i] ;// 
       //  netPhaseBase[i] -= PI/8 * netPhaseBase[i]* averagePhase ;//
       printSummary(i);
       key='#';

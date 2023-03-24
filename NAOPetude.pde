@@ -2,19 +2,12 @@
 //import PNetwork.java.*; 
 // MANAGE NETWORK of OSCILLATOR
 // import java.util.Arrays;
-
-
-
 import sync.*;
 PNetwork net;
 import java.util.Arrays;
 
 int networkSize = 6;
 int nbBalls=networkSize;
-
-
-float [] netPhaseBase = new float [networkSize];
-float [] netOldPhaseBase = new float [networkSize];
 
 int numberOfPointInterpolated= 2; 
 float []  interpolatedAngle = new float [numberOfPointInterpolated];
@@ -2129,6 +2122,9 @@ void printSummary(int i) {
 
 void arduinoPos() { 
   
+  
+  
+
   if (formerKeyMetro == '>') {  // formerKeyMetro == '<' || 
     for (int i = 0; i < networkSize; i++) {
       // rev[i]=rev[0];
@@ -2257,13 +2253,6 @@ void arduinoPos() {
      for (int i = 0; i < networkSize; i++) {  
         //    net.phase[i] = newPosF[i];
         //   net.phase[i] = newPosXaddSignal[i];
-      }
-     }
-
-         if (  keyMode == " phasePattern " ) {
-     for (int i = 0; i < networkSize; i++) {  
-        //    net.phase[i] = newPosF[i];
-        //   net.phase[i] = newPosXaddSignal[i];
     }
    }
    
@@ -2275,48 +2264,6 @@ void arduinoPos() {
  //   key= 'j'; keyPressed (); // to start Live 
  
   }
-
-
-      if (  keyMode == " phasePattern " ) {
-     for (int i = 0; i < networkSize; i++) {  
-        //    net.phase[i] = newPosF[i];
-        //   net.phase[i] = newPosXaddSignal[i];
-    }
-   }
-
-      if (  keyMode == " phasePattern " ) {
-    for (int i = 0; i < networkSize; i++) {
-        VirtualPosition[i]= ActualVirtualPosition[i];   // when you change mode of movement, you add last position  DataToDueCircularVirtualPosition[i] +
-      // =============== MAP PHASE To ADAPT IT TO the stepper motor    // =============== TRIG 0 when oscillator pass THROUG 0:  No effect on positions datas given to teensyport
-
-      if (netPhaseBase[i] >  0 ) {  
-        CircularOldVirtualPosition[i]=CircularVirtualPosition[i]; 
-        CircularVirtualPosition[i]= int (map (netPhaseBase[i], 0, TWO_PI, 0, numberOfStep));
-        Pos[i]= int (map (netPhaseBase[i], 0, TWO_PI, 0, 127)); // to Oscsend
-        
-     if ((CircularVirtualPosition[i]>3199 && CircularOldVirtualPosition[i]<3200 && CircularOldVirtualPosition[i]>201  )
-          || (CircularVirtualPosition[i]<3201 && CircularOldVirtualPosition[i]>3200 && CircularVirtualPosition[i]>201  )  ) {
-
-       TrigmodPos[i]=0;     
-       print (i);  print(" CIRCULAR PASS CLOCKWISE THROUG 0: "); println (  TrigmodPos[i]=0); print (" virt ");  println (  VirtualPosition[i]); print (" Cirvirt "); print(  CircularVirtualPosition[i]); print (" CirOldvirt "); println (  CircularOldVirtualPosition[i]);
-        } else  TrigmodPos[i]=1;
-      } else {
-        CircularOldVirtualPosition[i]=CircularVirtualPosition[i]; 
-        CircularVirtualPosition[i]= int (map (netPhaseBase[i], 0, -TWO_PI, numberOfStep, 0));  
-        Pos[i]= int (map (netPhaseBase[i], 0, -TWO_PI, 127, 0));  // to Oscsend  
-
-    if ((CircularVirtualPosition[i]<3201 && CircularOldVirtualPosition[i]>3200 )   ) {
-       TrigmodPos[i]=0; print (i); print(" CIRCULAR PASS CLOCKWISE THROUG 0: ");  println (  TrigmodPos[i]=0); print (" virt ");  println (  VirtualPosition[i]); print (" Cirvirt "); print(  CircularVirtualPosition[i]); print (" CirOldvirt "); println (  CircularOldVirtualPosition[i]);
-
-        } else  TrigmodPos[i]=1;
-      } 
-      DataToDueCircularVirtualPosition[i]=CircularVirtualPosition[i];
-      VirtualPosition[i]= CircularVirtualPosition[i]+ActualVirtualPosition[i]; 
-      ActualVirtualPositionFromOtherMode[i]=VirtualPosition[i];
-    }
- }
-
-      if (  keyMode != " phasePattern " ) {
     for (int i = 0; i < networkSize; i++) {
         VirtualPosition[i]= ActualVirtualPosition[i];   // when you change mode of movement, you add last position  DataToDueCircularVirtualPosition[i] +
       // =============== MAP PHASE To ADAPT IT TO the stepper motor    // =============== TRIG 0 when oscillator pass THROUG 0:  No effect on positions datas given to teensyport
@@ -2326,11 +2273,16 @@ void arduinoPos() {
         CircularVirtualPosition[i]= int (map (net.phase[i], 0, TWO_PI, 0, numberOfStep));
         Pos[i]= int (map (net.phase[i], 0, TWO_PI, 0, 127)); // to Oscsend
         
+        
+
      if ((CircularVirtualPosition[i]>3199 && CircularOldVirtualPosition[i]<3200 && CircularOldVirtualPosition[i]>201  )
           || (CircularVirtualPosition[i]<3201 && CircularOldVirtualPosition[i]>3200 && CircularVirtualPosition[i]>201  )  ) {
 
        TrigmodPos[i]=0;     
-       print (i);  print(" CIRCULAR PASS CLOCKWISE THROUG 0: "); println (  TrigmodPos[i]=0); print (" virt ");  println (  VirtualPosition[i]); print (" Cirvirt "); print(  CircularVirtualPosition[i]); print (" CirOldvirt "); println (  CircularOldVirtualPosition[i]);
+       print (i); 
+       print(" CIRCULAR PASS CLOCKWISE THROUG 0: ");
+       println (  TrigmodPos[i]=0); 
+       print (" virt ");  println (  VirtualPosition[i]); print (" Cirvirt "); print(  CircularVirtualPosition[i]); print (" CirOldvirt "); println (  CircularOldVirtualPosition[i]);
         } else  TrigmodPos[i]=1;
       } else {
         CircularOldVirtualPosition[i]=CircularVirtualPosition[i]; 
@@ -2338,17 +2290,19 @@ void arduinoPos() {
         Pos[i]= int (map (net.phase[i], 0, -TWO_PI, 127, 0));  // to Oscsend  
 
     if ((CircularVirtualPosition[i]<3201 && CircularOldVirtualPosition[i]>3200 )   ) {
-       TrigmodPos[i]=0; print (i); print(" CIRCULAR PASS CLOCKWISE THROUG 0: ");  println (  TrigmodPos[i]=0); print (" virt ");  println (  VirtualPosition[i]); print (" Cirvirt "); print(  CircularVirtualPosition[i]); print (" CirOldvirt "); println (  CircularOldVirtualPosition[i]);
+       TrigmodPos[i]=0;     
+       print (i); 
+       print(" CIRCULAR PASS CLOCKWISE THROUG 0: ");
+       println (  TrigmodPos[i]=0); 
+       print (" virt ");  println (  VirtualPosition[i]); print (" Cirvirt "); print(  CircularVirtualPosition[i]); print (" CirOldvirt "); println (  CircularOldVirtualPosition[i]);
 
         } else  TrigmodPos[i]=1;
       } 
       DataToDueCircularVirtualPosition[i]=CircularVirtualPosition[i];
       VirtualPosition[i]= CircularVirtualPosition[i]+ActualVirtualPosition[i]; 
       ActualVirtualPositionFromOtherMode[i]=VirtualPosition[i];
-      }
     }
-
-    for (int i = 0; i < networkSize; i++) {   
+    for (int i = 2; i < networkSize; i++) {   
       print(" Pos "); 
       print (i); 
       print(" "); 
@@ -2482,7 +2436,6 @@ void arduinoPos() {
         || ( PendularLeftVirtualPosition[i]<PendularOldLeftVirtualPosition[i] && modOldPos[i]>720  && modPos[i]<=modOldPos[i] &&  modOldOldPos[i]>=modPos[i] &&  modOldOldPos[i]>=600 &&  modOldOldPos[i]<=800)  // discrimination speed 8
         )) {
 
-
         println ("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"); 
         print ("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"); 
         print ("VirtualPosition: ") ; 
@@ -2504,7 +2457,6 @@ void arduinoPos() {
       }
     }
   }
-  
     //*********** COMPUTE ACCELERATION
   
            if (  keyMode == " null " || keyMode == " addSignalOneAndTwo " ) {
@@ -2555,6 +2507,220 @@ void arduinoPos() {
 
   String ACCELERATION = mapAcceleration[5]+","
     +mapAcceleration[4]+","+ mapAcceleration[3]+","+mapAcceleration[2]+","+ mapAcceleration[1]+","+mapAcceleration[0]+","; // mapAcceleration[9]+","+ mapAcceleration[8]+","+mapAcceleration[7]+","+ mapAcceleration[6]+","+
+
+ // String SPEED = speedi[5]+","+speedi[4]+","+speedi[3]+","+speedi[2]+","+speedi[1]+","+speedi[0]+","; // speedi[11]+","+speedi[10]+","+speedi[9]+","+ speedi[8]+","+speedi[7]+","+ speedi[6]+","+
+  // DECOMPTE: You trig a 0 when oscillator reach to the position 0, and then you have an incrementation at each frame.
+
+  if (rev[networkSize-1]%8==0 && decompte[networkSize-1]>=-0 && decompte[networkSize-1]<1) {// send a trig to change scene in Ableton live (if oscillator 11 makes 8 round an djust when it pass trought its position 0 -->trig next scene in Live)
+    nextScene= 1;//
+    println ("nextScenenextScenenextScenenextScenenextScene");
+    println ("nextScenenextScenenextScenenextScenenextScene");
+    println (nextScene);
+  } else {
+    nextScene= 0;
+  }     
+  //*******************
+
+  if (formerKeyMetro == '$') {
+
+    for (int i = 0; i < networkSize; i++) {
+
+      // DataToDueCircularVirtualPosition[i]= DataToDueCircularVirtualPosition[i]+800;
+      DataToDueCircularVirtualPosition[i]= (int) map ( DataToDueCircularVirtualPosition[i], -800, 800, 1600, 4800)+ ActualVirtualPosition[i];  // mapped for 6400 step/round +800
+      //  dataToLive[i]=(float)  map(DataToDueCircularVirtualPosition[i], 1600, 4800, 0f, 1f);
+    }
+
+    // DataToDueCircularVirtualPosition[2] =(int) map (DataToDueCircularVirtualPosition[2], 0, 6400, 0, int (6400/1));
+  }  
+  if (formerKeyMetro == '*') {
+
+    for (int i = 0; i < networkSize-0; i++) {
+      DataToDueCircularVirtualPosition[i]= DataToDueCircularVirtualPosition[i];
+      //   dataToLive[i]=(float) map(DataToDueCircularVirtualPosition[i], 0, 6400, 0f, 1f);
+      DataToDueCircularVirtualPosition[i]= DataToDueCircularVirtualPosition[i]+ ActualVirtualPosition[i];
+    } 
+    //  DataToDueCircularVirtualPosition[2]=(int) map (DataToDueCircularVirtualPosition[2], 0, 6400, 0, int (6400/1));
+  }
+
+  if (formerKeyMetro == 'J') {
+
+    for (int i = 0; i < networkSize-0; i++) {
+    //  net.oldPhase[i]=net.phase[i];
+      DataToDueCircularVirtualPosition[i]= DataToDueCircularVirtualPosition[i];
+      //   dataToLive[i]=(float) map(DataToDueCircularVirtualPosition[i], 0, 6400, 0f, 1f);
+      DataToDueCircularVirtualPosition[i]= DataToDueCircularVirtualPosition[i]+ ActualVirtualPosition[i];
+    } 
+    //  DataToDueCircularVirtualPosition[2]=(int) map (DataToDueCircularVirtualPosition[2], 0, 6400, 0, int (6400/1));
+  }
+  //24 data Jo solution
+
+  // OSCsend  
+
+  /*
+    if (dataToLive[10]*10>5){
+   dataToLive[10]=1;
+   } 
+   else  if (dataToLive[10]*10<=5){
+   dataToLive[10]=0;
+   }
+   */
+  oscSend();
+ 
+//  printDataOnScreen();
+
+  int TeensyJo=3; // trig Joe in Teensy
+  int erasePosition=-1; //no
+  String dataMarkedToTeensyJo  ="<" // BPM9   
+
+  //  +   DataToDueCircularVirtualPosition[11]+ ","+DataToDueCircularVirtualPosition[10]+","+(DataToDueCircularVirtualPosition[9])+","+DataToDueCircularVirtualPosition[8]+","+DataToDueCircularVirtualPosition[7]+","
+   // +   DataToDueCircularVirtualPosition[6]+","+
+    
+    + DataToDueCircularVirtualPosition[5]+","+DataToDueCircularVirtualPosition[4]+","+DataToDueCircularVirtualPosition[3]+","+DataToDueCircularVirtualPosition[2]+","
+    + DataToDueCircularVirtualPosition[1]+","+DataToDueCircularVirtualPosition[0]+","
+
+    +  (speedDelta) +","+ 3 +","+TeensyJo+","+ erasePosition+"," 
+    
+
+    +cohesionCounterLow +","+ cohesionCounterHigh +","+ int (map (LevelCohesionToSend, 0, 1, 0, 100))+">"; //    cohesionCounterHigh // +orderCohesion+ ">";LevelCohesionToSend ","+ int (map ( LowLevelCohesionToSend, 0, 1, 0, 100))+ 
+
+  // Trig a counter from 0 when cohesionCounterLow is Low +","+ Trig 1  when orderCohesion is High +","+ Map cohesion level
+
+
+  if (rev[networkSize-1]%8==0 && decompte[networkSize-1]>=-0 && decompte[networkSize-1]<1) {// send a trig to change scene in Ableton live (if oscillator 11 makes 8 round an djust when it pass trought its position 0 -->trig next scene in Live)
+    nextScene= 1;//
+    println ("nextScenenextScenenextScenenextScenenextScene");
+    println ("nextScenenextScenenextScenenextScenenextScene");
+    println (nextScene);
+  } else {
+    nextScene= 0;
+  }     
+  //*******************
+  if ((formerKey == 'o'|| formerKey == 'ç' ) && frameCount%1 == 0 ) {//&& circularMov== false
+
+    //  println(frameCount + ": " +  " dataMarkedToTeensyJoSpecial" + ( dataMarkedToTeensyJo ));
+    println(frameCount + ": " +  " JoDebug "  + ( JoDebug ));
+    // teensyport.write(dataMarkedToTeensyJo); // Send data to Teensy. only the movement
+
+    //  encoderReceiveUSBport101.write(dataMarkedToDueBis ); // Send data to Arduino. 
+    //      encoderReceiveUSBport101.write(dataMarkedToDue36data);// teensy simulation
+  }
+
+  if ((formerKey != 'o' ) && frameCount%1 == 0 ) {//&& circularMov== false
+
+    //   println(frameCount + ": " +  " dataMarkedToTeensyJo" + ( dataMarkedToTeensyJo ));
+    //     teensyport.write(dataMarkedToTeensyJo); // Send data to Teensy. only the movement
+  }
+
+
+
+
+  //    print ("pendular      ");   println (pendular);  
+  if (formerKeyMetro!='s') {
+    if (formerKeyMetro!='J') {
+      if (formerKeyMetro!='<') {
+           if (formerKeyMetro!='B') {
+              if (formerKeyMetro!='>') {
+                 if (formerKeyMetro!='@') {
+                     if (formerKeyMetro!='c') {
+                       if (keyMode!= " addSignalOneAndTwo ") {
+                         if (keyMode!= " methodAbleton ") {
+                           if (keyMode!= " addSignalOneAndTwoBis ") {
+                             if (keyMode!= " addSignalOneAndTwoTer ") {
+                            
+                                 if (keyMode!= " followDistribueAddLfoPattern ") {
+                                   if (keyMode!= " samplingModeInternal ") {
+                                    if (keyMode!= " addSignalOneAndTwoQuater ") {
+
+
+        println(frameCount + ": " +  " dataMarkedToTeensyJoInMainLoop" + ( dataMarkedToTeensyJo ));
+        //   encoderReceiveUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
+       // teensyport.write(dataMarkedToTeensyJo); // Send data to Teensy. only the movement
+         
+         }
+          }
+           }
+        }
+        }
+        }
+         }
+        }
+         }
+      }
+     }
+    }
+   }
+  }
+  /*
+  if (formerKeyMetro=='<') {
+    int driverOnOff=3;
+    int dataToTeensyNoJo=-3; // trig noJoe in Teensy
+    String dataMarkedToTeensyNoJo  ="<" // BPM9   
+
+      +   DataToDueCircularVirtualPosition[11]+ ","+DataToDueCircularVirtualPosition[10]+","+(DataToDueCircularVirtualPosition[9])+","+DataToDueCircularVirtualPosition[8]+","+DataToDueCircularVirtualPosition[7]+","
+      +   DataToDueCircularVirtualPosition[6]+","+( DataToDueCircularVirtualPosition[5])+","+DataToDueCircularVirtualPosition[4]+","+DataToDueCircularVirtualPosition[3]+","+DataToDueCircularVirtualPosition[2]+","//DataToDueCircularVirtualPosition[2]
+
+      +  (speedDelta) +","+ driverOnOff +","+decompte[9]+","+decompte[8]+","+decompte[7]+","+decompte[6]+","+decompte[5]+","+decompte[4]+","+decompte[3]+","+decompte[2]+"," // to manage 12 note +decompte[1]+","+decompte[0]+ ","
+
+      +  decompte[1]+"," +cohesionCounterLow +","+ cohesionCounterHigh +","+ int (map (LevelCohesionToSend, 0, 1, 0, 100))+">";    
+
+    println(frameCount + ": " +  " dataMarkedToTeensyNoJo" + ( dataMarkedToTeensyNoJo ));
+    //   encoderReceiveUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
+    teensyport.write(dataMarkedToTeensyNoJo); // Send data to Teensy. only the movement
+  }
+  */
+
+
+  
+    //*********** COMPUTE ACCELERATION
+  
+           if (  keyMode == " null " || keyMode == " addSignalOneAndTwo " ) {
+     for (int i = 0; i < networkSize; i++) {  
+       //     net.phase[i] = newPosF[i];  // to compute acceelration
+      //**     net.phase[i] = newPosXaddSignal[i];
+      oldPhaseAcceleration[i] = phaseAcceleration[i];
+      phaseAcceleration[i] = net.phase[i];
+   
+        oldVelocityBis[i] = velocityBis[i];
+     //**   velocityBis[i] = (net.phase[i] - net.oldPhase[i]) / 1;
+        velocityBis[i] = (phaseAcceleration[i] - oldPhaseAcceleration[i]) / 1;
+   //   VelocityI[i]=velocity[i];
+      // Update acceleration
+        accelerationBis[i] = (velocityBis[i] - oldVelocityBis[i]) / 1;
+        
+        mapAcceleration[i]= constrain ((int (map (abs(accelerationBis[i] *100), -100, 100, 0, 127))), 0, 127); 
+      
+  //      print(" velocityBis "); print (i);  print (" ");  print(velocityBis[i]); print (" "); 
+        
+ //       print(" acc  "); print (i);  print (" "); print(accelerationBis[i]); print(" "); 
+        
+ //       print(" mapAcc  "); print (i);  print (" "); print(mapAcceleration[i]); println(" "); 
+        
+       }
+      }  
+      
+     //*********** END COMPUTE ACCELERATION 
+  
+
+//  countRevs();  
+  bpmAsPulsationFunction();
+  printMidiNoteVelocity();
+  //SUBZERO
+
+
+  if (key=='l') {
+    formerSartKey='l'; //trig  automatiseWithNote();
+    formerKeyL();
+  }
+  if (key=='L') { //
+    formerSartKey='L'; // trig setbpm automatically to 108
+  }  
+
+  if (formerSartKey=='l') {// || formerSartKey=='!'
+
+  }
+
+ // String ACCELERATION = mapAcceleration[5]+","
+ //   +mapAcceleration[4]+","+ mapAcceleration[3]+","+mapAcceleration[2]+","+ mapAcceleration[1]+","+mapAcceleration[0]+","; // mapAcceleration[9]+","+ mapAcceleration[8]+","+mapAcceleration[7]+","+ mapAcceleration[6]+","+
 
  // String SPEED = speedi[5]+","+speedi[4]+","+speedi[3]+","+speedi[2]+","+speedi[1]+","+speedi[0]+","; // speedi[11]+","+speedi[10]+","+speedi[9]+","+ speedi[8]+","+speedi[7]+","+ speedi[6]+","+
   // DECOMPTE: You trig a 0 when oscillator reach to the position 0, and then you have an incrementation at each frame.

@@ -211,12 +211,9 @@ void  modePendulaireModeCirculaire() {
 
 
     if (formerKeyMetro == '£' || formerKeyMetro == '*' ) { //&& formerKeyMetro != 'à' && formerKeyMetro != '$'
-     if (keyMode != " phasePattern " ) { //&& formerKeyMetro != 'à' && formerKeyMetro != '$'
-     text ( " mapped to GENERAL CIRCULAR way 2$ ", width/2, height/2);
+ text ( " mapped to GENERAL CIRCULAR way 2$ ", 400, 900);
       x = displacement*cos(net.phase[i]);
       y = displacement*sin(net.phase[i]);
-    }
-  
     }
 
     if (formerKeyMetro == 'J') { //USELLL play sample recorded with s
@@ -294,42 +291,24 @@ void  modePendulaireModeCirculaire() {
                                if (keyMode != " followDistribueAddLfoPattern " ) {
                                  if (keyMode != " followDistribueAddLfoPatternControl " ) {
                                     if (keyMode != " null " ) {
-                                         if (keyMode != " phasePattern " ) {
            
                        text (  " lllllll ", -width/4, -height/4 ) ;           
                        
-         println (" net.phase[i] " + net.phase[i] + " " + i + " " + formerKeyMetro ); 
+         println (" (net.phase[i]formerKeyMetro  ", i, " ",  formerKeyMetro ); 
       x = displacement*cos(net.phase[i]);
       y = displacement*sin(net.phase[i]);
   
     sphere(side*3);
     sphereDetail( 4*5);
-                           }
-                    }
-                 }
-                }
+   //  }
+     }
+     }
      }
      }
     }
        }
       }
-    }
-       if (formerKeyMetro == '*' || formerKeyMetro == '@' || formerKeyMetro == '$'  ) { //&& formerKeyMetro != 'à' && formerKeyMetro != '$'
-     if (keyMode == " phasePattern " ) { 
-    println (" netPhasebase " + netPhaseBase[i] + " " + i  + " "  + formerKeyMetro ); 
-    text (  " IIIIII ", -width/4, -height/4 ) ;       
-      x = displacement*cos(netPhaseBase[i]);
-      y = displacement*sin(netPhaseBase[i]);
-    sphere(side*3);
-    sphereDetail( 4*5);
-      }
-     }
-
-    
-
-
-
-
+    } 
     
        if (formerKeyMetro == 'B' ) { //drive ball with lfo
      fill( 255, 255, 0 ); // Spheres are all modulated with the same color. depending of acceleration
@@ -490,5 +469,6 @@ void  modePendulaireModeCirculaire() {
   }  
   net.step(); 
   netG.step(); //Does it make any meaning?
-} 
-     
+  
+    } 
+   }  
