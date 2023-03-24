@@ -502,8 +502,13 @@ void arduinoPos() {
 
     +cohesionCounterLow +","+ cohesionCounterHigh +","+ int (map (LevelCohesionToSend, 0, 1, 0, 100))+">"; //    cohesionCounterHigh // +orderCohesion+ ">";LevelCohesionToSend ","+ int (map ( LowLevelCohesionToSend, 0, 1, 0, 100))+ 
 
-  // Trig a counter from 0 when cohesionCounterLow is Low +","+ Trig 1  when orderCohesion is High +","+ Map cohesion level
-
+  if (keyMode == " phasePattern ") {
+     for (int i = 0; i < networkSize-0; i++) {
+      DataToDueCircularVirtualPosition[i]= (int) map  (netPhaseBase[i], 0, TWO_PI, 0, numberOfStep);
+   //   DataToDueCircularVirtualPosition[i]= DataToDueCircularVirtualPosition[i]+ ActualVirtualPosition[i];
+    } 
+  send24DatasToTeensy6motors(8, -3, 3,-1);
+  }
 
   if (rev[networkSize-1]%8==0 && decompte[networkSize-1]>=-0 && decompte[networkSize-1]<1) {// send a trig to change scene in Ableton live (if oscillator 11 makes 8 round an djust when it pass trought its position 0 -->trig next scene in Live)
     nextScene= 1;//
