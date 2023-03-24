@@ -1,4 +1,4 @@
-void arduinoPos() { 
+void arduinoPosAutre() { 
   
   if (formerKeyMetro == '>') {  // formerKeyMetro == '<' || 
     for (int i = 0; i < networkSize; i++) {
@@ -456,7 +456,7 @@ void arduinoPos() {
     for (int i = 0; i < networkSize-0; i++) {
       DataToDueCircularVirtualPosition[i]= DataToDueCircularVirtualPosition[i];
       //   dataToLive[i]=(float) map(DataToDueCircularVirtualPosition[i], 0, 6400, 0f, 1f);
-      DataToDueCircularVirtualPosition[i]= DataToDueCircularVirtualPosition[i]+ ActualVirtualPosition[i];
+      DataToDueCircularVirtualPosition[i]= DataToDueCircularVirtualPosition[i];  //+ ActualVirtualPosition[i]
     } 
     //  DataToDueCircularVirtualPosition[2]=(int) map (DataToDueCircularVirtualPosition[2], 0, 6400, 0, int (6400/1));
   }

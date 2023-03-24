@@ -2658,13 +2658,6 @@ void arduinoPos() {
     //   println(frameCount + ": " +  " dataMarkedToTeensyJo" + ( dataMarkedToTeensyJo ));
     //     teensyport.write(dataMarkedToTeensyJo); // Send data to Teensy. only the movement
   }
-
-   if (keyMode!= " phasePattern ") {
-        println(frameCount + ": " + keyMode + " dataMarked" + ( dataMarkedToTeensyJo ));
-        send24DatasToTeensy6motors(8, 3, -3, -1)
-
-    }
-
   //    print ("pendular      ");   println (pendular);  
   if (formerKeyMetro!='s') {
     if (formerKeyMetro!='J') {
@@ -2699,10 +2692,10 @@ void arduinoPos() {
                   }
                   }
                }
-                      }
-               }
-               }
-                }
+             }
+         }
+  }
+   }
   /*
   if (formerKeyMetro=='<') {
     int driverOnOff=3;
