@@ -1511,13 +1511,19 @@ for (int i = 0; i < networkSize; i++) {
        }
 */
 
-       newPosF[networkSize-1]=  map (v0, 0, 800, 0, TWO_PI);
-      float rayon=displacement;
-      float polarToCartesionX= displacement*cos(newPosF[networkSize-1]);
-      float polarToCartesionY= displacement*sin(newPosF[networkSize-1]);
+   //  newPosF[networkSize-1]=  map (v0, 0, 800, 0, TWO_PI);
+     //  newPosF[networkSize-1]=  map (v0, 0, 800, 0, TWO_PI);
+     //  newPosF[networkSize-1]=  map (v0, 0, 800, 0, TWO_PI);
+       newPosF[0]=  map (v0, 0, 800, 0, TWO_PI);
+       newPosF[1]=  map (v0, 0, 800, 0, TWO_PI);
+  
 
-      mouseX= (int) polarToCartesionX;
-      mouseY= (int) polarToCartesionY;
+      float rayon=displacement;
+      float polarToCartesionX= displacement*cos(newPosF[0]);
+      float polarToCartesionY= displacement*sin(newPosF[0]);
+
+    //  mouseX= (int) polarToCartesionX;
+    //  mouseY= (int) polarToCartesionY;
 
 
 
@@ -1852,7 +1858,7 @@ for (int i = 0; i < networkSize; i++) {
   } 
 
   // option to control sound in Live when the animation is stopped then started again and when oscillator 11 touches the left  
-  if (formerSartKey == '!' &&  TrigmodPos[networkSize]>=0 && TrigmodPos[networkSize]<1) { 
+  if (formerSartKey == '!' &&  TrigmodPos[networkSize-1]>=0 && TrigmodPos[networkSize-1]<1) { 
     println ("TRIG LIVE WITH oscillator 11 on LEFT" ); //
     startStop= 1;  
     print ("MOVEMENT AND TIMER is already started, now START LIVE: "); 
@@ -1908,279 +1914,12 @@ for (int i = 0; i < networkSize; i++) {
        
    //**********************************************************************    
    // STARTERCASE with formerKey
- if ( keyMode != " null "  ) {  
-    if ( keyMode == " phasePattern "  ) { 
- //       pendularPatternLFO();
-      text ( " phase offset " + k + " delay " + d, - width-400, - height+400);
-       
-  if (formerKey=='o' || key=='ç'|| keyCode==SHIFT || key=='*' || key=='ç' || key==',' || key==';' || key=='A'
-    || key=='n' || key=='N'   ) { //  || key=='ç'|| keyCode==SHIFT || key=='*' || key=='ç' || key==',' || key==';'
-    //  formerKeyo();
-    //  formerKeyoJo();
-  }
-
-  if (formerKey=='L') { // like V and shift two frequencies and phases at the same time
-    formerSartKey='L';  // do note automatise movement of balls with note 
-    // formerKeyL();
-  } 
-  if (formerSartKey=='L') { // like V and shift two frequencies and phases at the same time
-    formerKeyL();
-  }
-  // oscillator moving
-  // upstairauto
-
-  // STARTERV Ar
-  if (formerSartKey =='v' && (formerKey=='e' || formerKey=='z' || formerKey=='d' || formerKey=='r' || formerKey=='v')) { //  formerstartKey =='v' && || formerKey=='x'
-    if (circularMov==false  ) {//|| circularMov==false
-      for (int i = 2; i < (networkSize-0); i++) {
-        PendularOldOldOldLeftVirtualPosition[i]=PendularOldOldLeftVirtualPosition[i];
-        PendularOldOldLeftVirtualPosition[i]=PendularOldLeftVirtualPosition[i];
-        PendularOldLeftVirtualPosition[i]=PendularLeftVirtualPosition[i];
-        //    PendularLeftVirtualPosition[i]=CircularVirtualPosition[i];
-        //   PendularOldLeftVirtualPosition[i]=CircularOldVirtualPosition[i];
-      } 
-      print ("STARTERvBIS PendularLeftVirtualPosition "); 
-      print (memoryi); 
-      print (" ");   
-      print (PendularLeftVirtualPosition[memoryi]); 
-      print ("STARTERvBIS PendularLeftVirtualPosition%"); 
-      print (oldMemoryi); 
-      print (" "); 
-      println (PendularOldLeftVirtualPosition[oldMemoryi]); 
-
-      if  ( 1>=1
-        //        (PendularLeftVirtualPosition[memoryi]%6400 <= 100 &&  (PendularOldOldLeftVirtualPosition[oldMemoryi]%6400 <=  PendularOldLeftVirtualPosition[oldMemoryi]%6400 ) && // you turn on cw
-        //        (PendularLeftVirtualPosition[oldMemoryi]%6400 <= PendularOldOldOldLeftVirtualPosition[oldMemoryi]%6400)) ||
-        ) { //good with the ordination of the upstairc
-        //  background (50,50,50);
-        println ("HEREVBIS");   
-        println ("HEREVBIS"); 
-        print ("PendularLeftVirtualPosition"); 
-        print (memoryi); 
-        print(" "); 
-        print (PendularLeftVirtualPosition[memoryi]);
-        print ("PendularLeftVirtualPosition"); 
-        print (oldMemoryi); 
-        print(" "); 
-        println (PendularOldLeftVirtualPosition[oldMemoryi]);            
-        if  (millis()>TimeUpstair+d) {
-          //  TimeUpstair=millis();
-          TimeUpstair=millis();
-          key='v'; 
-          keyReleased();  
-          println (" v  circular Pressed? ");
-          //   formerKey='+';
-          formerSartKey='v';
-        }
-      }
-    }
-  }
-  // ***** automatise Oscillator Moving with a former Key
-
-  // triggerv
-  if (formerKey=='v') {
-    formerKeyv(memoryi, oldMemoryi, k);
-    formerSartKey ='v';
-  }
-
- //*** arduinoPos();
-
-  // triggerc
-
-  if (formerSartKey =='c' && (formerKey=='&' || formerKey=='+')) { //  formerstartKey =='v' &&
-    if (circularMov==true ) {
-      for (int i = 0; i < (networkSize-0); i++) {
-        PendularLeftVirtualPosition[i]=CircularVirtualPosition[i];
-        PendularOldLeftVirtualPosition[i]=CircularOldVirtualPosition[i];
-      } 
-      print ("STARTER PendularLeftVirtualPosition "); 
-      print (memoryi); 
-      print (" ");   
-      print (PendularLeftVirtualPosition[memoryi]); 
-      print ("STARTER PendularLeftVirtualPosition "); 
-      print (oldMemoryi); 
-      print (" "); 
-      print (PendularOldLeftVirtualPosition[oldMemoryi]); 
-
-      if (millis()>TimeUpstair+d) {
-        if  ((PendularLeftVirtualPosition[memoryi]%6400 >=  PendularLeftVirtualPosition[oldMemoryi]%6400 )) { //good with the ordination of the upstairc
-          print ("PendularLeftVirtualPosition"); 
-          print (memoryi); 
-          print(" "); 
-          print (PendularLeftVirtualPosition[memoryi]);
-          print ("PendularLeftVirtualPosition"); 
-          print (oldMemoryi); 
-          print(" "); 
-          print (PendularOldLeftVirtualPosition[oldMemoryi]);
-
-
-          key='c'; 
-          keyReleased();  
-          println (" c circular Pressed? ");
-        }
-        TimeUpstair=millis();
-      }
-    }
-    if (circularMov==false ) {
-      if (millis()>=TimeUpstair+d) {
-        if  (PendularLeftVirtualPosition[memoryi]> 400 ||  PendularLeftVirtualPosition[memoryi]<-400 ) { //&&  oldOscillatorMoving[i]== true
-          print ("PendularLeftVirtualPosition"); 
-          print (memoryi); 
-          print(" "); 
-          print (PendularLeftVirtualPosition[memoryi]);      
-          key='c'; 
-          keyReleased();  
-          println (" c circular Pressed? ");
-        }  
-        TimeUpstair=millis();
-      }
-    }
-  }
-  
-  if (formerKey=='c' ) {
-  //  formerKeyc(memoryi, oldMemoryi);
-    println (" FORMER formerKeyc ");
-    String debug;
-    debug = " FORMER formerKeyc string ";
-    println (debug); 
-    
-    formerSartKey ='c';
-  } 
-  
-  //************************************************************ //************************************************************   
-  //************************************************************ //************************************************************ 
-  //   begin of upstairAuto function 
-  //    trigw = trigx
-  if (formerKey=='w') {
-    print (" formerKeyx? "); 
-    print (formerKey );
- //   formerKeyCopposite(memoryi, oldMemoryi, k);
-    formerSartKey ='w';
-  }  
-  //    trigX
-  if (formerKey=='X') {
-    print (" formerKeyx? "); 
-    print (formerKey );
-    formerKeyC(memoryi, oldMemoryi, k);
-    formerSartKey ='X';
-  }  
-  // trigx
-  if (formerKey=='x') {
-    //   interPhase[memoryi]= metroPhase[memoryi];
-    print (" formerKeyw? "); 
-    print (formerKey );
-    formerKeyCu$(memoryi, oldMemoryi, k);
-    //  formerKeyCoriginal(memoryi, oldMemoryi, k);
-    formerSartKey ='x';
-  } 
-  //   starterx
-  if (formerSartKey =='x' && (formerKey=='e'  )  ) { //  formerstartKey =='v' && || formerKey=='X' || KeyCode== SHIFT
-    if (circularMov==true || circularMov==false ) {//|| circularMov==false
-
-      println ("STARTERxBIS DataToDueCircular ");
-    
-
-      if  ( 1>=1  ) { 
-        if  (millis()>TimeUpstair+d) {
-          //  TimeUpstair=millis();
-          TimeUpstair=millis();
-          key='x'; 
-          keyReleased();  
-          println ("  x circular Pressed automa? ");
-          //   formerKey='+';
-          formerSartKey='x';
-        }
-      }
-    }
-  }
-  }
-  
-  // END STARTERCASE with formerKey
-  //   starterX
-  if (formerSartKey =='X' && (formerKey=='e'  )  ) { //  formerstartKey =='v' && || formerKey=='x' || KeyCode== SHIFT
-    if (circularMov==true || circularMov==false ) {//|| circularMov==false
-
-      println ("STARTERXBIS DataToDueCircular ");
-      //     print (" DataToDueCircularVirtualPosition[oldMemoryi-1] " ) ;  println (DataToDueCircularVirtualPosition[oldMemoryi-1]); BUG x is ased on u$
-      print (" DataToDueCircularVirtualPosition[oldMemoryi] " ) ;  
-      println (DataToDueCircularVirtualPosition[oldMemoryi]);
-      print (" 6400-DataToDueCircularVirtualPosition[oldMemoryi] " ) ;  
-      println (6400 - DataToDueCircularVirtualPosition[oldMemoryi]);
-
-      if  ( 1>=1  ) { 
-        if  (millis()>TimeUpstair+d) {
-          //  TimeUpstair=millis();
-          TimeUpstair=millis();
-          key='X'; 
-          keyReleased();  
-          println (" x  circular Pressed? ");
-          //   formerKey='+';
-          formerSartKey='X';
-        }
-      }
-    }
-  } //end starterX 
-  //   starterw
-  if (formerSartKey =='w'   )  { //  formerstartKey =='v' && || formerKey=='x' || KeyCode== SHIFT
-    if (circularMov==true || circularMov==false ) {//|| circularMov==false
-//  printDataOnScreen();
- //     pendularPatternLFO();
-
-   
-     //   if  (millis()>TimeUpstair+d) {
-              if  (millis()>TimeUpstair) {
-          //  TimeUpstair=millis();
-          TimeUpstair=millis();
-         key='w'; 
-          keyReleased();  
-           formerKeyCopposite(memoryi, oldMemoryi, k);
-          println (" w  circular Pressed? ");
-     
-          formerSartKey='w';
-        
-      }
-    }
-  } //end starterX 
+   //  starterCaseUsedorNot();
+   // ENDSTARTERCASE
 
 
 
-  // *****END of automatise Oscillator Moving with a former Key
 
-  // arduinoPos();
-  //metroEND
-  if (circularMov==true || circularMov==false ) {
-    //     print (" END ");          
-    for (int i = 2; i < (12); i++) {// pendular from -800 to 800
-      /*
-              print (" itPhaseE "); print (i); print (" "); print (interPhase[i]); 
-       print (" itPhaCiE "); print (i); print (" "); print (interPhaseCircular[i]);
-       
-       print (" metrPhaE "); print (i); print (" "); print (metroPhase[i]); 
-       print (" meOlPhaE "); print (i); print (" "); print (metroOldPhase[i]);
-       
-       print (" ne.phasE "); print (i); print (" "); print (net.phase[i]); 
-       print (" neOphasE "); print (i); print (" "); println (net.oldPhase[i]);
-       */
-    }
-  } 
-  //: noLoop();
-
-  //   end of STARTERX function DELETED
-
-  if (formerKey=='I') {
-    formerKeyI();
-  }  
-  /*
-    if (formerKey=='x') { // follow mode. What is w?
-   formerx();
-   //  key ='#';
-   } 
-   */
-  if (formerKey=='V') { // like V and shift two frequencies and phases at the same time
-    formerKeyV();
-    //  key ='#';
-     }
-   }
   //************ arduinoPos(); // to control Pos of motor and Trigging note and computing pulsation
   // countPendularTrig ();
   //frameStop(); 
@@ -2243,7 +1982,7 @@ for (int i = 0; i < networkSize; i++) {
       
     //    formerKey= formerKey;
     //    formerFormerKey= formerFormerKey;
-        formerKeyCodeAzerty =formerKeyMetro;
+     //   formerKeyCodeAzerty =formerKeyMetro;
   }
 
   
@@ -12042,17 +11781,13 @@ if (formerDecayTime>decayTime){
   }  
 
 } 
-
-
  public void followSignalSampledOppositeWay(int ratioTimeFrame){
-
-  
+ 
 if (formerDecayTime>decayTime){
   frameCountBis=frameCountBis+1;
   } 
   formerDecayTime = decayTime;
-  decayTime = millis()%100;// incremente frameCountBis+1 each 100 millisecondes
- 
+  decayTime = millis()%25;// incremente frameCountBis+1 each 100 millisecondes
   int delayRatio=ratioTimeFrame;
 
  //**   samplingMovement(2);
@@ -12064,15 +11799,15 @@ if (formerDecayTime>decayTime){
 
     samplingMovementPro();
     text ( "  movementInterpolated in FOLLOW opposite WAY" +  movementInterpolated +  " oldmovementInterpolated " + oldMovementInterpolated , 400, 900 );
-   // if (oldMovementInterpolated>movementInterpolated){
+    if (oldMovementInterpolated>movementInterpolated){
    //   movementInterpolated= map (movementInterpolated, 0, TWO_PI, TWO_PI, 0);
-   //    }
-      for (int i = 0; i < 1; i+=1) {  // number of sample is 55
-   println ( "  samplesModified.get(i).y " + i +  " " + interpolatedY);
-     }  
-       drawBall( 1, movementInterpolated);
+       }
+ 
+     // bRecording=false;
        phases[0][frameCountBis % nbMaxDelais]=movementInterpolated;
+  //     drawBall( 0, movementInterpolated);
     //MAP movementInterpolated
+       println ( "  movementInterpolated in FOLLOW opposite WAY" +  movementInterpolated +  " oldmovementInterpolated " + oldMovementInterpolated  );
     /*
     if (phases[0][frameCountBis % nbMaxDelais]<=0){
    
@@ -12080,22 +11815,20 @@ if (formerDecayTime>decayTime){
  
      phases[0][frameCountBis % nbMaxDelais]= map (DataToDueCircularVirtualPosition[0], numberOfStep, 0, 0, -TWO_PI);
 
-       
+       }  
    else {
     
     DataToDueCircularVirtualPosition[0]= (int) map (phases[0][frameCountBis % nbMaxDelais], 0, TWO_PI, 0, numberOfStep); 
 
       phases[0][frameCountBis % nbMaxDelais]= map (DataToDueCircularVirtualPosition[0], 0, numberOfStep, 0, TWO_PI);
    
-  }
-  */
-   drawBallOppositeWay(  0, phases[0][frameCountBis % nbMaxDelais] );  
-  //   newPosFollowed[i]
-
-     // newPosFollowed[0]= phases[0][frameCountBis % nbMaxDelais]; // %TWO_PI
-     //println ( " phases[0][frameCountBis % nbMaxDelais " + phases[0][frameCountBis % nbMaxDelais] ) ; // %TWO_PI
-
-
+     }
+    */ 
+  
+   //drawBall(  0, phases[0][frameCountBis % nbMaxDelais] );  
+    // newPosFollowed[i]
+    // newPosFollowed[0]= phases[0][frameCountBis % nbMaxDelais]; // %TWO_PI
+    // println ( " phases[0][frameCountBis % nbMaxDelais " + phases[0][frameCountBis % nbMaxDelais] ) ; // %TWO_PI
 
     //  drawBallOppositeWay(0, phases[0][frameCountBis % nbMaxDelais]); //networkSize-5 affiche le point 0. NE PAS AFFICHER SINON IL APPARAIT EN DOUBLE
  
@@ -12105,17 +11838,35 @@ if (formerDecayTime>decayTime){
   //   followOppositeWay( i-1, i+0, delayTimeFollowPhase11*1*frameRatio/ratioTimeFrame, (phaseShiftingFollowPhase11));  // ici, le temps que les points attendent pour se suivre est de 5 frames, et il faut un espace entre eux de QUARTER_PI/6
      followOppositeWay( i-1, i+0, delayTimeFollowPhase11*1, (phaseShiftingFollowPhase11));  // ici, le temps que les points attendent pour se suivre est de 5 frames, et il faut un espace entre eux de QUARTER_PI/6
 
-  //*** phaseMapped[i]=phases[i-0][frameCountBis % nbMaxDelais]; // use varaible phaseMapped (to play movement with time delay or phase delay) to well send it in Teensy
+      phaseMapped[i]=phases[i+0][frameCountBis % nbMaxDelais]; // use varaible phaseMapped (to play movement with time delay or phase delay) to well send it in Teensy
 
-       drawBallOppositeWay( i, phases[i-0][frameCountBis % nbMaxDelais] ); 
+    //   drawBallOppositeWay( i, phases[i-0][frameCountBis % nbMaxDelais] ); 
     //  println ( " phases[i][frameCountBis % nbMaxDelais " + i + " " + phases[i][frameCountBis % nbMaxDelais] ) ; 
  }
 
   for (int i = 0; i < networkSize; i+=1) { // 1 follow phase 0
        
-  newPosFollowed[i]=phases[i][frameCountBis % nbMaxDelais]; // signals to follow
+ // newPosFollowed[i]=phases[i][frameCountBis % nbMaxDelais]; // signals to follow
+
  }
+
+   for (int i = 1; i < networkSize; i+=1) { // 1 follow phase 0
+
+     if (newPosFollowed[i]<=0){
+   
+ //    DataToDueCircularVirtualPosition[0]= int (map (newPosFollowed[i], 0, -TWO_PI, numberOfStep, 0)); 
  
+  //   newPosFollowed[i]= map (DataToDueCircularVirtualPosition[i], numberOfStep, 0, 0, -TWO_PI);
+
+       }  
+   else {
+    
+ //   DataToDueCircularVirtualPosition[0]= (int) map (newPosFollowed[i], 0, TWO_PI, 0, numberOfStep); 
+
+  //   newPosFollowed[i]= map (DataToDueCircularVirtualPosition[i], 0, numberOfStep, 0, TWO_PI);
+   
+    }
+  }
  
   if (formerFormerKey == '#' || modeStartKeyToFollow == " followSignalSampledOppositeWay(frameRatio) ") {
     
@@ -12123,7 +11874,7 @@ println ( " modeStartKeyToFollow " + modeStartKeyToFollow);
 
       for (int i = 0; i < networkSize-0; i+=1) { 
         
-     //  newPosFollowed[i]=phases[i-0][frameCountBis % nbMaxDelais]; // signals to follow
+       newPosFollowed[i]=phases[i-0][frameCountBis % nbMaxDelais]; // signals to follow
        newPosFollowed[i]=newPosFollowed[i]%TWO_PI;  // signals to follow
 
        phaseMapped[i] = newPosFollowed[i]+phaseMappedFollow[i]; // new signal is a composition 
@@ -12131,18 +11882,14 @@ println ( " modeStartKeyToFollow " + modeStartKeyToFollow);
     if (phaseMapped[i]<0){
    
      DataToDueCircularVirtualPosition[i]= PApplet.parseInt (map (phaseMapped[i], 0, -TWO_PI, numberOfStep, 0)); 
- 
-      phaseMapped[i]= map (DataToDueCircularVirtualPosition[i], numberOfStep, 0, 0, -TWO_PI);
-   //   newPosF[i]= phaseMapped[i];
-
+     phaseMapped[i]= map (DataToDueCircularVirtualPosition[i], numberOfStep, 0, 0, -TWO_PI);
+   
        }
        
    else {
     
     DataToDueCircularVirtualPosition[i]= (int) map (phaseMapped[i], 0, TWO_PI, 0, numberOfStep); 
-
-      phaseMapped[i]= map (DataToDueCircularVirtualPosition[i], numberOfStep, 0, 0, -TWO_PI);
-    //  newPosF[i]= phaseMapped[i];
+    phaseMapped[i]= map (DataToDueCircularVirtualPosition[i], 0, numberOfStep, 0, TWO_PI);
     }
   }
   
@@ -12184,7 +11931,7 @@ println ( " modeStartKeyToFollow " + modeStartKeyToFollow);
  for (int i = 0; i < networkSize-0; i+=1) { 
   newPosF[i]=phaseMapped[i]; // %TWO_PI      display data and use them to control motor
  // net.phase[i]=phaseMapped[i];
-  newPosX[i]=-phaseMapped[i]; // better to count revolution
+  newPosX[i]=phaseMapped[i]; // better to count revolution
   //print ( " newPosF[i] " + newPosF[i]);
   }
 
@@ -12193,25 +11940,22 @@ println ( " modeStartKeyToFollow " + modeStartKeyToFollow);
 
   for (int i = 0; i <  networkSize+0; i+=1) { // la premiere celle du fond i=2,  la derniere celle du devant i=11
 
-    drawBall(i, newPosX[i] );
+  drawBall(i, newPosX[i] ); //  good. 
 
    
     print( " oldPositionToMotor[i]" ); print ( oldPositionToMotor[i]);
     positionToMotor[i]= ((int) map (newPosX[i], 0, TWO_PI, 0, numberOfStep)%numberOfStep); //
-    
-    
-    newPosX[i]=positionToMotor[i]%6400;
+   // newPosX[i]=positionToMotor[i]%6400;
  //   if (oldPositionToMotor[i]>positionToMotor[i]){
-    if ( oldPosF[i]>newPosX[i]){
+    if ( oldPosF[i]>newPosF[i]){
       revLfo[i]++;
-     
-    } 
-     oldPositionToMotor[i]=  positionToMotor[i];
-     oldPosF[i]=newPosX[i];
+     } 
 
-     print( " newPosF[i] " ); print ( newPosF[i]); print( " newPosX[i] " ); print ( newPosX[i]);
-     print( " positionToMotor[i] " ); print ( positionToMotor[i]);
-     print (" revolutionLFO "); print ( i); print ("  "); println (revLfo[i]); 
+      print( " positionToMotor[i] " ); print ( positionToMotor[i]);
+      print( " newPosF[i] " ); print ( newPosF[i]); print( " oldPosF[i] " ); print ( oldPosF[i]);
+      print (" revolutionLFO "); print ( i); print ("  "); println (revLfo[i]); 
+     oldPositionToMotor[i]=  positionToMotor[i];
+     oldPosF[i]=newPosF[i]; 
   }
 
 
@@ -12223,19 +11967,19 @@ println ( " modeStartKeyToFollow " + modeStartKeyToFollow);
       //*******************************  ASSIGN MOTOR WITH POSITION à simplifier
 
       if (revLfo[i]!=0  && (newPosF[i] >  0) ) { // number of revLfoolution is even and rotation is clock wise   
-        DataToDueCircularVirtualPosition[i]= PApplet.parseInt (map (newPosX[i], 0, numberOfStep, 0, numberOfStep))+ (revLfo[i]*numberOfStep);
+        DataToDueCircularVirtualPosition[i]= PApplet.parseInt (map (newPosF[i], 0, numberOfStep, 0, numberOfStep))+ (revLfo[i]*numberOfStep);
       }
 
       if (revLfo[i]!=0  && (newPosF[i] <  0)) { // number of revLfoolution is even and rotation is Counter clock wise          // pos[i]= int (map (newPosF[i], 0, -numberOfStep, 0,  numberOfStep))+ (revLfo[i]*numberOfStep);
 
-        DataToDueCircularVirtualPosition[i]= PApplet.parseInt (map (newPosX[i], 0, -numberOfStep, numberOfStep, 0)) +(revLfo[i]*numberOfStep);       //   print ("pos "); print (i); print (" ");println (pos[i]);
+        DataToDueCircularVirtualPosition[i]= PApplet.parseInt (map (newPosF[i], 0, numberOfStep, numberOfStep, 0)) +(revLfo[i]*numberOfStep);       //   print ("pos "); print (i); print (" ");println (pos[i]);
       }
 
       if (revLfo[i]==0 && (newPosF[i] < 0) ) { //  number of revLfoolution is 0 and rotation is counter clock wise 
-        DataToDueCircularVirtualPosition[i]= PApplet.parseInt (map (newPosX[i], 0, -numberOfStep, numberOfStep, 0));        
+        DataToDueCircularVirtualPosition[i]= PApplet.parseInt (map (newPosF[i], 0, numberOfStep, numberOfStep, 0));        
       }         
       if  (revLfo[i]==0 && (newPosF[i] > 0) ) {  //  number of revLfoolution is 0 and rotation is clock wise     
-        DataToDueCircularVirtualPosition[i]= PApplet.parseInt (map (newPosX[i], 0, numberOfStep, 0, numberOfStep));                //      print ("pos "); print (i); print (" CW revLfo=0 ");println (pos[i]);
+        DataToDueCircularVirtualPosition[i]= PApplet.parseInt (map (newPosF[i], 0, numberOfStep, 0, numberOfStep));                //      print ("pos "); print (i); print (" CW revLfo=0 ");println (pos[i]);
       }
     }
 
@@ -15429,7 +15173,7 @@ float[] volumei;
                              if (keyMode != " addSignalOneAndTwoTer " ) {
                                if (keyMode != " followDistribueAddLfoPattern " ) {
                                  if (keyMode != " followDistribueAddLfoPatternControl " ) {
-                                //  if ( modeStartKeyToFollow != " followDistribueAddLfoPatternControl " ) {
+                                    if (keyMode != " null " ) {
            
                        text (  " lllllll ", -width/4, -height/4 ) ;           
                        
@@ -15492,7 +15236,7 @@ float[] volumei;
     //  x = displacement*cos(newPosXaddSignal[i]);
     //  y = displacement*sin(newPosXaddSignal[i]); 
        x = displacement*cos(net.phase[i]);
-      y = displacement*sin(net.phase[i]);    
+       y = displacement*sin(net.phase[i]);    
 //      print (" keyMode ", i, " ",  newPosXaddSignal[i] );    
       sphere(side*3);
       sphereDetail( 4*5);
@@ -15589,19 +15333,20 @@ float[] volumei;
 
     if ( modeStartKeyToFollow  == " followSignalSampledOppositeWay(frameRatio) " || modeStartKeyToFollow  == " samplingModeInternal " 
       || modeStartKeyToFollow  == " followSignalSampled " ) {
-        println ( " display modeStartKeyToFollow " + modeStartKeyToFollow + " " + newPosF[i]  + " check " +  sampledModifiedChecking[i] );
+        println ( " display modeStartKeyToFollow " + modeStartKeyToFollow + " " + newPosF[i] + " " + i + " check " +  sampledModifiedChecking[i] );
 
       text ( PApplet.parseChar (formerKeyMetro) , 100,100);
-      fill (127, 127 , 0);    
-      x = displacement*cos(newPosF[i]);
-      y = displacement*sin(newPosF[i]);   
+
+      fill (255 /(networkSize-i+1), 255, 255 /(25*(i+1)));    
+      x = displacement*cos(newPosX[i]);
+      y = displacement*sin(newPosX[i]);   
    //    circle ( 100* cos ( interpolatedAngle[0])+400, 100*sin ( interpolatedAngle[0])+400, 200);
    //    circle ( 100* cos ( interpolatedAngle[1])+400, 100*sin ( interpolatedAngle[1])+400, 200);
       sphere(side*3);
       sphereDetail( 4*5); 
       } 
 
-  }                                                                                                                                                                                                                                                                                                                                                                                                                                    
+   }                                                                                                                                                                                                                                                                                                                                                                                                                                    
     popMatrix();
   
   }  
@@ -15609,13 +15354,13 @@ float[] volumei;
   netG.step(); //Does it make any meaning?
   
     } 
-   
+   }  
  public void phasePattern() { // trigged with $ or *
   //************************************ DONT TOUCH
 
 //  if  (   formerKeyMetro != 'c') {  // VERY IMPORTANT with CASE c
  if  (   keyMode != " truc "  ) {
-      if  (   keyMode != " abletonPattern "  ) {
+      if  (   keyMode != " null "  ) {
 
 
   for (int i = 0; i < (networkSize); i++) { 
@@ -16696,11 +16441,11 @@ float[] volumei;
 }
  public void samplingMovementPro() {
    // currTime = millis() * 0.001;  // seconds since app started
-    float polarToCartesionX= displacement*cos(newPosF[networkSize-1]);
-    float polarToCartesionY= displacement*sin(newPosF[networkSize-1]);
+  //  float polarToCartesionX= displacement*cos(newPosF[0]);
+  //  float polarToCartesionY= displacement*sin(newPosF[0]);
    if( bRecording ) {
-    circle( polarToCartesionX,polarToCartesionY, 10 );
-    sampler.addSample( newPosF[networkSize-1], newPosF[networkSize-1] ); // polar Version
+  //  circle( polarToCartesionX,polarToCartesionY, 10 );
+    sampler.addSample( newPosF[0], newPosF[0] ); // polar Version
   //  sampler.addSample( polarToCartesionX, polarToCartesionY ); // cartesian version
 
   print (" 679 SEC  mouse Y REC " );  print (mouseY);  print (" v1 REC " );  print (v1);
@@ -16923,6 +16668,282 @@ float[] volumei;
    
 } 
              
+ public void starterCaseUsedorNot (){ 
+
+ if ( keyMode != " null "  ) {  
+    if ( keyMode == " phasePattern "  ) { 
+ //       pendularPatternLFO();
+      text ( " phase offset " + k + " delay " + d, - width-400, - height+400);
+       
+    if (formerKey=='o' || key=='ç'|| keyCode==SHIFT || key=='*' || key=='ç' || key==',' || key==';' || key=='A'
+    || key=='n' || key=='N'   ) { //  || key=='ç'|| keyCode==SHIFT || key=='*' || key=='ç' || key==',' || key==';'
+    //  formerKeyo();
+    //  formerKeyoJo();
+    }
+
+    if (formerKey=='L') { // like V and shift two frequencies and phases at the same time
+    formerSartKey='L';  // do note automatise movement of balls with note 
+    // formerKeyL();
+    } 
+    if (formerSartKey=='L') { // like V and shift two frequencies and phases at the same time
+    formerKeyL();
+    }
+  // oscillator moving
+  // upstairauto
+
+  // STARTERV Ar
+    if (formerSartKey =='v' && (formerKey=='e' || formerKey=='z' || formerKey=='d' || formerKey=='r' || formerKey=='v')) { //  formerstartKey =='v' && || formerKey=='x'
+     if (circularMov==false  ) {//|| circularMov==false
+      for (int i = 2; i < (networkSize-0); i++) {
+        PendularOldOldOldLeftVirtualPosition[i]=PendularOldOldLeftVirtualPosition[i];
+        PendularOldOldLeftVirtualPosition[i]=PendularOldLeftVirtualPosition[i];
+        PendularOldLeftVirtualPosition[i]=PendularLeftVirtualPosition[i];
+        //    PendularLeftVirtualPosition[i]=CircularVirtualPosition[i];
+        //   PendularOldLeftVirtualPosition[i]=CircularOldVirtualPosition[i];
+      } 
+      print ("STARTERvBIS PendularLeftVirtualPosition "); 
+      print (memoryi); 
+      print (" ");   
+      print (PendularLeftVirtualPosition[memoryi]); 
+      print ("STARTERvBIS PendularLeftVirtualPosition%"); 
+      print (oldMemoryi); 
+      print (" "); 
+      println (PendularOldLeftVirtualPosition[oldMemoryi]); 
+
+      if  ( 1>=1
+        //        (PendularLeftVirtualPosition[memoryi]%6400 <= 100 &&  (PendularOldOldLeftVirtualPosition[oldMemoryi]%6400 <=  PendularOldLeftVirtualPosition[oldMemoryi]%6400 ) && // you turn on cw
+        //        (PendularLeftVirtualPosition[oldMemoryi]%6400 <= PendularOldOldOldLeftVirtualPosition[oldMemoryi]%6400)) ||
+        ) { //good with the ordination of the upstairc
+        //  background (50,50,50);
+        println ("HEREVBIS");   
+        println ("HEREVBIS"); 
+        print ("PendularLeftVirtualPosition"); 
+        print (memoryi); 
+        print(" "); 
+        print (PendularLeftVirtualPosition[memoryi]);
+        print ("PendularLeftVirtualPosition"); 
+        print (oldMemoryi); 
+        print(" "); 
+        println (PendularOldLeftVirtualPosition[oldMemoryi]);            
+        if  (millis()>TimeUpstair+d) {
+          //  TimeUpstair=millis();
+          TimeUpstair=millis();
+          key='v'; 
+          keyReleased();  
+          println (" v  circular Pressed? ");
+          //   formerKey='+';
+          formerSartKey='v';
+        }
+      }
+    }
+  }
+  // ***** automatise Oscillator Moving with a former Key
+
+  // triggerv
+   if (formerKey=='v') {
+    formerKeyv(memoryi, oldMemoryi, k);
+    formerSartKey ='v';
+   }
+
+ //*** arduinoPos();
+
+  // triggerc
+
+   if (formerSartKey =='c' && (formerKey=='&' || formerKey=='+')) { //  formerstartKey =='v' &&
+    if (circularMov==true ) {
+      for (int i = 0; i < (networkSize-0); i++) {
+        PendularLeftVirtualPosition[i]=CircularVirtualPosition[i];
+        PendularOldLeftVirtualPosition[i]=CircularOldVirtualPosition[i];
+      } 
+      print ("STARTER PendularLeftVirtualPosition "); 
+      print (memoryi); 
+      print (" ");   
+      print (PendularLeftVirtualPosition[memoryi]); 
+      print ("STARTER PendularLeftVirtualPosition "); 
+      print (oldMemoryi); 
+      print (" "); 
+      print (PendularOldLeftVirtualPosition[oldMemoryi]); 
+
+      if (millis()>TimeUpstair+d) {
+        if  ((PendularLeftVirtualPosition[memoryi]%6400 >=  PendularLeftVirtualPosition[oldMemoryi]%6400 )) { //good with the ordination of the upstairc
+          print ("PendularLeftVirtualPosition"); 
+          print (memoryi); 
+          print(" "); 
+          print (PendularLeftVirtualPosition[memoryi]);
+          print ("PendularLeftVirtualPosition"); 
+          print (oldMemoryi); 
+          print(" "); 
+          print (PendularOldLeftVirtualPosition[oldMemoryi]);
+
+
+          key='c'; 
+          keyReleased();  
+          println (" c circular Pressed? ");
+        }
+        TimeUpstair=millis();
+      }
+    }
+    if (circularMov==false ) {
+      if (millis()>=TimeUpstair+d) {
+        if  (PendularLeftVirtualPosition[memoryi]> 400 ||  PendularLeftVirtualPosition[memoryi]<-400 ) { //&&  oldOscillatorMoving[i]== true
+          print ("PendularLeftVirtualPosition"); 
+          print (memoryi); 
+          print(" "); 
+          print (PendularLeftVirtualPosition[memoryi]);      
+          key='c'; 
+          keyReleased();  
+          println (" c circular Pressed? ");
+        }  
+        TimeUpstair=millis();
+      }
+    }
+  }
+  
+   if (formerKey=='c' ) {
+  //  formerKeyc(memoryi, oldMemoryi);
+    println (" FORMER formerKeyc ");
+    String debug;
+    debug = " FORMER formerKeyc string ";
+    println (debug); 
+    
+    formerSartKey ='c';
+   } 
+  
+  //************************************************************ //************************************************************   
+  //************************************************************ //************************************************************ 
+  //   begin of upstairAuto function 
+  //    trigw = trigx
+   if (formerKey=='w') {
+    print (" formerKeyx? "); 
+    print (formerKey );
+ //   formerKeyCopposite(memoryi, oldMemoryi, k);
+    formerSartKey ='w';
+   }  
+  //    trigX
+   if (formerKey=='X') {
+    print (" formerKeyx? "); 
+    print (formerKey );
+    formerKeyC(memoryi, oldMemoryi, k);
+    formerSartKey ='X';
+  }  
+  // trigx
+  if (formerKey=='x') {
+    //   interPhase[memoryi]= metroPhase[memoryi];
+    print (" formerKeyw? "); 
+    print (formerKey );
+    formerKeyCu$(memoryi, oldMemoryi, k);
+    //  formerKeyCoriginal(memoryi, oldMemoryi, k);
+    formerSartKey ='x';
+  } 
+  //   starterx
+  if (formerSartKey =='x' && (formerKey=='e'  )  ) { //  formerstartKey =='v' && || formerKey=='X' || KeyCode== SHIFT
+    if (circularMov==true || circularMov==false ) {//|| circularMov==false
+
+      println ("STARTERxBIS DataToDueCircular ");
+    
+
+      if  ( 1>=1  ) { 
+        if  (millis()>TimeUpstair+d) {
+          //  TimeUpstair=millis();
+          TimeUpstair=millis();
+          key='x'; 
+          keyReleased();  
+          println ("  x circular Pressed automa? ");
+          //   formerKey='+';
+          formerSartKey='x';
+        }
+      }
+    }
+  }
+  }
+  
+  // END STARTERCASE with formerKey
+  //   starterX
+  if (formerSartKey =='X' && (formerKey=='e'  )  ) { //  formerstartKey =='v' && || formerKey=='x' || KeyCode== SHIFT
+    if (circularMov==true || circularMov==false ) {//|| circularMov==false
+
+      println ("STARTERXBIS DataToDueCircular ");
+      //     print (" DataToDueCircularVirtualPosition[oldMemoryi-1] " ) ;  println (DataToDueCircularVirtualPosition[oldMemoryi-1]); BUG x is ased on u$
+      print (" DataToDueCircularVirtualPosition[oldMemoryi] " ) ;  
+      println (DataToDueCircularVirtualPosition[oldMemoryi]);
+      print (" 6400-DataToDueCircularVirtualPosition[oldMemoryi] " ) ;  
+      println (6400 - DataToDueCircularVirtualPosition[oldMemoryi]);
+
+      if  ( 1>=1  ) { 
+        if  (millis()>TimeUpstair+d) {
+          //  TimeUpstair=millis();
+          TimeUpstair=millis();
+          key='X'; 
+          keyReleased();  
+          println (" x  circular Pressed? ");
+          //   formerKey='+';
+          formerSartKey='X';
+         }
+       }
+     }
+   } //end starterX 
+  //   starterw
+   if (formerSartKey =='w'   )  { //  formerstartKey =='v' && || formerKey=='x' || KeyCode== SHIFT
+     if (circularMov==true || circularMov==false ) {//|| circularMov==false
+//  printDataOnScreen();
+ //     pendularPatternLFO();
+
+   
+     //   if  (millis()>TimeUpstair+d) {
+              if  (millis()>TimeUpstair) {
+          //  TimeUpstair=millis();
+          TimeUpstair=millis();
+         key='w'; 
+          keyReleased();  
+           formerKeyCopposite(memoryi, oldMemoryi, k);
+          println (" w  circular Pressed? ");
+     
+          formerSartKey='w';
+        
+      }
+    }
+  } //end starterX 
+
+
+
+  // *****END of automatise Oscillator Moving with a former Key
+
+  // arduinoPos();
+  //metroEND
+  if (circularMov==true || circularMov==false ) {
+    //     print (" END ");          
+    for (int i = 2; i < (12); i++) {// pendular from -800 to 800
+      /*
+              print (" itPhaseE "); print (i); print (" "); print (interPhase[i]); 
+       print (" itPhaCiE "); print (i); print (" "); print (interPhaseCircular[i]);
+       
+       print (" metrPhaE "); print (i); print (" "); print (metroPhase[i]); 
+       print (" meOlPhaE "); print (i); print (" "); print (metroOldPhase[i]);
+       
+       print (" ne.phasE "); print (i); print (" "); print (net.phase[i]); 
+       print (" neOphasE "); print (i); print (" "); println (net.oldPhase[i]);
+       */
+    }
+  } 
+  //: noLoop();
+
+  //   end of STARTERX function DELETED
+
+  if (formerKey=='I') {
+    formerKeyI();
+  }  
+  /*
+    if (formerKey=='x') { // follow mode. What is w?
+   formerx();
+   //  key ='#';
+   } 
+   */
+  if (formerKey=='V') { // like V and shift two frequencies and phases at the same time
+    formerKeyV();
+    //  key ='#';
+     }
+   } 
+} 
  public void trigEventWithAbletonSignal() {  // change de sens de propagagtion.   ATTENTION dans ce reglage le signalToSplit de propgation est UP continue de 0 à TWO_PI
 
     lfoPhase[1] = (frameCount / 10.0f * cos (1000 / 500.0f)*-1)%TWO_PI;  // continue 0 to TWO_PI;

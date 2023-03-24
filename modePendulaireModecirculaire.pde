@@ -290,7 +290,7 @@ void  modePendulaireModeCirculaire() {
                              if (keyMode != " addSignalOneAndTwoTer " ) {
                                if (keyMode != " followDistribueAddLfoPattern " ) {
                                  if (keyMode != " followDistribueAddLfoPatternControl " ) {
-                                //  if ( modeStartKeyToFollow != " followDistribueAddLfoPatternControl " ) {
+                                    if (keyMode != " null " ) {
            
                        text (  " lllllll ", -width/4, -height/4 ) ;           
                        
@@ -353,7 +353,7 @@ void  modePendulaireModeCirculaire() {
     //  x = displacement*cos(newPosXaddSignal[i]);
     //  y = displacement*sin(newPosXaddSignal[i]); 
        x = displacement*cos(net.phase[i]);
-      y = displacement*sin(net.phase[i]);    
+       y = displacement*sin(net.phase[i]);    
 //      print (" keyMode ", i, " ",  newPosXaddSignal[i] );    
       sphere(side*3);
       sphereDetail( 4*5);
@@ -450,19 +450,20 @@ void  modePendulaireModeCirculaire() {
 
     if ( modeStartKeyToFollow  == " followSignalSampledOppositeWay(frameRatio) " || modeStartKeyToFollow  == " samplingModeInternal " 
       || modeStartKeyToFollow  == " followSignalSampled " ) {
-        println ( " display modeStartKeyToFollow " + modeStartKeyToFollow + " " + newPosF[i]  + " check " +  sampledModifiedChecking[i] );
+        println ( " display modeStartKeyToFollow " + modeStartKeyToFollow + " " + newPosF[i] + " " + i + " check " +  sampledModifiedChecking[i] );
 
       text ( char (formerKeyMetro) , 100,100);
-      fill (127, 127 , 0);    
-      x = displacement*cos(newPosF[i]);
-      y = displacement*sin(newPosF[i]);   
+
+      fill (255 /(networkSize-i+1), 255, 255 /(25*(i+1)));    
+      x = displacement*cos(newPosX[i]);
+      y = displacement*sin(newPosX[i]);   
    //    circle ( 100* cos ( interpolatedAngle[0])+400, 100*sin ( interpolatedAngle[0])+400, 200);
    //    circle ( 100* cos ( interpolatedAngle[1])+400, 100*sin ( interpolatedAngle[1])+400, 200);
       sphere(side*3);
       sphereDetail( 4*5); 
       } 
 
-  }                                                                                                                                                                                                                                                                                                                                                                                                                                    
+   }                                                                                                                                                                                                                                                                                                                                                                                                                                    
     popMatrix();
   
   }  
@@ -470,4 +471,4 @@ void  modePendulaireModeCirculaire() {
   netG.step(); //Does it make any meaning?
   
     } 
-   
+   }  

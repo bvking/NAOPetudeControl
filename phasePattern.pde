@@ -3,7 +3,7 @@ void phasePattern() { // trigged with $ or *
 
 //  if  (   formerKeyMetro != 'c') {  // VERY IMPORTANT with CASE c
  if  (   keyMode != " truc "  ) {
-      if  (   keyMode != " abletonPattern "  ) {
+      if  (   keyMode != " null "  ) {
 
 
   for (int i = 0; i < (networkSize); i++) { 
