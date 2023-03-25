@@ -4,7 +4,6 @@ void arduinoPos() {
     for (int i = 0; i < networkSize; i++) {
       // rev[i]=rev[0];
 
-
       //*******************************  ASSIGN MOTOR WITH POSITION
 
       if (rev[i]!=0  && (newPosF[i] >  0) ) { // number of revolution is even and rotation is clock wise   

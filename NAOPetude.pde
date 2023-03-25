@@ -6,7 +6,7 @@ import sync.*;
 PNetwork net;
 import java.util.Arrays;
 
-int networkSize = 6;
+int networkSize = 12;
 int nbBalls=networkSize;
 
 int numberOfPointInterpolated= 2; 
@@ -572,7 +572,7 @@ void setup() {
   // end sampling
 
   int midiNoteAndOtherData  = 300;
-  int networkSize = 6;
+  //int networkSize = 6;
  
   formerEvent= new int[300];
   formerSartKey='#';
@@ -851,7 +851,7 @@ void setup() {
 //keyMode = " addSignalOneAndTwoBis ";  
 keyMode = " phasePattern ";                                                                                                                                                                                                                 
 formerKeyMetro = '@';
-translate(0, -800,3000);
+translate(0, -800,1000);
  
 }
 // END SETUP
@@ -1225,7 +1225,7 @@ void draw() {
 //  addPhaseAllMode =net.phase[2] + net.phase[3] + net.phase[4] +net.phase[5]+net.phase[6]+net.phase[7]+net.phase[8]+net.phase[9]+net.phase[10]+net.phase[11];
 for (int i = 0; i < networkSize; i++) {
  
- addPhaseAllMode = addPhaseAllMode + net.phase[i];
+// addPhaseAllMode = addPhaseAllMode + net.phase[i];
   }
   print (" all automatik  "); println ( addPhaseAllMode);
 
