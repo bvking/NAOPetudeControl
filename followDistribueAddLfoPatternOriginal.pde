@@ -3,7 +3,7 @@ void followDistribueAddLfoPattern(){
   // lfoPattern();  // add key o= opposite signl 2
      //*** */   signal[2] = (0*PI + (frameCount / 300.0) * cos (1000 / 500.0)*-1)%1;
 
-   text ( " signnal2 " +nf(signal[2], 0, 2) , 400, 800 ); // from Processing is -1, 1
+   text ( " signal2 " +nf(signal[2], 0, 2) , 400, 800 ); // from Processing is -1, 1
 
 //signal[2]= map ( signal[2], 0, 1, 0, TWO_PI);  //from Processing signal2  is -1, 1
 signal[2]= 0.05;

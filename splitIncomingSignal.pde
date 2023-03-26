@@ -66,12 +66,25 @@ void  splitIncomingSignal() {  // change de sens de propagagtion.   ATTENTION da
       oldOscillatorChange=oscillatorChange;
       oscillatorChange=oscillatorChange+1;
       }
-    else  oscillatorChangingPropagation=false;
+
+        if (signalToSplit<0.5 && millis()> timeToTrig+delayTimeToTrig){  // 
+        timeToTrig=millis();
+        propagationLevel=1;
+        oscillatorChangingPropagation=false;
+        oscillatorChange=oscillatorChange%networkSize;
+        if (oscillatorChange<=0) {
+        oldOscillatorChange=networkSize-1;
+        }
+      }
+
+      /*
+    else  
+     oscillatorChangingPropagation=false;
       oscillatorChange=oscillatorChange%networkSize;
    if (oscillatorChange<=0) {
       oldOscillatorChange=networkSize-1;
      } 
-   
+   */
 
 /*
     if (splitTimeLfo>(oldSplitTimeLfo*1.25)){  // 

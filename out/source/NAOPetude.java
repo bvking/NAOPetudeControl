@@ -1212,8 +1212,9 @@ boolean[] moveKeys = new boolean[99];
   
    if (keyMode == " phasePattern " ) { //drive ball with lfo
     //  followDistribueAddLfoPattern();
+   // followDistribueAddLfoPattern();
     // phasePattern();
-      text (keyMode, (width/2), height/2); 
+      text (keyMode + " " + signal[5] , (width/2), height/2); 
     
 
   }
@@ -8824,7 +8825,7 @@ text (" splitTime " + splitTime + " timeLfo%200 " + timeLfo%200 + " doZ " + doZ,
   public void propagation2way() {   // le boule d'apres prends la position de la boue d'vant + PI/8
         oscillatorChanged=oscillatorChangingPropagation;
  //  if ( oscillatorChanged==true){ // A essayer
-     phaseKeptAtChange[oscillatorChange]= map (signal[3], 0, 1, 0, TWO_PI);
+     phaseKeptAtChange[oscillatorChange]= map (signal[5], 0, 1, 0, TWO_PI);
   //    }
 
    //***  phaseKeptAtChange[oscillatorChange]=newPosXaddSignal[oldOscillatorChange]%TWO_PI;
@@ -11325,7 +11326,7 @@ text (" splitTime " + splitTime + " timeLfo%200 " + timeLfo%200 + " doZ " + doZ,
   // lfoPattern();  // add key o= opposite signl 2
      //*** */   signal[2] = (0*PI + (frameCount / 300.0) * cos (1000 / 500.0)*-1)%1;
 
-   text ( " signnal2 " +nf(signal[2], 0, 2) , 400, 800 ); // from Processing is -1, 1
+   text ( " signal2 " +nf(signal[2], 0, 2) , 400, 800 ); // from Processing is -1, 1
 
 //signal[2]= map ( signal[2], 0, 1, 0, TWO_PI);  //from Processing signal2  is -1, 1
 signal[2]= 0.05f;
@@ -15993,7 +15994,7 @@ float[] volumei;
            
                        text (  " lllllll ", -width/4, -height/4 ) ;           
                        
-         println (" (net.phase[i]formerKeyMetro  ", i, " ",  formerKeyMetro ); 
+         println (" net.phase[i]formerKeyMetro  ", i, " ",  formerKeyMetro ); 
       x = displacement*cos(net.phase[i]);
       y = displacement*sin(net.phase[i]);
   
@@ -16186,6 +16187,16 @@ float[] volumei;
 //  if  (   formerKeyMetro != 'c') {  // VERY IMPORTANT with CASE c
  if  (   keyMode != " truc "  ) {
       if  (   keyMode != " truc " ) {
+
+        /*
+
+         splitIncomingSignal();
+         if (oscillatorChangingPropagation==true)  {key = 'f';}
+
+         if (oscillatorChangingPropagation==false) {key = 'd';}
+
+         text ( " oscillatorChangingPropagation " + oscillatorChangingPropagation, 200, 200 );
+        */
 
 
   for (int i = 0; i < (networkSize); i++) { 
@@ -18475,7 +18486,7 @@ float[] volumei;
      else dataTransformed = " dataComputeInTeensy from mode ";
      println(frameCount + ": " + dataTransformed +  keyMode + " " +   dataFromMode );
   //  encoderReceiveUSBport101.write(dataMarkedToTeensyNoJo);// Send data to Arduino.
-    teensyport.write(dataFromMode);
+  //  teensyport.write(dataFromMode);
       }
  public void serialEvent(Serial encoderReceiveUSBport101) { // receive 2 datas splited with , and the last is send with println
 
@@ -18580,12 +18591,25 @@ int delayTimeToTrig = 140;
       oldOscillatorChange=oscillatorChange;
       oscillatorChange=oscillatorChange+1;
       }
-    else  oscillatorChangingPropagation=false;
+
+        if (signalToSplit<0.5f && millis()> timeToTrig+delayTimeToTrig){  // 
+        timeToTrig=millis();
+        propagationLevel=1;
+        oscillatorChangingPropagation=false;
+        oscillatorChange=oscillatorChange%networkSize;
+        if (oscillatorChange<=0) {
+        oldOscillatorChange=networkSize-1;
+        }
+      }
+
+      /*
+    else  
+     oscillatorChangingPropagation=false;
       oscillatorChange=oscillatorChange%networkSize;
    if (oscillatorChange<=0) {
       oldOscillatorChange=networkSize-1;
      } 
-   
+   */
 
 /*
     if (splitTimeLfo>(oldSplitTimeLfo*1.25)){  // 

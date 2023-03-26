@@ -14,6 +14,16 @@ void phasePattern() { // trigged with $ or *
  if  (   keyMode != " truc "  ) {
       if  (   keyMode != " truc " ) {
 
+        /*
+
+         splitIncomingSignal();
+         if (oscillatorChangingPropagation==true)  {key = 'f';}
+
+         if (oscillatorChangingPropagation==false) {key = 'd';}
+
+         text ( " oscillatorChangingPropagation " + oscillatorChangingPropagation, 200, 200 );
+        */
+
 
   for (int i = 0; i < (networkSize); i++) { 
     {

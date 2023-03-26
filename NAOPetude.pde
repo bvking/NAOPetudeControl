@@ -1184,8 +1184,9 @@ void draw() {
   
    if (keyMode == " phasePattern " ) { //drive ball with lfo
     //  followDistribueAddLfoPattern();
+   // followDistribueAddLfoPattern();
     // phasePattern();
-      text (keyMode, (width/2), height/2); 
+      text (keyMode + " " + signal[5] , (width/2), height/2); 
     
 
   }
