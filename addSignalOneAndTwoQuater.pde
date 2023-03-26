@@ -48,7 +48,7 @@ void propagationMode(){ // as addSignalOneAndTwoQuater() in NAOP
  void propagation2way() {   // le boule d'apres prends la position de la boue d'vant + PI/8
         oscillatorChanged=oscillatorChangingPropagation;
  //  if ( oscillatorChanged==true){ // A essayer
-     phaseKeptAtChange[oscillatorChange]= map (signal[5], 0, 1, 0, TWO_PI);
+     phaseKeptAtChange[oscillatorChange]= map (signal[3], 0, 1, 0, TWO_PI);
   //    }
 
    //***  phaseKeptAtChange[oscillatorChange]=newPosXaddSignal[oldOscillatorChange]%TWO_PI;

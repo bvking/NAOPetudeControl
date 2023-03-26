@@ -79,7 +79,7 @@ signal[2]= map ( signal[2], 0 , 1, 0, 1);  //from Processing signal2  is -1, 1
     for (int i = 0; i < networkSize; i+=1) { 
 
   //  phasePatternFollow[i] = net.phase[i]+phaseMapped[i];
-    phasePatternFollow[i] = net.phase[i]; //
+    phasePatternFollow[i] = netPhaseBase[i]; //
  //   phaseMapped[i] =  phaseMapped[i] + phasePatternFollow[i]; // phaseMapped[i] +  //phaseMapped[i]+ add offset given by pendularPattern
     phasePatternFollow[i] =  phasePatternFollow[i]%TWO_PI; 
 /*

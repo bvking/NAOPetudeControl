@@ -1,6 +1,6 @@
 int propagationLevel;
 int timeToTrig;
-int delayTimeToTrig;
+int delayTimeToTrig = 140;
 
 void  splitIncomingSignal() {  // change de sens de propagagtion.   ATTENTION dans ce reglage le signalToSplit de propgation est UP continue de 0 à TWO_PI
 

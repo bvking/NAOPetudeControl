@@ -1,15 +1,18 @@
 void phasePattern() { // trigged with $ or *
   //************************************ DONT TOUCH
+ if  (   keyMode == " truc"  ) {
   splitIncomingSignal();
   if ( propagationLevel==1) {
   key = 'f';
    }
    if ( propagationLevel==2) {
   key = 'd';
-   }
+     }
+  }
+
 //  if  (   formerKeyMetro != 'c') {  // VERY IMPORTANT with CASE c
  if  (   keyMode != " truc "  ) {
-      if  (   keyMode != " null "  ) {
+      if  (   keyMode != " truc " ) {
 
 
   for (int i = 0; i < (networkSize); i++) { 

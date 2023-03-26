@@ -8824,7 +8824,7 @@ text (" splitTime " + splitTime + " timeLfo%200 " + timeLfo%200 + " doZ " + doZ,
   public void propagation2way() {   // le boule d'apres prends la position de la boue d'vant + PI/8
         oscillatorChanged=oscillatorChangingPropagation;
  //  if ( oscillatorChanged==true){ // A essayer
-     phaseKeptAtChange[oscillatorChange]= map (signal[5], 0, 1, 0, TWO_PI);
+     phaseKeptAtChange[oscillatorChange]= map (signal[3], 0, 1, 0, TWO_PI);
   //    }
 
    //***  phaseKeptAtChange[oscillatorChange]=newPosXaddSignal[oldOscillatorChange]%TWO_PI;
@@ -11401,7 +11401,7 @@ signal[2]= map ( signal[2], 0 , 1, 0, 1);  //from Processing signal2  is -1, 1
     for (int i = 0; i < networkSize; i+=1) { 
 
   //  phasePatternFollow[i] = net.phase[i]+phaseMapped[i];
-    phasePatternFollow[i] = net.phase[i]; //
+    phasePatternFollow[i] = netPhaseBase[i]; //
  //   phaseMapped[i] =  phaseMapped[i] + phasePatternFollow[i]; // phaseMapped[i] +  //phaseMapped[i]+ add offset given by pendularPattern
     phasePatternFollow[i] =  phasePatternFollow[i]%TWO_PI; 
 /*
@@ -16173,16 +16173,19 @@ float[] volumei;
    }  
  public void phasePattern() { // trigged with $ or *
   //************************************ DONT TOUCH
+ if  (   keyMode == " truc"  ) {
   splitIncomingSignal();
   if ( propagationLevel==1) {
   key = 'f';
    }
    if ( propagationLevel==2) {
   key = 'd';
-   }
+     }
+  }
+
 //  if  (   formerKeyMetro != 'c') {  // VERY IMPORTANT with CASE c
  if  (   keyMode != " truc "  ) {
-      if  (   keyMode != " null "  ) {
+      if  (   keyMode != " truc " ) {
 
 
   for (int i = 0; i < (networkSize); i++) { 
@@ -18511,7 +18514,7 @@ float[] volumei;
 }
 int propagationLevel;
 int timeToTrig;
-int delayTimeToTrig;
+int delayTimeToTrig = 140;
 
  public void  splitIncomingSignal() {  // change de sens de propagagtion.   ATTENTION dans ce reglage le signalToSplit de propgation est UP continue de 0 à TWO_PI
 
