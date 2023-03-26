@@ -90,8 +90,8 @@ void propagationMode(){ // as addSignalOneAndTwoQuater() in NAOP
      
     if (doZ==false && oscillatorChanged==true){ 
 
-     //  LFO[oscillatorChange] =LFO[oldOscillatorChange]+QUARTER_PI*1/2 ;  // on ajoute 
-      LFO[oscillatorChange] = phaseKeptAtChange[oscillatorChange]; // LFO[oscillatorChange]+
+       LFO[oscillatorChange] =LFO[oldOscillatorChange]+QUARTER_PI*1/2 ;  // on ajoute 
+     // LFO[oscillatorChange] = phaseKeptAtChange[oscillatorChange]; // LFO[oscillatorChange]+
 
        dataMappedForMotor[oscillatorChange]= (int) map (LFO[oscillatorChange], 0, TWO_PI , 0, numberOfStep);  // 
        println (" true phaseKeptAtChange[oscillatorChange] ", oscillatorChange, " " ,  phaseKeptAtChange[oldOscillatorChange]);

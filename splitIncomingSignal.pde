@@ -1,3 +1,7 @@
+int propagationLevel;
+int timeToTrig;
+int delayTimeToTrig;
+
 void  splitIncomingSignal() {  // change de sens de propagagtion.   ATTENTION dans ce reglage le signalToSplit de propgation est UP continue de 0 à TWO_PI
 
     lfoPhase[1] = (frameCount / 10.0 * cos (1000 / 500.0)*-1)%TWO_PI;  // continue 0 to TWO_PI;
@@ -10,6 +14,7 @@ void  splitIncomingSignal() {  // change de sens de propagagtion.   ATTENTION da
     oldSignalToSplit=signalToSplit;
     
     signalToSplit = map ( signal[5], 0, 1, -TWO_PI, TWO_PI);
+
  
   if (oldSignalToSplit> signalToSplit ) {
   //  key = 'q' ; // when signal goes down --> propagation FRONT SIDE
@@ -30,11 +35,12 @@ void  splitIncomingSignal() {  // change de sens de propagagtion.   ATTENTION da
       text ( " timeLfo " + timeLfo , 200, 200);
       text (" splittimeLfo "  +  splitTimeLfo +   " oldSplitTimeLfo " + oldSplitTimeLfo,  100, 100);
 
-
+   
    text (" oldOscillatorChange " + oldOscillatorChange + " oscillatorChange " + oscillatorChange + " j " + nf (phaseKeptAtChange[oscillatorChange]/TWO_PI*360%360, 0, 2), -width-200, -height- 400 );
    text (" oscillatorChangingPropagation " +  oscillatorChangingPropagation  +  nf (phaseKeptAtChange[oldOscillatorChange]/TWO_PI*360%360, 0, 2), -width-200, -height- 300 );
+   /*
+     if (oldSplitTimeLfo-splitTimeLfo>100){  //100 means if previous signal is upper of 10%
    
-    if (oldSplitTimeLfo-splitTimeLfo>150){  // if previous signal is upper of 15%
       oscillatorChangingPropagation=true;
       oldOscillatorChange=oscillatorChange;
       oscillatorChange=oscillatorChange+1;
@@ -44,30 +50,58 @@ void  splitIncomingSignal() {  // change de sens de propagagtion.   ATTENTION da
      if (oscillatorChange<=0) {
       oldOscillatorChange=networkSize-1;
      }
+*/
 
-    if (splitTimeLfo-oldSplitTimeLfo>150){  // if previous signal is downer of 15%
+   //   float differenceSignal=  splitTimeLfo + 10 * log ( 1 - 10 pow (-(splitTimeLfo-oldSplitTimeLfo)/10)); 
+     //   float RMS = splitTimeLfo/sq
+     
+      //float differenceSignal=  splitTimeLfo + log10( 1.0 - 10.0 *pow(1-10.0,-(splitTimeLfo-oldSplitTimeLfo)/10.0));
+      //     text (" differenceSignal " + differenceSignal ,  -width-200, -height- 800); 
+
+    //  if (splitTimeLfo>0.5){  // 
+     if (signalToSplit>0.5 && millis()> timeToTrig+delayTimeToTrig){  // 
+       timeToTrig=millis();
+         propagationLevel=1;
       oscillatorChangingPropagation=true;
       oldOscillatorChange=oscillatorChange;
       oscillatorChange=oscillatorChange+1;
       }
-     else  oscillatorChangingPropagation=false;
+    else  oscillatorChangingPropagation=false;
       oscillatorChange=oscillatorChange%networkSize;
-     if (oscillatorChange<=0) {
+   if (oscillatorChange<=0) {
       oldOscillatorChange=networkSize-1;
      } 
+   
 
-
-    /*
-     if (splitTimeLfo-oldSplitTimeLfo>150){ // if previous signal is upper of 15%
+/*
+    if (splitTimeLfo>(oldSplitTimeLfo*1.25)){  // 
+      propagationLevel=1;
       oscillatorChangingPropagation=true;
+      oldOscillatorChange=oscillatorChange;
+      oscillatorChange=oscillatorChange+1;
+      }
+   //  else  oscillatorChangingPropagation=false;
+      oscillatorChange=oscillatorChange%networkSize;
+   if (oscillatorChange<=0) {
+      oldOscillatorChange=networkSize-1;
+     } 
+     
+    // textSize (map (signal[5], 0, 1, 0, 100));
+     text (" oscillatorChangingPropagation " + oscillatorChangingPropagation ,  -width-200, -height- 800); 
+
+    
+     if (oldSplitTimeLfo>(splitTimeLfo*1.25)){ // if previous signal is upper of 15%
+      propagationLevel=2;
+      oscillatorChangingPropagation=false;
       oldOscillatorChange=oscillatorChange;
       oscillatorChange=oscillatorChange-1;
      } 
+      //  else  oscillatorChangingPropagation=false;
       if (oscillatorChange<=-1) {
       oldOscillatorChange=0;
       oscillatorChange=networkSize-1;
     }
-    */
+  */  
 
     
 
