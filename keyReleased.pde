@@ -6,13 +6,13 @@ void keyReleased() {
    textSize (100);
 
     if (keyCode == LEFT || keyMode == " addSignalOneAndTwoQuater ") {  
-    println( " LEFT INCREASE decay to splitIncomingSignal ")  ; 
+    println( " decay to add from splitIncomingSignal ")  ; 
      delayTimeToTrig= delayTimeToTrig-20;
       if (delayTimeToTrig<=0) {
         delayTimeToTrig=200;
      }
   
-    text ( " delayTimeToTrig " + delayTimeToTrig, width/8, height-800 );
+    text ( " delayTimeToTrig " + delayTimeToTrig, width-width/8, height-800 );
     key= '#'; // to trig once keyPressedLFO
   }
 
