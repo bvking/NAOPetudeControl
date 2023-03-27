@@ -1256,7 +1256,7 @@ for (int i = 0; i < networkSize; i++) {
   println (beatPrecised);
   }
    }  
-  recordFrame();
+ // recordFrame();
  
   print( " begin main loop " ) ;
 
