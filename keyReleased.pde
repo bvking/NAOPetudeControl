@@ -5,7 +5,7 @@ void keyReleased() {
    recordFrame();
    textSize (100);
 
-    if (keyCode == LEFT && keyMode == " addSignalOneAndTwoQuater ") {  
+    if (keyCode == LEFT || keyMode == " addSignalOneAndTwoQuater ") {  
     println( " LEFT INCREASE decay to splitIncomingSignal ")  ; 
      delayTimeToTrig= delayTimeToTrig-20;
       if (delayTimeToTrig<=0) {
@@ -16,7 +16,7 @@ void keyReleased() {
     key= '#'; // to trig once keyPressedLFO
   }
 
-     if (keyCode == RIGHT && keyMode == " addSignalOneAndTwoQuater ") { 
+     if (keyCode == RIGHT || keyMode == " addSignalOneAndTwoQuater ") { 
     delayTimeToTrig= delayTimeToTrig+20;
     delayTimeToTrig=delayTimeToTrig%200;
     text ( " delayTimeToTrig " + delayTimeToTrig, width/8, height-800 );
