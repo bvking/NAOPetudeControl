@@ -6,7 +6,7 @@ import sync.*;
 PNetwork net;
 import java.util.Arrays;
 
-int networkSize = 12;
+int networkSize = 6;
 int nbBalls=networkSize;
 
 float log10 (float x) {
@@ -1059,7 +1059,7 @@ void draw() {
 
        if (moveKeys[8]==true && moveKeys[12]==true){ // ALT & v
     keyMode = " trigEventWithAbletonSignal " ;
-    formerKeyMetro = '*';
+  //  formerKeyMetro = '*';
   }
     
      if (key == '%' ){ 
@@ -3234,7 +3234,7 @@ void recordFrame() {
   // DataToDueCircularVirtualPosition[i]=0;
   
   }
-
+    println ( " send24datasFromRecordFrameFuncrtion?? ");
     send24DatasToTeensy6motors (10,3,-3,1); // 1 means erase data in Teensy
     //  key='j'; keyReleased();
     output.println("1999999:0:0:0:0");

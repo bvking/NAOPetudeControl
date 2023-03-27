@@ -38,6 +38,8 @@ public class PNetwork implements PConstants {
   public float[] velocity;
   public float[] acceleration;
   public float[] oldPhase;
+
+  public int formerKeyMetro;
   
   
   /**
@@ -215,7 +217,7 @@ public class PNetwork implements PConstants {
    * @param n The number of indices to shift.
    */
   public void shiftFrequencies(int n) {
-    shiftArray(naturalFrequency, n);
+     shiftArray(naturalFrequency, n);
      shiftArray(naturalOldFrequency, n);
   }
   
@@ -366,7 +368,8 @@ public class PNetwork implements PConstants {
    */
   public void step() {
    //   step(1);
-    step(1);
+    step(1, 42);
+
   }
   
   /**
@@ -374,9 +377,9 @@ public class PNetwork implements PConstants {
    * 
    * @param numSteps The number of time steps to take.
    */
-  public void step(int numSteps) {
+  public void step(int numSteps, int formerKeyMetro ) {
     for (int i = 0; i < numSteps; i++) {
-      solveRK4();
+      solveRK4(formerKeyMetro);
     }
   }
   
@@ -386,7 +389,7 @@ public class PNetwork implements PConstants {
    * 
    * https://en.wikipedia.org/wiki/Runge-Kutta_methods
    */
-  private void solveRK4() {
+  private void solveRK4( int formerKeyMetro) {
     float noise = noiseLevel * parent.noise(time);
     oldPhase = Arrays.copyOf(phase, networkSize);
     naturalFrequency= Arrays.copyOf(naturalFrequency, networkSize);
@@ -405,7 +408,21 @@ public class PNetwork implements PConstants {
       acceleration[i] = (velocity[i] - oldVelocity[i]) / stepSize;
       // Keep phase within TWO_PI
       
-        phase[i] %= TWO_PI;
+      if (formerKeyMetro == 42 ){    //*
+        // phase[i] %= TWO_PI;
+        
+     //   println  ( " CLASSSS MAC YNTRE  42" );
+
+        }
+
+      if (formerKeyMetro == 36 ){    //$
+
+    //    background(50);
+
+    //    println  ( " CLASSSS MAC YNTRE  36" );
+       //  phase[i] %= TWO_PI;
+        } 
+      
        
     }
     

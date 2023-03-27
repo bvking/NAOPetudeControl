@@ -11,9 +11,10 @@ void  modePendulaireModeCirculaire() {
    //   freqi[i]=  constrain( map( net.naturalFrequency[i], 0, 5, 200, 16000 ), freqMin, 12000 );
     }
     //**************** TRANSFORM CIRCULAR PHASE INTO METRO PHASE ********* SET AMPLITUDE
-    if (formerKeyMetro == '$' || trigFollowSampling == true   ) { //&& formerSartKey == 'x'//|| formerKeyMetro == 'J'
+    if (formerKeyMetro == '$'   ) { // || trigFollowSampling == true//&& formerSartKey == 'x'//|| formerKeyMetro == 'J'
      text ( " mapped GENERAL pendular way $ ", 400, 600);
       //  println (" you are in $ et non x ");
+      net.phase[i]=net.phase[i]%TWO_PI;
       if (net.phase[i] >= PI ) { 
         metroPhase[i]= map( net.phase[i], 0, TWO_PI, 1.5*PI, -0.5*PI);
       }
@@ -281,7 +282,23 @@ void  modePendulaireModeCirculaire() {
     translate (x*1, y*1, 200+(50*5*i));  //*-1 go in clockwise, *1 go in CCW
     colorMode(RGB, 255, 255, 255);
 //    fill( mapAccelerationinversed[i], 255, 0 ); // Sepheres are all modulated with the same color. depending of acceleration
-      fill( 255, 100, 255 );
+      fill( 175, 175, 255 );
+    if (keyMode == " trigEventWithAbletonSignal " && formerKeyMetro == '$' ) {
+
+               text (  " lIlIlIlI ", -width/4, -height/4 ) ;  
+
+   // metroPhase[i]= metroPhase[i];     
+                       
+    println ( " metro " + metroPhase[i]  + " formerKeyMetro " + " " + i + " " + char (formerKeyMetro) ); 
+
+      x = displacement*cos(metroPhase[i]);
+      y = displacement*sin(metroPhase[i]);
+  
+    sphere(side*3);
+    sphereDetail( 4*5);
+    }
+
+
      if (formerKeyMetro !='B' ) { //drive ball with lfo
           if (formerKeyMetro != '<' ) {
              if (formerKeyMetro != '@' ) {
@@ -290,11 +307,11 @@ void  modePendulaireModeCirculaire() {
                              if (keyMode != " addSignalOneAndTwoTer " ) {
                                if (keyMode != " followDistribueAddLfoPattern " ) {
                                  if (keyMode != " followDistribueAddLfoPatternControl " ) {
-                                    if (keyMode != " null " ) {
+                                    if (formerKeyMetro == '*'  && keyMode == " trigEventWithAbletonSignal " ) {  // keyMode == " trigEventWithAbletonSignal " && 
            
                        text (  " lllllll ", -width/4, -height/4 ) ;           
                        
-         println (" net.phase[i]formerKeyMetro  ", i, " ",  formerKeyMetro ); 
+         println ( net.phase[i]  + " formerKeyMetro " + " " + i + " " + char (formerKeyMetro) ); 
       x = displacement*cos(net.phase[i]);
       y = displacement*sin(net.phase[i]);
   
@@ -358,9 +375,7 @@ void  modePendulaireModeCirculaire() {
       sphere(side*3);
       sphereDetail( 4*5);
       }
-      
-      
-     
+       
        if (keyMode == " addSignalOneAndTwo "  ) { //drive ball with lfo
      fill( mapAccelerationinversed[i], 255, 255 ); // Sepheres are all modulated with the same color. depending of acceleration
     // fill (100, 255, 255);
@@ -414,7 +429,9 @@ void  modePendulaireModeCirculaire() {
       } 
       
     if ( modeStartKeyToFollow == " trigEventWithAbletonSignal " ) { //drive ball with lfo    
-      println ( "****************************** DISPLAY ", keyMode );    
+      println ( "****************************** DISPLAY ", keyMode );   
+       text ( formerKeyMetro, 100,100); 
+         println ( " formerKeyMetro "  + formerKeyMetro); 
       fill (100, 255 , 255);    
       x = displacement*cos(net.phase[i]);
       y = displacement*sin(net.phase[i]);    
@@ -423,6 +440,7 @@ void  modePendulaireModeCirculaire() {
       }
       
     if ( modeStartKeyToFollow == " followDistribueAddLfoPattern " ) { //drive ball with lfo
+     if ( keyMode != " trigEventWithAbletonSignal " ) {
       println ( "****************************** DISPLAY ", keyMode ); 
       text ( char (formerKeyMetro), 100,100);
       fill (100, 255 , 150);    
@@ -433,6 +451,7 @@ void  modePendulaireModeCirculaire() {
       sphere(side*3);
       sphereDetail( 4*5); 
       }
+     }
 
     if ( modeStartKeyToFollow == " followDistribueAddLfoPatternControl " ) { //drive ball with lfo
     
