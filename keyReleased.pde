@@ -4,6 +4,7 @@ void keyReleased() {
    }
    recordFrame();
    textSize (100);
+
     if (keyCode == LEFT && keyMode == " addSignalOneAndTwoQuater ") {  
     println( " LEFT INCREASE decay to splitIncomingSignal ")  ; 
      delayTimeToTrig= delayTimeToTrig-20;
@@ -261,9 +262,13 @@ void keyReleased() {
     println ("Frequencie adatped to PENDULAR way WITH OTHER PATTERN trigged with à");
     //  pendularOtherPattern ();
   }
-  if (formerKeyMetro == '$') {  
-    println ("Frequencies adatped to PENDULAR way trigged with $");
-    phasePattern();
+  if (formerKeyMetro == '$' ||  formerKeyMetro == '*'  ) {  
+    println (  " MOD PENDULAR OR CIRC IN pHASE PATTERN  ");
+ //   splitIncomingSignal();
+  textSize (50);
+  color (50, 50, 255);
+  text ( " oscillatorChangingPropagation " + oscillatorChangingPropagation, 200, 200 );
+  //  phasePattern();
   } 
 
   //*********************************************CIRCULAR

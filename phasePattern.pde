@@ -1,12 +1,13 @@
 void phasePattern() { // trigged with $ or *
   //************************************ DONT TOUCH
- if  (   keyMode == " truc"  ) {
-  splitIncomingSignal();
+ if  (   keyMode == " phasePattern "  ) {
+//  splitIncomingSignal();
+//   text ( " oscillatorChangingPropagation " + oscillatorChangingPropagation, 200, 200 );
   if ( propagationLevel==1) {
-  key = 'f';
+ // key = 'f';
    }
    if ( propagationLevel==2) {
-  key = 'd';
+  //key = 'd';
      }
   }
 
@@ -14,15 +15,16 @@ void phasePattern() { // trigged with $ or *
  if  (   keyMode != " truc "  ) {
       if  (   keyMode != " truc " ) {
 
-        /*
+        
 
-         splitIncomingSignal();
+    //     splitIncomingSignal();
+         /*
          if (oscillatorChangingPropagation==true)  {key = 'f';}
 
          if (oscillatorChangingPropagation==false) {key = 'd';}
-
-         text ( " oscillatorChangingPropagation " + oscillatorChangingPropagation, 200, 200 );
         */
+    //     text ( " oscillatorChangingPropagation " + oscillatorChangingPropagation, 200, 200 );
+      
 
 
   for (int i = 0; i < (networkSize); i++) { 

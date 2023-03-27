@@ -32,7 +32,7 @@ void  splitIncomingSignal() {  // change de sens de propagagtion.   ATTENTION da
    }
 
      splitTimeLfo= int  (timeLfo%1000); 
-      text ( " timeLfo " + timeLfo , 200, 200);
+      text ( " timeLfo " + timeLfo + "  oscillatorChangingPropagation " +  oscillatorChangingPropagation, 200, 200);
       text (" splittimeLfo "  +  splitTimeLfo +   " oldSplitTimeLfo " + oldSplitTimeLfo,  100, 100);
 
    
@@ -60,13 +60,16 @@ void  splitIncomingSignal() {  // change de sens de propagagtion.   ATTENTION da
 
     //  if (splitTimeLfo>0.5){  // 
      if (signalToSplit>0.5 && millis()> timeToTrig+delayTimeToTrig){  // 
+     key = 'e'; keyReleased();//
+    // phasePattern(); //keyReleased();
        timeToTrig=millis();
          propagationLevel=1;
       oscillatorChangingPropagation=true;
       oldOscillatorChange=oscillatorChange;
       oscillatorChange=oscillatorChange+1;
+      oscillatorChange=oscillatorChange%networkSize;
       }
-
+/*
         if (signalToSplit<0.5 && millis()> timeToTrig+delayTimeToTrig){  // 
         timeToTrig=millis();
         propagationLevel=1;
@@ -76,15 +79,21 @@ void  splitIncomingSignal() {  // change de sens de propagagtion.   ATTENTION da
         oldOscillatorChange=networkSize-1;
         }
       }
-
-      /*
-    else  
+*/
+    
+    if (signalToSplit<0.5 && millis()> timeToTrig+delayTimeToTrig){  // 
+     key = 'f';  keyPressed();
+   //  phasePattern();
      oscillatorChangingPropagation=false;
-      oscillatorChange=oscillatorChange%networkSize;
+
+      oldOscillatorChange=oscillatorChange;
+   //   oscillatorChange=oscillatorChange-1;
    if (oscillatorChange<=0) {
-      oldOscillatorChange=networkSize-1;
+     oldOscillatorChange=0;
+     oscillatorChange=networkSize-1;
+
      } 
-   */
+   }
 
 /*
     if (splitTimeLfo>(oldSplitTimeLfo*1.25)){  // 

@@ -9,7 +9,8 @@ void trigEventWithAbletonSignal() {  // change de sens de propagagtion.   ATTENT
 
     oldSignalToSplit=signalToSplit;
     
-    signalToSplit = map ( signal[5], 0, 1, -TWO_PI, TWO_PI);
+ //   signalToSplit = map ( signal[5], 0, 1, -TWO_PI, TWO_PI);
+ 
  
   if (oldSignalToSplit> signalToSplit ) {
   //  key = 'q' ; // when signal goes down --> propagation FRONT SIDE
@@ -69,39 +70,33 @@ void trigEventWithAbletonSignal() {  // change de sens de propagagtion.   ATTENT
       oscillatorChange=networkSize-1;
     }
     */
+     signalToSplit = map ( signal[5], 0, 1, 0, 1);
 
-     if (oldSplitTimeLfo-splitTimeLfo>150){  // if previous signal is upper of 15%
+        if (signalToSplit>0.5 && millis()> timeToTrig+delayTimeToTrig){  // 
+      timeToTrig=millis();
+      propagationLevel=2;
       oscillatorChangingPropagation=true;
-      
       oscillatorBlocked=oscillatorBlocked+1;
-      key = 'f';
-      phasePattern();
-      }
-      else  oscillatorChangingPropagation=false;
       oscillatorBlocked=oscillatorBlocked%networkSize;
-
-     
-      
-     if (oscillatorBlocked<=0) {
-      //oldOscillatorChange=networkSize-1;
-     }
-
-    if (splitTimeLfo-oldSplitTimeLfo>150){  // if previous signal is downer of 15%
-      oscillatorChangingPropagation=true;
-    
-     // oscillatorBlocked=oscillatorBlocked-1;
       key = 'd';
       phasePattern();
       }
-   
-     else  oscillatorChangingPropagation=false;
-      
-     if (oscillatorBlocked<=-1) {
-      oscillatorBlocked=networkSize-1;
-     } 
-
+     
     
 
+
+      if (signalToSplit<0.5 && millis()> timeToTrig+delayTimeToTrig){  // 
+      //  timeToTrig=millis();
+      propagationLevel=0;
+      oscillatorChangingPropagation=false;
+     // oscillatorBlocked=oscillatorBlocked-1;
+     if (oscillatorBlocked<=0) {
+     oscillatorBlocked=networkSize-1;
+     } 
+      key = 'f';
+      phasePattern();
+      }
+  
      oldSplitTimeLfo = splitTimeLfo; 
    
 } 
