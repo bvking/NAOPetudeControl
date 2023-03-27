@@ -28,8 +28,8 @@ void trigEventWithAbletonSignal() {  // change de sens de propagagtion.   ATTENT
    }
 
      splitTimeLfo= int  (timeLfo%1000); 
-      text ( " timeLfoTrigEvent" + timeLfo + " oscillatorBlocked " + oscillatorBlocked , 300, -200);
-      text (" splittimeLfo "  +  splitTimeLfo +   " oldSplitTimeLfo " + oldSplitTimeLfo, 300, -300);
+    //  text (" splittimeLfo "  +  splitTimeLfo +   " oldSplitTimeLfo " + oldSplitTimeLfo, 300, -300);
+     text (" propagationLevel "  +  propagationLevel + " timeLfoTrigEvent" + delayTimeToTrig + " oscillatorBlocked " + oscillatorBlocked , width-width/4, -300);
 
 
    text (" oldOscillatorChange " + oldOscillatorChange + " oscillatorChange " + oscillatorChange + " j " + nf (phaseKeptAtChange[oscillatorChange]/TWO_PI*360%360, 0, 2), -width-200, -height- 400 );
@@ -83,8 +83,6 @@ void trigEventWithAbletonSignal() {  // change de sens de propagagtion.   ATTENT
       }
      
     
-
-
       if (signalToSplit<0.5 && millis()> timeToTrig+delayTimeToTrig){  // 
       //  timeToTrig=millis();
       propagationLevel=0;

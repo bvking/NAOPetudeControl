@@ -43,7 +43,7 @@ void phasePattern() { // trigged with $ or *
 
   //********** ********** ********** ********** ********** ********** ********** INCREASE FREQUENCIES in $ mode PENDULAR PATTERN
   if (keyCode == LEFT) {  
-    if ( keyMode == " phasePattern "){
+    if ( keyMode == " phasePattern " || modeStartKeyToFollow == " followDistribueAddLfoPattern "){
      oscillatorBlocked++;
      if (oscillatorBlocked > (networkSize-1)) { 
      oscillatorBlocked=0;    
@@ -54,7 +54,7 @@ void phasePattern() { // trigged with $ or *
      }
   }
     if (keyCode == RIGHT) {  
-     if ( keyMode == " phasePattern "){
+     if ( keyMode == " phasePattern " || modeStartKeyToFollow == " followDistribueAddLfoPattern "){
      oscillatorBlocked=oscillatorBlocked-1;
      if (oscillatorBlocked <= 0) { 
      oscillatorBlocked=networkSize-1;    
