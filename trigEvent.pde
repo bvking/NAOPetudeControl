@@ -70,6 +70,8 @@ void trigEventWithAbletonSignal() {  // change de sens de propagagtion.   ATTENT
       oscillatorChange=networkSize-1;
     }
     */
+      text (" blocked "  + oscillatorBlocked, width-width/8, -height/4);
+
      signalToSplit = map ( signal[5], 0, 1, 0, 1);
 
         if (signalToSplit>0.5 && millis()> timeToTrig+delayTimeToTrig){  // 
@@ -79,7 +81,7 @@ void trigEventWithAbletonSignal() {  // change de sens de propagagtion.   ATTENT
       oscillatorBlocked=oscillatorBlocked+1;
       oscillatorBlocked=oscillatorBlocked%networkSize;
       key = 'd';
-      phasePattern();
+     // phasePattern();
       }
      
     
@@ -92,9 +94,10 @@ void trigEventWithAbletonSignal() {  // change de sens de propagagtion.   ATTENT
      oscillatorBlocked=networkSize-1;
      } 
       key = 'f';
-      phasePattern();
+     // phasePattern();
       }
-  
+     
+     phasePattern();
      oldSplitTimeLfo = splitTimeLfo; 
    
 } 

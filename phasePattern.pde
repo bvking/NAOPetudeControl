@@ -42,32 +42,8 @@ void phasePattern() { // trigged with $ or *
                                                                                                                                                                                                                                                                                                                                                                                                                                
 
   //********** ********** ********** ********** ********** ********** ********** INCREASE FREQUENCIES in $ mode PENDULAR PATTERN
-  if (keyCode == LEFT) {  
-    if ( keyMode == " phasePattern " || modeStartKeyToFollow == " followDistribueAddLfoPattern "
-      || modeStartKeyToFollow == " trigEventWithAbletonSignal "
-     ){
-     oscillatorBlocked++;
-     if (oscillatorBlocked > (networkSize-1)) { 
-     oscillatorBlocked=0;    
-     }
-     key='#'; // to trig only once
-     text (" blocked "  + oscillatorBlocked, width/2, height/4);
-    
-     }
-  }
-    if (keyCode == RIGHT) {  
-     if ( keyMode == " phasePattern " || modeStartKeyToFollow == " followDistribueAddLfoPattern "
-      || modeStartKeyToFollow == " trigEventWithAbletonSignal "
-     ){
-     oscillatorBlocked=oscillatorBlocked-1;
-     if (oscillatorBlocked <= 0) { 
-     oscillatorBlocked=networkSize-1;    
-     }
-     key='#'; // to trig only once
-     text (" blocked "  + oscillatorBlocked, width/2, height/4);
-    
-     }
-  }
+ //********** ********** ********** ********** ********** ********** ********** TRIG PATTERN SHIFTING IN KEYREASED
+
 
   if (keyCode == RIGHT) {  
     println( " pendularPattern right DECREASE phase shifting   witch formerStartKey ")  ; // Incremente together without changing phases   
@@ -812,7 +788,7 @@ void phasePattern() { // trigged with $ or *
     //        net.phase[i] +=(5-i)*0.1; // oscillator 10 do not nove
    //   net.phase[i] +=(networkSize-oscillatorBlocked)*0.05;
     //%%  net.phase[i] = net.phase[i]-(i)*0.05; //oscillatorBlocked;      //     net.phase[i] += (oscillatorBlocked+i)*0.05; reciproque de f ne fonctionne pas
-      net.phase[i] =  net.phase[i]%TWO_PI;
+   //   net.phase[i] =  net.phase[i]%TWO_PI;
       key='#';
       printSummary(i);
     }
@@ -866,7 +842,8 @@ void phasePattern() { // trigged with $ or *
       key='#';
       printSummary(i);
     }
-  } else if (key == 'F') { 
+  }
+   else if (key == 'F') { 
     println(" F: Increase the gap between phases by f9 ");    
     for (int i = 0; i < networkSize; i++) {
 
