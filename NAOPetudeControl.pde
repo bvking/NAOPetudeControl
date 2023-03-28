@@ -676,11 +676,11 @@ void setup() {
 // teensyport = new Serial(this, ports[1], 115200);// si port non connecte Catalina ou connecté Venturey
     teensyport = new Serial(this,ports[1],115200); //  si port connecté
   //*************** WITHOUT ENODEER connected
- //   encoderReceiveUSBport101 = new Serial(this, Serial.list()[2], 1000000);
- //   encoderReceiveUSBport101 =  new Serial(this,ports[2], 1000000);
+   // encoderReceiveUSBport101 = new Serial(this, Serial.list()[2], 1000000);
+    encoderReceiveUSBport101 =  new Serial(this,ports[2], 1000000);
 
   // Read bytes into a buffer until you get a linefeed (ASCII 10):
-  //  encoderReceiveUSBport101.bufferUntil('\n');
+    encoderReceiveUSBport101.bufferUntil('\n');
 
   //********************************************************* BEGIN GRAPHIC CHIMERA STATE SETUP
   float[][] Coupling = new float[networkSizeGraphic][networkSizeGraphic];
@@ -944,7 +944,7 @@ void draw() {
 
   println (" v0 " + v0 + " v1 " + v1 + " v2 " + v2 + " v3 " + v3 + " v4 " + v4 +  " v5 " + v5);  
  //println (" v0 " + v0 + " v1 " + v1 + " v2 " + v2 + " v3 " + v3 + " v4 " + v4 +  " v5 " + v5); 
- // printArray(encodeur);
+  printArray(encodeur);
  
  
   
