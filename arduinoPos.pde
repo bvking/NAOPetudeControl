@@ -214,8 +214,8 @@ void arduinoPos() {
       } 
       DataToDueCircularVirtualPosition[i]=CircularVirtualPosition[i];
 //      VirtualPosition[i]= CircularVirtualPosition[i]+ActualVirtualPosition[i]; 
-    VirtualPosition[i]= net.phase[i]+ (float) ActualVirtualPosition[i]; 
-    ActualVirtualPositionFromOtherMode[i]=(float) VirtualPosition[i];
+    VirtualPosition[i]= CircularVirtualPosition[i]+ActualVirtualPosition[i]; 
+      ActualVirtualPositionFromOtherMode[i]=VirtualPosition[i];
      
        text (char (formerKeyMetro) + " circular " + VirtualPosition[i], - 500, -900+100*i);
       }
@@ -265,7 +265,7 @@ void arduinoPos() {
        VirtualPosition[i]= PendularVirtualPosition[i]+ActualVirtualPosition[i]; 
       //  DataToDueCircularVirtualPosition[i]=VirtualPosition[i];
     //  DataToDueCircularVirtualPosition[i]=PendularVirtualPosition[i];//+VirtualPosition[i]
-     //  DataToDueCircularVirtualPosition[i]=VirtualPosition[i];
+       DataToDueCircularVirtualPosition[i]=VirtualPosition[i];
       //  dataToLive[i]=  map(DataToDueCircularVirtualPosition[i], 0, 6400, 0, 1);
 
       float rate = map(DataToDueCircularVirtualPosition[i], -800, 800, 0.80f, 1.20f);
@@ -316,7 +316,7 @@ void arduinoPos() {
         TrigmodPos[i]=1;
       }
 
-      text (" net.phase[i] " + net.phase[i] + " " + char (formerKeyMetro)  + " pendular " + VirtualPosition[i], - 500, -900+100*i);
+      text (char (formerKeyMetro)  + " pendular " + VirtualPosition[i], - 500, -900+100*i);
      
     }
       rotate (-HALF_PI);
@@ -352,7 +352,7 @@ void arduinoPos() {
 
       //SET PRECISION OF MODULO
       // PendularLeftVirtualPosition[i]=int(1*(VirtualPosition[i])+800+1)/2%80;
-      PendularLeftVirtualPosition[i]= (int) VirtualPosition[i];
+      PendularLeftVirtualPosition[i]=VirtualPosition[i];
 
       //   modPos[i]=int((1*(VirtualPosition[i])+800+0)/2)%80; // si 0 à 80
       modPos[i]=int((1*(VirtualPosition[i])+800+0)/2)%800; // si 0 à 800
@@ -466,7 +466,7 @@ void arduinoPos() {
     for (int i = 0; i < networkSize; i++) {
 
       // DataToDueCircularVirtualPosition[i]= DataToDueCircularVirtualPosition[i]+800;
-      DataToDueCircularVirtualPosition[i]= (int) map ( DataToDueCircularVirtualPosition[i], -800, 800, 1600, 4800);  // + ActualVirtualPosition[i] mapped for 6400 step/round +800
+      DataToDueCircularVirtualPosition[i]= (int) map ( DataToDueCircularVirtualPosition[i], -800, 800, 1600, 4800)+ ActualVirtualPosition[i];  // mapped for 6400 step/round +800
       //  dataToLive[i]=(float)  map(DataToDueCircularVirtualPosition[i], 1600, 4800, 0f, 1f);
     }
 
@@ -488,7 +488,7 @@ void arduinoPos() {
     //  net.oldPhase[i]=net.phase[i];
       DataToDueCircularVirtualPosition[i]= DataToDueCircularVirtualPosition[i];
       //   dataToLive[i]=(float) map(DataToDueCircularVirtualPosition[i], 0, 6400, 0f, 1f);
-      DataToDueCircularVirtualPosition[i]= DataToDueCircularVirtualPosition[i]; // + ActualVirtualPosition[i]
+      DataToDueCircularVirtualPosition[i]= DataToDueCircularVirtualPosition[i]+ ActualVirtualPosition[i];
     } 
     //  DataToDueCircularVirtualPosition[2]=(int) map (DataToDueCircularVirtualPosition[2], 0, 6400, 0, int (6400/1));
   }
@@ -511,7 +511,7 @@ void arduinoPos() {
   if (keyMode == " phasePattern ") {
      for (int i = 0; i < networkSize-0; i++) {
       DataToDueCircularVirtualPosition[i]= (int) map  (netPhaseBase[i], 0, TWO_PI, 0, numberOfStep);
-   //   DataToDueCircularVirtualPosition[i]= DataToDueCircularVirtualPosition[i]; // + ActualVirtualPosition[i]
+   //   DataToDueCircularVirtualPosition[i]= DataToDueCircularVirtualPosition[i]+ ActualVirtualPosition[i];
     } 
     text ( " phasePatternInArduino ", 500, 500);
     send24DatasToTeensy6motors(8, -3, 3,-1);
@@ -545,7 +545,7 @@ void arduinoPos() {
   if (keyMode!= " phasePattern ") {
      for (int i = 0; i < networkSize-0; i++) {
       textSize (100);
-    //  DataToDueCircularVirtualPosition[i]=VirtualPosition[i];
+      DataToDueCircularVirtualPosition[i]=VirtualPosition[i];
         text ( " from_virtual " + DataToDueCircularVirtualPosition[i], 400, 400 + 100 * i);
 
      //   println(frameCount + ": " + keyMode + " dataMarked__fromArduinoPos" + ( dataMarkedToTeensyJo ));
