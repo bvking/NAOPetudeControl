@@ -523,7 +523,7 @@ void arduinoPos() {
   if (keyMode!= " phasePattern ") {
      for (int i = 0; i < networkSize-0; i++) {
       textSize (100);
-        text ( " data " + DataToDueCircularVirtualPosition[i], 400, 400 + 50 * i);
+        text ( " data " + DataToDueCircularVirtualPosition[i], 400, 400 + 100 * i);
 
      //   println(frameCount + ": " + keyMode + " dataMarked__fromArduinoPos" + ( dataMarkedToTeensyJo ));
       //  send24DatasToTeensy6motors(8, 3, -3, -1);
@@ -551,10 +551,10 @@ void arduinoPos() {
 
       //  println(frameCount + ": " + keyMode + " dataMarkedToTeensyJo_____InMainLoop" + ( dataMarkedToTeensyJo ));
 
-           send24DatasToTeensy6motors(8, 3, -3, -1);
+          send24DatasToTeensy6motors(8, 3, -3, -1);
 
-        //   encoderReceiveUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
-       // teensyport.write(dataMarkedToTeensyJo); // Send data to Teensy. only the movement
+      //  encoderReceiveUSBport101.write(dataMarkedToDue36data);// Send data to Arduino.
+      //  teensyport.write(dataMarkedToTeensyJo); // Send data to Teensy. only the movement
          
                          }
                         }

@@ -974,16 +974,13 @@ void draw() {
     if (moveKeys[0]==true){ // CONTROL && a pressed
  //   mappingMode = " circular " ;
     print (" ***************** ", mappingMode);
-   
     }
     
     if (moveKeys[1]== true){ // CONTROL a && z pressed
  //   mappingMode = " pendular " ;
-    print (" ***************** ", mappingMode);
-   
+    print (" ***************** ", mappingMode);   
     }  
 
-  
     if (moveKeys[8]==true && moveKeys[0]==true){ // CONTROL && a pressed
   //  keyMode = " signal " ;
     keyMode = " addSignalOneAndTwoTer " ;
@@ -1066,7 +1063,7 @@ void draw() {
     keyMode = " phasePattern " ;
    
     
-   formerKeyMetro = '*';
+  // formerKeyMetro = '*';
     print (" keyMode ",  keyMode, " formerKeyMetro ", formerKeyMetro );
     }
     
@@ -1381,9 +1378,7 @@ for (int i = 0; i < networkSize; i++) {
     splitTimeLfo();
   //   splitWithTime();
     addSignal(); 
-     
-     
- 
+
   } 
   
   if (modeStartKeyToFollow == " samplingMode "     ){ // || formerKeyMetro == 'J'
@@ -1612,11 +1607,6 @@ for (int i = 0; i < networkSize; i++) {
   // float GColour = map(automation4, 0, 1, 0, 255);
   float LFO1= map(automation6, 0, 1, 0, 255);
   float LFO2= map(automation7, 0, 1, 0, 255);
-
-
-  // println (map (automation4*10, 0, 7.874016, 0, 1000));
-
-
 
   float BColour = map(automation3, 0, 1, 0, 255);
   //  float XSize = map(automation6, 0, 1, 10, 80);
@@ -1885,12 +1875,11 @@ for (int i = 0; i < networkSize; i++) {
   cohesionTrig = int (map (LevelCohesionToSend, 0, 1, 0, 100));
   println (cohesionTrig);
 
-
   // ***** automatise Oscillator Moving with a former Key
    arduinoPos(); // // carefull with arduinoPos and function after arduinopos
-    if (formerKeyMetro != 'J' ) { //countRevolutions when it is not the mode J
+   if (formerKeyMetro != 'J') { //countRevolutions when it is not the mode J
    countRevs();
-       }
+  }
        
    //**********************************************************************    
    // STARTERCASE with formerKey
@@ -2130,9 +2119,6 @@ void printSummary(int i) {
 
 void arduinoPosOld() { 
   
-  
-  
-
   if (formerKeyMetro == '>') {  // formerKeyMetro == '<' || 
     for (int i = 0; i < networkSize; i++) {
       // rev[i]=rev[0];
@@ -6813,8 +6799,8 @@ void arduinoPosJO() { // envoyer les informations aux moteurs
     phaseToMotor[i]= (int) map (phaseMapped[i], 0, TWO_PI, 0, 6400);
   }
 
-  teensyport.write(dataToControlMotor); // Send data to Teensy. only the movement
- // println(frameCount + ": " +  " dataToControlMotor " + ( dataToControlMotor ));
+ // teensyport.write(dataToControlMotor); // Send data to Teensy. only the movement
+  println(frameCount + ": " +  " dataToControlMotor " + ( dataToControlMotor ));
 }
 
 void keyReleasedfollowSignal() {
@@ -7032,8 +7018,8 @@ void sendToTeensy() {
     text("CAREFULL", width/2, height - 20);
   }
 
-  println(frameCount + ": " +  " dataMarkedToTeensyJoGood" + ( dataMarkedToTeensyJoGood ));
-  teensyport.write(dataMarkedToTeensyJoGood); // Send data to Teensy. only the movement
+  println(frameCount + ": " +  " dataMarkedToTeensyJoGood_inSendToTeensy" + ( dataMarkedToTeensyJoGood ));
+ // teensyport.write(dataMarkedToTeensyJoGood); // Send data to Teensy. only the movement
 }
 
 void sendToTeensyTurnOnDriver() {
