@@ -92,7 +92,7 @@ void oscSend(){
   OscMessage myMessage64= new OscMessage("/encodeur4"); // oscillator 
   OscMessage myMessage65= new OscMessage("/encodeur5"); // oscillato
 
-  myMessage60.add(encodeur[0]);  // send encodeur
+  myMessage60.add(abs (map (encodeur[0], 0, 800, 0, 127)));  // send encodeur
   myMessage61.add(encodeur[1]);
   myMessage62.add(encodeur[2]);
   myMessage63.add(encodeur[3]);
