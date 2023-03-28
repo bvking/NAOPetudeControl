@@ -367,12 +367,6 @@ void oscSend(){
   oscP5.send(myMessage64, myRemoteLocation);
   oscP5.send(myMessage65, myRemoteLocation);
 
-  text ( " osc encodeur 0 "  + myMessage60 + " " + myRemoteLocation, 400, -800 );
-  text ( " osc mouseX "  + myMessage18 + " " + myRemoteLocation, 400, -900 );
-  text ( " osc mouseY"  + myMessage19 + " " + myRemoteLocation, 400, -1000 );
- 
-
-
    // myRemoteLocationII port 8002
   
   // acceleration
